@@ -18,7 +18,7 @@ function pc_extract_arg() {
          REPLY="$1"; shift;;
       "$key="* )
          REPLY="${opt#*=}";;
-      *) return 1;;
+      *) REPLY=""; return 1;;
    esac
   done
   return 0

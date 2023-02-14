@@ -9,24 +9,19 @@ function pc_error_exit() {
 function pc_extract_arg() {
   local key="$1"
   shift
-  while [[ $# -gt 0 ]]; do
-    local x=$1
-    local value="${x#*=}"
-    if [ "${key}=$value" == "$x" ]
-    then
-      REPLY="\"$value\""
-      return 0
-    fi
-    if [ "${key}" == "$1" ]
-    then
-      shift
-      REPLY="\"$1\""
-      return 0
-    fi
-    shift
+  while [[ $# -gt 0 ]] && [[ "$1" == "--"* ]] ;
+  do
+    opt="$1";
+    shift;
+    case "$opt" in
+      "$key" )
+         REPLY="$1"; shift;;
+      "$key="* )
+         REPLY="${opt#*=}";;
+      *) echo >&2 return 1;;
+   esac
   done
-  REPLY=""
-  return 1
+  return 0
 }
 
 function pc_read_input() {

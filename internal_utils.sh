@@ -93,3 +93,16 @@ function pc_read_input_date() {
   REPLY="${date_str}T${time_str}.0Z"
   return 0
 }
+
+function pc_copy_file_to_local_bin() {
+  if [ ! -d ~/.local ]
+  then
+    mkdir ~/.local
+  fi
+  if [ ! -d ~/.local/bin ]
+  then
+    mkdir ~/.local/bin
+  fi
+  cp $1/$2 ~/.local/bin/
+  chmod +rx ~/.local/bin/$2
+}

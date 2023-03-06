@@ -8,7 +8,7 @@ function docker-stop-and-remove-container() {
 }
 
 function docker-logs() {
-  local n=$2
+  n=$2
   if [ "$n" == "" ]
   then
     n=50

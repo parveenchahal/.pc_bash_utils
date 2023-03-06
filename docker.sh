@@ -8,10 +8,10 @@ function docker-stop-and-remove-container() {
 }
 
 function docker-logs() {
-  n=$2
-  if [ "$n" == "" ]
+  tail_n="$2"
+  if [ "$tail_n" == "" ]
   then
-    n=50
+    tail_n="50"
   fi
-  docker logs $1 -f -n $n
+  docker logs $1 -f -n $tail_n
 }

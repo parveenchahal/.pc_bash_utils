@@ -15,3 +15,13 @@ function docker-logs() {
   fi
   docker logs $1 -f -n $tail_n
 }
+
+function docker-build-and-push() {
+  if [ -z "$1" ]
+  then
+    echo "Path is not provided"
+  fi
+  docker build --no-cache . -t "$1"
+  docker push "$1"
+}
+

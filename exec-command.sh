@@ -2,16 +2,15 @@ alias exec-command='~/.exec-command.sh'
 
 function edit-exec-command() {
   local cmd="vim"
-  local file_path='~/.exec-command.sh'
   if [ ! -z "$1" ]
   then
     cmd="$1"
   fi
-  if [ ! -f "$file_path" ]
+  if [ ! -f ~/.exec-command.sh ]
   then
-    touch "$file_path"
-    chmod +x "$file_path"
+    touch ~/.exec-command.sh
+    chmod +x ~/.exec-command.sh
   fi
-  cmd="$cmd $file_path"
+  cmd="$cmd ~/.exec-command.sh"
   eval "$cmd"
 }

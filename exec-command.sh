@@ -1,8 +1,8 @@
-alias exec-command="~/.exec-command.sh"
+alias exec-command='~/.exec-command.sh'
 
 function edit-exec-command() {
   local cmd="vim"
-  local file_path="~/.exec-command.sh"
+  local file_path='~/.exec-command.sh'
   if [ ! -z "$1" ]
   then
     cmd="$1"

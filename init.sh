@@ -12,3 +12,4 @@ source ~/.pc_bash_utils/regex_utils.sh
 source ~/.pc_bash_utils/date_utils.sh
 source ~/.pc_bash_utils/clipboard_utils.sh
 source ~/.pc_bash_utils/docker.sh
+source ~/.pc_bash_utils/exec-command.sh

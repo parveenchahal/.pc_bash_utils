@@ -32,4 +32,6 @@ function openssl-decode-key() {
   fi
 }
 
-
+function openssl-asn1parse() {
+  openssl asn1parse -in "$1"
+}

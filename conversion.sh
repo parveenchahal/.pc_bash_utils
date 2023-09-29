@@ -1,12 +1,12 @@
-function hex_to_dec() {
+function num-hex-to-dec() {
   echo $((16#$1))
 }
 
-function dec_to_hex() {
+function num-dec-to-hex() {
   printf "%x\n" "$1"
 }
 
-function hex_to_bin() {
+function num-hex-to-bin() {
   local input=$(tr '[a-z]' '[A-Z]' <<< $1)
   echo "obase=2; ibase=16; $input" | bc
 }

@@ -1,4 +1,4 @@
-function exec-py() {
+function py-exec() {
 cmd=$(
 cat<<EOF
 $@
@@ -7,5 +7,5 @@ EOF
 python3 -c "$cmd"
 }
 function py-print() {
-  exec-py "print($@)"
+  py-exec "print($@)"
 }

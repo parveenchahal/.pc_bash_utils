@@ -7,7 +7,7 @@ function num-dec-to-hex() {
 }
 
 function num-hex-to-bin() {
-  py-print 'bin(int("a", 16))[2:]'
+  py-print 'bin(int("$1", 16))[2:]'
   #local input=$(tr '[a-z]' '[A-Z]' <<< $1)
   #echo "obase=2; ibase=16; $input" | bc
 }

@@ -1,5 +1,5 @@
 function num-hex-to-dec() {
-  echo $((16#$1))
+  printf "%d\n" "0x$1"
 }
 
 function num-dec-to-hex() {
@@ -13,11 +13,19 @@ function num-hex-to-bin() {
 }
 
 function num-oct-to-dec() {
-  echo $((8#$1))
+  printf "%d\n" "0$1"
 }
 
 function num-dec-to-oct() {
   printf "%o\n" "$1"
+}
+
+function num-oct-to-bin() {
+  py-print "bin(int(\"$1\", 8))[2:]"
+}
+
+function num-dec-to-bin() {
+  py-print "bin(int(\"$1\"))[2:]"
 }
 
  alias bin-to-hexdump='xxd -ps'

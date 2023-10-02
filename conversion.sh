@@ -7,8 +7,9 @@ function num-dec-to-hex() {
 }
 
 function num-hex-to-bin() {
-  local input=$(tr '[a-z]' '[A-Z]' <<< $1)
-  echo "obase=2; ibase=16; $input" | bc
+  py-print 'bin(int("a", 16))[2:]'
+  #local input=$(tr '[a-z]' '[A-Z]' <<< $1)
+  #echo "obase=2; ibase=16; $input" | bc
 }
 
  alias bin-to-hexdump='xxd -ps'

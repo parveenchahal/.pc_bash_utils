@@ -10,6 +10,18 @@ function openssl-decode-cert() {
   openssl x509 -inform $form -text -noout -in $1
 }
 
+function openssl-decode-csr() {
+  pc_is_empty $1
+  if [ "$?" == 1 ]
+  then
+    echo "File path not provided."
+    return 1
+  fi
+  pc_read_input "csr inform(der/pem): "
+  form=$REPLY
+  openssl req -inform $form -text -noout -in $1
+}
+
 function openssl-decode-key() {
   pc_is_empty $1
   if [ "$?" == 1 ]

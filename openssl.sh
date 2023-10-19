@@ -47,3 +47,31 @@ function openssl-decode-key() {
 function openssl-asn1parse() {
   openssl asn1parse -in "$1"
 }
+
+function openssl-x509-convert-der-to-pem () {
+  local file=$1
+  pc_is_empty $file
+  if [ "$?" == 1 ]
+  then
+    echo "file path can not be empty"
+    return 1
+  fi
+  
+  pc_is_file_exist $file
+  if [ "$?" == 0 ]
+  then
+    echo "$file does not exist"
+    return 1
+  fi
+
+  local newFileName="$file.pem"
+  local n=${#file}
+  fileNameLowercase=$(echo $file | awk '{print tolower($0)}')
+  if [[ "$fileNameLowercase" =~ .*\.der$ ]]
+  then
+    local end=`expr $n - 4`
+    newFileName=${file:0:$end}
+    newFileName="$newFileName.pem"
+  fi
+  openssl x509 -inform der -in $file -outform pem -out $newFileName
+}

@@ -1,4 +1,10 @@
-alias exec-command='~/.exec-command.sh'
+function exec-command() {
+  if [ -f ~/.bashrc ]
+  then
+    source ~/.bashrc
+  fi
+  ~/.exec-command.sh "${@}"
+}
 
 function edit-exec-command() {
   local cmd="vim"

@@ -27,8 +27,7 @@ function pc_openssl_decode() {
   fi
   
   cmd="openssl $type -inform $inform -in $file -text -noout"
-  echo "Executing command: $cmd"
-  eval "$cmd"
+  pc_eval_cmd "$cmd"
 }
 
 function openssl-decode-cert() {
@@ -71,8 +70,7 @@ function openssl-decode-key() {
   else [ "$is_pub" == 0 ]
     cmd="openssl $key_type -inform $inform -in $file -text -noout"
   fi
-  echo "Executing command: $cmd"
-  eval "$cmd"
+  pc_eval_cmd "$cmd"
 }
 
 function openssl-asn1parse() {

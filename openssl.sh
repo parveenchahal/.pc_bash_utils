@@ -37,31 +37,29 @@ function openssl-decode-cert() {
 }
 
 function openssl-decode-csr() {
-  pc_is_empty $1
-  if [ "$?" == 1 ]
-  then
-    echo "File path not provided."
-    return 1
-  fi
-  pc_read_input "csr inform(der/pem): "
-  form=$REPLY
-  openssl req -inform $form -text -noout -in $1
+  pc_openssl_decode --type req "$@"
 }
 
 function openssl-decode-key() {
-  pc_is_empty $1
+  pc_extract_arg '' 'file' "$@"
+  local file=$REPLY
+  pc_is_empty $file
   if [ "$?" == 1 ]
   then
-    echo "File path not provided."
+    echo "--file is requried option."
     return 1
   fi
+  
   pc_read_input "Key Type (rsa/ec): "
-  type=$REPLY
+  local key_type=$REPLY
+  
   echo "Is this public key: "
   pc_confirm
-  is_pub=$?
+  local is_pub=$?
+  
   pc_read_input "Key inform(der/pem): "
   form=$REPLY
+  
   if [ "$is_pub" == 1 ]
   then
     openssl "$type" -pubin -inform $form -in $1 -text -noout

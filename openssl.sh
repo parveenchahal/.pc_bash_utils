@@ -39,7 +39,7 @@ function openssl-decode-csr() {
 }
 
 function openssl-decode-key() {
-  pc_extract_arg '' 'file' "$@" | echo "--file is required option 2"; return 1
+  pc_extract_arg '' 'file' "$@" || echo "--file is required option 2"; return 1
   local file=$REPLY
   pc_is_empty $file
   if [ "$?" == 1 ]

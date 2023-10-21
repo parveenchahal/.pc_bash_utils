@@ -1,4 +1,13 @@
-function openssl-decode-cert() {
+function pc_openssl_decode() {
+  pc_extract_arg '' 'type' "$@"
+  local type=$REPLY
+  pc_is_empty $type
+  if [ "$?" == 1 ]
+  then
+    echo "--type is requried option."
+    return 1
+  fi
+
   pc_extract_arg '' 'file' "$@"
   local file=$REPLY
   pc_is_empty $file
@@ -18,9 +27,13 @@ function openssl-decode-cert() {
     return 1
   fi
   
-  cmd="openssl x509 -inform $inform -text -noout -in $file"
-  echo "Executing $cmd"
+  cmd="openssl $type -inform $inform -in $file" -text -noout
+  echo "Executing command: $cmd"
   eval $cmd
+}
+
+function openssl-decode-cert() {
+  pc_openssl_decode --type x509 "$@"
 }
 
 function openssl-decode-csr() {

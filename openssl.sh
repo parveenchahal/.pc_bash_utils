@@ -28,7 +28,7 @@ function pc_openssl_decode() {
   
   cmd="openssl $type -inform $inform -in $file -text -noout"
   echo "Executing command: $cmd"
-  eval $cmd
+  eval "$cmd"
 }
 
 function openssl-decode-cert() {
@@ -72,7 +72,7 @@ function openssl-decode-key() {
     cmd="openssl $key_type -inform $inform -in $file -text -noout"
   fi
   echo "Executing command: $cmd"
-  eval $cmd
+  eval "$cmd"
 }
 
 function openssl-asn1parse() {
@@ -105,5 +105,6 @@ function openssl-x509-convert-der-to-pem () {
     newFileName=${file:0:$end}
     newFileName="$newFileName.pem"
   fi
-  openssl x509 -inform der -in $file -outform pem -out $newFileName
+  cmd="openssl x509 -inform der -in $file -outform pem -out $newFileName"
+  pc_eval_cmd "$cmd"
 }

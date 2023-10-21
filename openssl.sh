@@ -80,11 +80,12 @@ function openssl-asn1parse() {
 }
 
 function openssl-x509-convert-der-to-pem () {
-  local file=$1
+  pc_extract_arg '' 'file' "$@"
+  local file=$REPLY
   pc_is_empty $file
   if [ "$?" == 1 ]
   then
-    echo "file path can not be empty"
+    echo "--file is requried option."
     return 1
   fi
   

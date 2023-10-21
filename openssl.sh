@@ -1,5 +1,5 @@
 function openssl-decode-cert() {
-  pc_extract_arg '' 'file' "$@
+  pc_extract_arg '' 'file' "$@"
   local file=$REPLY
   pc_is_empty $file
   if [ "$?" == 1 ]
@@ -8,7 +8,7 @@ function openssl-decode-cert() {
     return 1
   fi
   
-  pc_extract_arg '' 'inform' "$@
+  pc_extract_arg '' 'inform' "$@"
   local inform=$REPLY
 
   pc_is_empty $inform

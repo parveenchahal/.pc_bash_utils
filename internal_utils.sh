@@ -7,7 +7,7 @@ function pc_error_exit() {
 }
 
 function pc_eval_cmd() {
-  echo "Executing command: $@"
+  echo "Executing command: '$@'"
   eval "$@"
 }
 

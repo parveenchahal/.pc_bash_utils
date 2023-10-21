@@ -41,18 +41,24 @@ function pc_extract_arg() {
   
   eval set -- "$ARGS"
   
-  local value=""
+  local found=0
+  
+  local values=()
   while true ; do
     case "$1" in
       "--$long_key")
-          value="$2" ; break ;;
+          values=("$2"); found=1 ; shift 2 ;;
       "-$short_key")
-          value="$2" ; break ;;
-      --) shift ; REPLY=""; return 1 ;;
+          values+=("$2"); found=1 ; shift 2 ;;
+      --) shift ; break ;;
       *) echo "Internal error in argument parsing!" ; REPLY=""; return 1 ;;
     esac
   done
-  REPLY="$value"
+  if [ "$found" == 0 ]
+  then
+    return 1
+  fi
+  REPLY=(${values[*]})
   return 0
 }
 

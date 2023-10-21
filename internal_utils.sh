@@ -30,7 +30,7 @@ function pc_extract_arg() {
   fi
   
   eval set -- "$ARGS"
-  echo "$@"
+  
   local value=""
   while true ; do
     case "$1" in

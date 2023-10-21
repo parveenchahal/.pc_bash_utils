@@ -38,8 +38,8 @@ function pc_extract_arg() {
           value="$2" ; break ;;
       "-$short_key")
           value="$2" ; break ;;
-      --) shift ; return 1 ;;
-      *) echo "Internal error in argument parsing!" ; return 1 ;;
+      --) shift ; REPLY=""; return 1 ;;
+      *) echo "Internal error in argument parsing!" ; REPLY=""; return 1 ;;
     esac
   done
   REPLY="$value"

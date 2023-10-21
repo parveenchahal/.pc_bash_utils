@@ -7,26 +7,43 @@ function pc_error_exit() {
 }
 
 function pc_extract_arg() {
-  local key="$1"
+  local short_key="$1"
   shift
-  while [[ $# -gt 0 ]]; do
-    local x=$1
-    local value="${x#*=}"
-    if [ "${key}=$value" == "$x" ]
-    then
-      REPLY="$value"
-      return 0
-    fi
-    if [ "${key}" == "$1" ]
-    then
-      shift
-      REPLY="$1"
-      return 0
-    fi
-    shift
+  local long_key="$1"
+  shift
+  
+  local ARGS=''
+  
+  if [[ -z "$short_key" && -z "$long_key" ]]
+  then
+    echo 'No option provided to pc_extract_arg'
+    return 1
+  elif [[ ! -z "$short_key" && ! -z "$long_key" ]]
+  then
+    ARGS=$(getopt -q -o "$short_key:" -l "$long_key:" -- "" "$@")
+  elif [ ! -z "$short_key" ]
+  then
+    ARGS=$(getopt -q -o "$short_key:" -- "" "$@")
+  elif [ ! -z "$long_key" ]
+  then
+    ARGS=$(getopt -q -l "$long_key:" -- "" "$@")
+  fi
+  
+  eval set -- "$ARGS"
+  echo "$@"
+  local value=""
+  while true ; do
+    case "$1" in
+      "--$long_key")
+          value="$2" ; break ;;
+      "-$short_key")
+          value="$2" ; break ;;
+      --) shift ; return 1 ;;
+      *) echo "Internal error in argument parsing!" ; return 1 ;;
+    esac
   done
-  REPLY=""
-  return 1
+  REPLY="$value"
+  return 0
 }
 
 function pc_read_input() {

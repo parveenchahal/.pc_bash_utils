@@ -44,7 +44,10 @@ function openssl-decode-key() {
 }
 
 function openssl-asn1parse() {
-  openssl asn1parse -in "$1"
+  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
+  local file=$REPLY
+  cmd='openssl asn1parse -in "$file"'
+  pc_eval_cmd "$cmd"
 }
 
 function openssl-x509-convert-der-to-pem () {

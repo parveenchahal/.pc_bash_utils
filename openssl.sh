@@ -27,7 +27,7 @@ function pc_openssl_decode() {
     return 1
   fi
   
-  cmd="openssl $type -inform $inform -in $file" -text -noout
+  cmd="openssl $type -inform $inform -in $file -text -noout"
   echo "Executing command: $cmd"
   eval $cmd
 }

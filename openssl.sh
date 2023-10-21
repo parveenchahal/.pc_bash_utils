@@ -1,13 +1,12 @@
 function openssl-decode-cert() {
-  pc_is_empty $1
-  if [ "$?" == 1 ]
-  then
-    echo "File path not provided."
-    return 1
-  fi
-  pc_read_input "Cert inform(der/pem): "
-  form=$REPLY
-  openssl x509 -inform $form -text -noout -in $1
+  getopt -l "inform:,file:"
+  pc_extract_arg '' 'file' "$@
+  local file=$REPLY
+  pc_extract_arg '' 'inform' "$@
+  local inform=$REPLY
+  cmd="openssl x509 -inform $inform -text -noout -in $file"
+  echo "Executing $cmd"
+  eval $cmd
 }
 
 function openssl-decode-csr() {

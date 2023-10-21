@@ -5,7 +5,7 @@ function pc_openssl_decode() {
   pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pc_extract_arg '' 'inform' "$@" || pc_echo_error "--inform is requried option." || return 1
+  pc_extract_arg '' 'inform' "$@" || pc_read_input "Inform (der/pem): "
   local inform=$REPLY
   
   cmd="openssl $type -inform $inform -in \"$file\" -text -noout"

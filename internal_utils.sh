@@ -6,6 +6,11 @@ function pc_error_exit() {
   exit 1
 }
 
+function pc_echo_error() {
+  echo "$@"
+  return 1
+}
+
 function pc_eval_cmd() {
   echo "Executing command: $@"
   eval "$@"

@@ -1,30 +1,12 @@
 function pc_openssl_decode() {
-  pc_extract_arg '' 'type' "$@"
+  pc_extract_arg '' 'type' "$@" || pc_echo_error "--type is required option" || return 1
   local type=$REPLY
-  pc_is_empty $type
-  if [ "$?" == 1 ]
-  then
-    echo "--type is requried option."
-    return 1
-  fi
 
-  pc_extract_arg '' 'file' "$@"
+  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
   local file=$REPLY
-  pc_is_empty $file
-  if [ "$?" == 1 ]
-  then
-    echo "--file is requried option."
-    return 1
-  fi
-  
-  pc_extract_arg '' 'inform' "$@"
+
+  pc_extract_arg '' 'inform' "$@" || pc_echo_error "--inform is requried option." || return 1
   local inform=$REPLY
-  pc_is_empty $inform
-  if [ "$?" == 1 ]
-  then
-    echo "--inform is requried option."
-    return 1
-  fi
   
   cmd="openssl $type -inform $inform -in $file -text -noout"
   pc_eval_cmd "$cmd"
@@ -39,21 +21,11 @@ function openssl-decode-csr() {
 }
 
 function openssl-decode-key() {
-  if [ pc_extract_arg '' 'file' "$@" ]
-  then
-    echo "--file is required option 2"
-    return 1
-  fi
+  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pc_extract_arg '' 'inform' "$@"
+  pc_extract_arg '' 'inform' "$@" || pc_echo_error "--inform is requried option." || return 1
   local inform=$REPLY
-  pc_is_empty $inform
-  if [ "$?" == 1 ]
-  then
-    echo "--inform is requried option."
-    return 1
-  fi
   
   pc_read_input "Key Type (rsa/ec): "
   local key_type=$REPLY
@@ -76,14 +48,8 @@ function openssl-asn1parse() {
 }
 
 function openssl-x509-convert-der-to-pem () {
-  pc_extract_arg '' 'file' "$@"
+  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
   local file=$REPLY
-  pc_is_empty $file
-  if [ "$?" == 1 ]
-  then
-    echo "--file is requried option."
-    return 1
-  fi
   
   pc_is_file_exist $file
   if [ "$?" == 0 ]

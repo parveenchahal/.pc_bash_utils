@@ -67,10 +67,12 @@ function openssl-decode-key() {
   
   if [ "$is_pub" == 1 ]
   then
-    openssl "$type" -pubin -inform $inform -in $file -text -noout
+    cmd="openssl $key_type -pubin -inform $inform -in $file -text -noout"
   else [ "$is_pub" == 0 ]
-    openssl "$type" -inform $inform -in $file -text -noout
+    cmd="openssl $key_type -inform $inform -in $file -text -noout"
   fi
+  echo "Executing command: $cmd"
+  eval $cmd
 }
 
 function openssl-asn1parse() {

@@ -1,5 +1,5 @@
 function openssl-decode-cert() {
-  getopt -l "inform:,file:" "$@"
+  getopt -l "inform:,file:" -- "" "$@"
   pc_extract_arg '' 'file' "$@
   local file=$REPLY
   pc_extract_arg '' 'inform' "$@

@@ -19,7 +19,6 @@ function pc_openssl_decode() {
   
   pc_extract_arg '' 'inform' "$@"
   local inform=$REPLY
-
   pc_is_empty $inform
   if [ "$?" == 1 ]
   then
@@ -49,6 +48,15 @@ function openssl-decode-key() {
     echo "--file is requried option."
     return 1
   fi
+
+  pc_extract_arg '' 'inform' "$@"
+  local inform=$REPLY
+  pc_is_empty $inform
+  if [ "$?" == 1 ]
+  then
+    echo "--inform is requried option."
+    return 1
+  fi
   
   pc_read_input "Key Type (rsa/ec): "
   local key_type=$REPLY
@@ -57,14 +65,11 @@ function openssl-decode-key() {
   pc_confirm
   local is_pub=$?
   
-  pc_read_input "Key inform(der/pem): "
-  form=$REPLY
-  
   if [ "$is_pub" == 1 ]
   then
-    openssl "$type" -pubin -inform $form -in $1 -text -noout
+    openssl "$type" -pubin -inform $inform -in $1 -text -noout
   else [ "$is_pub" == 0 ]
-    openssl "$type" -inform $form -in $1 -text -noout
+    openssl "$type" -inform $inform -in $1 -text -noout
   fi
 }
 

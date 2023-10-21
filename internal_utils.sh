@@ -47,7 +47,7 @@ function pc_extract_arg() {
   while true ; do
     case "$1" in
       "--$long_key")
-          values=("$2"); found=1 ; shift 2 ;;
+          values+=("$2"); found=1 ; shift 2 ;;
       "-$short_key")
           values+=("$2"); found=1 ; shift 2 ;;
       --) shift ; break ;;

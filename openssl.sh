@@ -24,10 +24,10 @@ function openssl-decode-key() {
   pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pc_extract_arg '' 'inform' "$@" || pc_echo_error "--inform is requried option." || return 1
+  pc_extract_arg '' 'inform' "$@" || pc_read_input "Inform (der/pem): "
   local inform=$REPLY
   
-  pc_read_input "Key Type (rsa/ec): "
+  pc_extract_arg '' 'type' "$@" || pc_read_input "Key Type (rsa/ec): "
   local key_type=$REPLY
   
   echo "Is this public key: "

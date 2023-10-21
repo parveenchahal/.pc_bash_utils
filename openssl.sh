@@ -67,9 +67,9 @@ function openssl-decode-key() {
   
   if [ "$is_pub" == 1 ]
   then
-    openssl "$type" -pubin -inform $inform -in $1 -text -noout
+    openssl "$type" -pubin -inform $inform -in $file -text -noout
   else [ "$is_pub" == 0 ]
-    openssl "$type" -inform $inform -in $1 -text -noout
+    openssl "$type" -inform $inform -in $file -text -noout
   fi
 }
 

@@ -1,9 +1,23 @@
 function openssl-decode-cert() {
-  getopt -l "inform:,file:" -- "" "$@"
   pc_extract_arg '' 'file' "$@
   local file=$REPLY
+  pc_is_empty $file
+  if [ "$?" == 1 ]
+  then
+    echo "--file is requried option."
+    return 1
+  fi
+  
   pc_extract_arg '' 'inform' "$@
   local inform=$REPLY
+
+  pc_is_empty $inform
+  if [ "$?" == 1 ]
+  then
+    echo "--inform is requried option."
+    return 1
+  fi
+  
   cmd="openssl x509 -inform $inform -text -noout -in $file"
   echo "Executing $cmd"
   eval $cmd

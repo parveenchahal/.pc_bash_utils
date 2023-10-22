@@ -5,7 +5,7 @@ function pbu_openssl_decode() {
   pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "Inform (der/pem): "
+  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
   
   cmd="openssl $type -inform $inform -in \"$file\" -text -noout"
@@ -24,10 +24,10 @@ function openssl-decode-key() {
   pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "Inform (der/pem): "
+  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
   
-  pbu_extract_arg '' 'type' "$@" || pbu_read_input "Key Type (rsa/ec): "
+  pbu_extract_arg '' 'type' "$@" || pbu_read_input "--type (rsa/ec): "
   local key_type=$REPLY
   
   echo "Is this public key: "

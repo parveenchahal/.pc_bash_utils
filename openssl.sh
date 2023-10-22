@@ -1,37 +1,37 @@
-function pc_openssl_decode() {
-  pc_extract_arg '' 'type' "$@" || pc_echo_error "--type is required option" || return 1
+function pbu_openssl_decode() {
+  pbu_extract_arg '' 'type' "$@" || pbu_echo_error "--type is required option" || return 1
   local type=$REPLY
 
-  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pc_extract_arg '' 'inform' "$@" || pc_read_input "Inform (der/pem): "
+  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "Inform (der/pem): "
   local inform=$REPLY
   
   cmd="openssl $type -inform $inform -in \"$file\" -text -noout"
-  pc_eval_cmd "$cmd"
+  pbu_eval_cmd "$cmd"
 }
 
 function openssl-decode-cert() {
-  pc_openssl_decode --type x509 "$@"
+  pbu_openssl_decode --type x509 "$@"
 }
 
 function openssl-decode-csr() {
-  pc_openssl_decode --type req "$@"
+  pbu_openssl_decode --type req "$@"
 }
 
 function openssl-decode-key() {
-  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
   local file=$REPLY
 
-  pc_extract_arg '' 'inform' "$@" || pc_read_input "Inform (der/pem): "
+  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "Inform (der/pem): "
   local inform=$REPLY
   
-  pc_extract_arg '' 'type' "$@" || pc_read_input "Key Type (rsa/ec): "
+  pbu_extract_arg '' 'type' "$@" || pbu_read_input "Key Type (rsa/ec): "
   local key_type=$REPLY
   
   echo "Is this public key: "
-  pc_confirm
+  pbu_confirm
   local is_pub=$?
   
   if [ "$is_pub" == 1 ]
@@ -40,21 +40,21 @@ function openssl-decode-key() {
   else [ "$is_pub" == 0 ]
     cmd="openssl $key_type -inform $inform -in \"$file\" -text -noout"
   fi
-  pc_eval_cmd "$cmd"
+  pbu_eval_cmd "$cmd"
 }
 
 function openssl-asn1parse() {
-  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
   local file=$REPLY
   cmd="openssl asn1parse -in \"$file\""
-  pc_eval_cmd "$cmd"
+  pbu_eval_cmd "$cmd"
 }
 
 function openssl-x509-convert-der-to-pem () {
-  pc_extract_arg '' 'file' "$@" || pc_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
   local file=$REPLY
   
-  pc_is_file_exist $file
+  pbu_is_file_exist $file
   if [ "$?" == 0 ]
   then
     echo "$file does not exist"
@@ -71,5 +71,5 @@ function openssl-x509-convert-der-to-pem () {
     newFileName="$newFileName.pem"
   fi
   cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $newFileName"
-  pc_eval_cmd "$cmd"
+  pbu_eval_cmd "$cmd"
 }

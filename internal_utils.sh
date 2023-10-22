@@ -1,4 +1,4 @@
-function pc_error_exit() {
+function pbu_error_exit() {
   if [ ! -z "$1" ]
   then
     echo $1
@@ -6,17 +6,17 @@ function pc_error_exit() {
   exit 1
 }
 
-function pc_echo_error() {
+function pbu_echo_error() {
   echo "$@"
   return 1
 }
 
-function pc_eval_cmd() {
+function pbu_eval_cmd() {
   echo "Executing command: $@"
   eval "$@"
 }
 
-function pc_extract_arg() {
+function pbu_extract_arg() {
   local short_key="$1"
   shift
   local long_key="$1"
@@ -26,7 +26,7 @@ function pc_extract_arg() {
   
   if [[ -z "$short_key" && -z "$long_key" ]]
   then
-    echo 'No option provided to pc_extract_arg'
+    echo 'No option provided to pbu_extract_arg'
     return 1
   elif [[ ! -z "$short_key" && ! -z "$long_key" ]]
   then
@@ -62,7 +62,7 @@ function pc_extract_arg() {
   return 0
 }
 
-function pc_read_input() {
+function pbu_read_input() {
   if [ ! -z "$1" ]
   then
     echo -n $1
@@ -70,7 +70,7 @@ function pc_read_input() {
   read
 }
 
-function pc_is_empty() {
+function pbu_is_empty() {
   if [ -z $1 ]
   then
     return 1
@@ -78,10 +78,10 @@ function pc_is_empty() {
   return 0
 }
 
-function pc_confirm() {
+function pbu_confirm() {
   while $true;
   do
-    pc_read_input "y/n: "
+    pbu_read_input "y/n: "
     result=$REPLY
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then
@@ -94,8 +94,8 @@ function pc_confirm() {
   done
 }
 
-function pc_is_file_exist() {
-  pc_is_empty "$1"
+function pbu_is_file_exist() {
+  pbu_is_empty "$1"
   if [ "$?" == 1 ]
   then
     echo "file path can not be empty"
@@ -108,8 +108,8 @@ function pc_is_file_exist() {
   return 0
 }
 
-function pc_read_input_date() {
-  pc_read_input "Date in UTC (YYYY-MM-DD): "
+function pbu_read_input_date() {
+  pbu_read_input "Date in UTC (YYYY-MM-DD): "
   local date_str=$REPLY
   if [ -z "$date_str" ]
   then
@@ -117,7 +117,7 @@ function pc_read_input_date() {
     REPLY=$date_str
     return 0
   fi
-  pc_read_input "Time in UTC (HH:MM:SS): "
+  pbu_read_input "Time in UTC (HH:MM:SS): "
   local time_str=$REPLY
   if [ -z "$time_str" ]
   then
@@ -127,7 +127,7 @@ function pc_read_input_date() {
   return 0
 }
 
-function pc_copy_file_to_local_bin() {
+function pbu_copy_file_to_local_bin() {
   if [ ! -d ~/.local ]
   then
     mkdir ~/.local

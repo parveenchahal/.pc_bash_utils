@@ -81,7 +81,7 @@ function pbu_is_empty() {
 function pbu_confirm() {
   while $true;
   do
-    pbu_read_input "y/n: "
+    pbu_read_input "yes/no: "
     result=$REPLY
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then

@@ -62,6 +62,13 @@ function pbu_extract_arg() {
   return 0
 }
 
+function pbu_is_arg_present() {
+  pbu_extract_arg "$@"
+  local err=$?
+  REPLY=""
+  return $err
+}
+
 function pbu_read_input() {
   if [ ! -z "$1" ]
   then

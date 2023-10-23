@@ -53,23 +53,21 @@ function openssl-asn1parse() {
 function openssl-x509-convert-der-to-pem () {
   pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
   local file=$REPLY
-  
-  pbu_is_file_exist $file
-  if [ "$?" == 0 ]
-  then
-    echo "$file does not exist"
-    return 1
-  fi
 
-  local newFileName="$file.pem"
-  local n=${#file}
-  fileNameLowercase=$(echo $file | awk '{print tolower($0)}')
-  if [[ "$fileNameLowercase" =~ .*\.der$ ]]
-  then
-    local end=`expr $n - 4`
-    newFileName=${file:0:$end}
-    newFileName="$newFileName.pem"
-  fi
-  cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $newFileName"
+  pbu_extract_arg '' 'outfile' "$@" || pbu_read_input "--outfile (file path): "
+  local outfile=$REPLY
+  
+  cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $outfile"
+  pbu_eval_cmd "$cmd"
+}
+
+function openssl-x509-convert-pem-to-der () {
+  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
+  local file=$REPLY
+
+  pbu_extract_arg '' 'outfile' "$@" || pbu_read_input "--outfile (file path): "
+  local outfile=$REPLY
+  
+  cmd="openssl x509 -inform pem -in \"$file\" -outform der -out $outfile"
   pbu_eval_cmd "$cmd"
 }

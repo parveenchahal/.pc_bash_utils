@@ -40,9 +40,9 @@ function pbu_extract_arg() {
   fi
   
   eval set -- "$ARGS"
-  
+
+  REPLY=""
   local found=0
-  
   local values=()
   while true ; do
     case "$1" in
@@ -51,7 +51,7 @@ function pbu_extract_arg() {
       "-$short_key")
           values+=("$2"); found=1 ; shift 2 ;;
       --) shift ; break ;;
-      *) echo "Internal error in argument parsing!" ; REPLY=""; return 1 ;;
+      *) echo "Internal error in argument parsing!"; return 1 ;;
     esac
   done
   if [ "$found" == 0 ]

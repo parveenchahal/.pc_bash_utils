@@ -2,7 +2,7 @@ function pbu_openssl_decode() {
   pbu_extract_arg '' 'type' "$@" || pbu_echo_error "--type is required option" || return 1
   local type=$REPLY
 
-  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
   local file=$REPLY
 
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
@@ -21,7 +21,7 @@ function openssl-decode-csr() {
 }
 
 function openssl-decode-key() {
-  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
   local file=$REPLY
 
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
@@ -44,14 +44,14 @@ function openssl-decode-key() {
 }
 
 function openssl-asn1parse() {
-  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
   local file=$REPLY
   cmd="openssl asn1parse -in \"$file\""
   pbu_eval_cmd "$cmd"
 }
 
 function openssl-x509-convert-der-to-pem () {
-  pbu_extract_arg '' 'file' "$@" || pbu_echo_error "--file is required option" || return 1
+  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
   local file=$REPLY
   
   pbu_is_file_exist $file

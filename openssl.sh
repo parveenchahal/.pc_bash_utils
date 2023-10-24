@@ -56,12 +56,26 @@ function openssl-asn1parse() {
   pbu_eval_cmd "$cmd"
 }
 
+function openssl-tbs() {
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
+  local file=$REPLY
+  
+  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
+  local inform=$REPLY
+
+  pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
+  local outfile=$REPLY
+  
+  cmd="openssl asn1parse -inform $inform -in \"$file\" -strparse 4 -noout -out \"$outfile\""
+  pbu_eval_cmd "$cmd"
+}
+
 complete -W "-f --file --outfile" openssl-x509-convert-der-to-pem
 function openssl-x509-convert-der-to-pem () {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
-  pbu_extract_arg '' 'outfile' "$@" || pbu_read_input "--outfile (file path): "
+  pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
   cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $outfile"
@@ -73,7 +87,7 @@ function openssl-x509-convert-pem-to-der () {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
-  pbu_extract_arg '' 'outfile' "$@" || pbu_read_input "--outfile (file path): "
+  pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
   cmd="openssl x509 -inform pem -in \"$file\" -outform der -out $outfile"

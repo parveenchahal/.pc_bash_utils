@@ -2,7 +2,7 @@ function pbu_openssl_decode() {
   pbu_extract_arg '' 'type' "$@" || pbu_echo_error "--type is required option" || return 1
   local type=$REPLY
 
-  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
@@ -21,7 +21,7 @@ function openssl-decode-csr() {
 }
 
 function openssl-decode-key() {
-  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
@@ -44,7 +44,7 @@ function openssl-decode-key() {
 }
 
 function openssl-asn1parse() {
-  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
@@ -53,7 +53,7 @@ function openssl-asn1parse() {
 }
 
 function openssl-x509-convert-der-to-pem () {
-  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
   pbu_extract_arg '' 'outfile' "$@" || pbu_read_input "--outfile (file path): "
@@ -64,7 +64,7 @@ function openssl-x509-convert-der-to-pem () {
 }
 
 function openssl-x509-convert-pem-to-der () {
-  pbu_extract_arg '' 'file' "$@" || pbu_read_input "--file (file path): "
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
   pbu_extract_arg '' 'outfile' "$@" || pbu_read_input "--outfile (file path): "

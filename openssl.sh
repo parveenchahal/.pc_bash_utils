@@ -82,7 +82,7 @@ function openssl-signature() {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  local x=$(openssl asn1parse -inform $inform -in \"$file\" | tail -n 1 | cut -d ":" -f 1 | xargs)
+  local x=$(openssl asn1parse -inform $inform -in "$file" | tail -n 1 | cut -d ":" -f 1 | xargs)
   
   cmd="openssl asn1parse -inform $inform -in \"$file\" -out \"$outfile\" -strparse $x -noout"
   pbu_eval_cmd "$cmd"

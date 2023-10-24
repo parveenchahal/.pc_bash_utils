@@ -56,8 +56,8 @@ function openssl-asn1parse() {
   pbu_eval_cmd "$cmd"
 }
 
-complete -d -f -W "-f --file --inform -o --outfile" openssl-tbs
-function openssl-tbs() {
+complete -d -f -W "-f --file --inform -o --outfile" openssl-tbs-extract
+function openssl-tbs-extract() {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   
@@ -71,8 +71,8 @@ function openssl-tbs() {
   pbu_eval_cmd "$cmd"
 }
 
-complete -d -f -W "-f --file --inform -o --outfile" openssl-signature
-function openssl-signature() {
+complete -d -f -W "-f --file --inform -o --outfile" openssl-signature-extract
+function openssl-signature-extract() {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   

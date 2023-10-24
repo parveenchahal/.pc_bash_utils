@@ -67,7 +67,7 @@ function openssl-tbs() {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  cmd="openssl asn1parse -inform $inform -in \"$file\" -strparse 4 -noout -out \"$outfile\""
+  cmd="openssl asn1parse -inform $inform -in \"$file\" -out \"$outfile\" -strparse 4 -noout"
   pbu_eval_cmd "$cmd"
 }
 

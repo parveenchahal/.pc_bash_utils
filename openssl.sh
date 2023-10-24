@@ -56,6 +56,7 @@ function openssl-asn1parse() {
   pbu_eval_cmd "$cmd"
 }
 
+complete -W "-f --file --inform -o --outfile"
 function openssl-tbs() {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
@@ -70,7 +71,7 @@ function openssl-tbs() {
   pbu_eval_cmd "$cmd"
 }
 
-complete -W "-f --file --outfile" openssl-x509-convert-der-to-pem
+complete -W "-f --file -o --outfile" openssl-x509-convert-der-to-pem
 function openssl-x509-convert-der-to-pem () {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
@@ -82,7 +83,7 @@ function openssl-x509-convert-der-to-pem () {
   pbu_eval_cmd "$cmd"
 }
 
-complete -W "-f --file --outfile" openssl-x509-convert-pem-to-der
+complete -W "-f --file -o --outfile" openssl-x509-convert-pem-to-der
 function openssl-x509-convert-pem-to-der () {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY

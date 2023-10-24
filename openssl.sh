@@ -127,4 +127,5 @@ function openssl-publickey-extract() {
   local outform=$REPLY
   
   cmd="openssl x509 -pubkey -inform $inform -in \"$file\" -outform $outform -out $outfile"
+  pbu_eval_cmd "$cmd"
 }

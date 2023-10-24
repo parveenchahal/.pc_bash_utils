@@ -56,7 +56,7 @@ function openssl-asn1parse() {
   pbu_eval_cmd "$cmd"
 }
 
-complete -W "-f --file --inform -o --outfile"
+complete -W "-f --file --inform -o --outfile" openssl-tbs
 function openssl-tbs() {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY

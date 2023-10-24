@@ -96,7 +96,7 @@ function openssl-x509-convert-der-to-pem () {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $outfile"
+  cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $outfile -noout"
   pbu_eval_cmd "$cmd"
 }
 
@@ -108,7 +108,7 @@ function openssl-x509-convert-pem-to-der () {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  cmd="openssl x509 -inform pem -in \"$file\" -outform der -out $outfile"
+  cmd="openssl x509 -inform pem -in \"$file\" -outform der -out $outfile -noout"
   pbu_eval_cmd "$cmd"
 }
 
@@ -126,6 +126,6 @@ function openssl-publickey-extract() {
   pbu_extract_arg '' 'outform' "$@" || pbu_read_input "--outform (der/pem): "
   local outform=$REPLY
   
-  cmd="openssl x509 -pubkey -inform $inform -in \"$file\" -outform $outform -out $outfile"
+  cmd="openssl x509 -pubkey -inform $inform -in \"$file\" -outform $outform -out $outfile -noout"
   pbu_eval_cmd "$cmd"
 }

@@ -71,6 +71,22 @@ function openssl-tbs() {
   pbu_eval_cmd "$cmd"
 }
 
+function openssel-signature() {
+  pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
+  local file=$REPLY
+  
+  pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
+  local inform=$REPLY
+
+  pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
+  local outfile=$REPLY
+  
+  local x=$(openssl asn1parse -inform $inform -in \"$file\" | tail -n 1 | cut -d ":" -f 1 | xargs)
+  
+  cmd="openssl asn1parse -inform $inform -in \"$file\" -out \"$outfile\" -strparse $x -noout"
+  pbu_eval_cmd "$cmd"
+}
+
 complete -W "-f --file -o --outfile" openssl-x509-convert-der-to-pem
 function openssl-x509-convert-der-to-pem () {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "

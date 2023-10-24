@@ -71,7 +71,8 @@ function openssl-tbs() {
   pbu_eval_cmd "$cmd"
 }
 
-function openssel-signature() {
+complete -W "-f --file --inform -o --outfile" openssl-signature
+function openssl-signature() {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   

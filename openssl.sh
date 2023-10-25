@@ -46,8 +46,8 @@ function openssl-decode-key() {
   pbu_eval_cmd "$cmd"
 }
 
-complete -d -f -W "-f --file --inform" openssl-asn1parse
-function openssl-asn1parse() {
+complete -d -f -W "-f --file --inform" openssl-decode-asn1
+function openssl-decode-asn1() {
   pbu_extract_arg 'f' 'file' "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "

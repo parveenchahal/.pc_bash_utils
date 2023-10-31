@@ -20,3 +20,7 @@ function date_to_epoch() {
   echo "UTC: $(date -u) -> $(date -u +"%s") epoch sec"
   echo "Local: $(date) -> $(date +"%s") epoch sec"
 }
+
+function date_utc_to_local() {
+  date -d "$(date -u -d "$1")"
+}

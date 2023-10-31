@@ -24,3 +24,7 @@ function date_to_epoch() {
 function date_utc_to_local() {
   date -d "$(date -u -d "$1")"
 }
+
+function start_utc_clock() {
+  watch -t -n 1 date -u
+}

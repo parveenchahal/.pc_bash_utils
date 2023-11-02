@@ -1,10 +1,6 @@
 function open-test-py() {
   local file_path=~/py-test.py
-  pbu_is_file_exist $file_path
-  if [ ! "$?" == 1 ]
-  then
-    touch $file_path
-  fi
+  pbu_is_file_exist $file_path || touch $file_path
   vim $file_path
 }
 

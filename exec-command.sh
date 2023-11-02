@@ -3,7 +3,7 @@ alias exec-command='~/.exec-command.sh'
 complete -W "-e --editor" edit-exec-command
 function edit-exec-command() {
   local editor="vim"
-  pbu_extract_arg 'f' 'file' "$@"
+  pbu_extract_arg 'e' 'editor' "$@"
   if [ "$?" == 0 ]
   then
     editor="$REPLY"

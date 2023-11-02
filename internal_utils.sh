@@ -20,9 +20,14 @@ function pbu_error_exit() {
   exit 1
 }
 
-function pbu_echo_error() {
+function pbu_error_echo() {
   echo "$@"
   return 1
+}
+
+function pbu_echo_error() {
+  pbu_error_echo "$@"
+  return $?
 }
 
 function pbu_eval_cmd() {

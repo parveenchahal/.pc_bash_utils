@@ -116,12 +116,7 @@ function pbu_confirm() {
 }
 
 function pbu_is_file_exist() {
-  pbu_is_empty "$1"
-  if [ "$?" == 0 ]
-  then
-    echo "file path can not be empty"
-    return 0
-  fi
+  pbu_is_empty "$1" || (echo "file path can not be empty"; return 1)
   if [ -f "$1" ]
   then
     return 0

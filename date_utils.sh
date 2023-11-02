@@ -10,6 +10,12 @@ function date_from_epoch_milliseconds() {
   echo "Local: $(date -d @$d)"
 }
 
+function date_from_epoch_microseconds() {
+  local d=$(($1 / 1000000))
+  echo "UTC: $(date -d @$d -u)"
+  echo "Local: $(date -d @$d)"
+}
+
 function date_to_epoch() {
   if [ ! -z "$1" ]
   then

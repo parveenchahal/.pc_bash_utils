@@ -94,9 +94,9 @@ function pbu_read_input() {
 function pbu_is_empty() {
   if [ -z $1 ]
   then
-    return 1
+    return 0
   fi
-  return 0
+  return 1
 }
 
 function pbu_confirm() {
@@ -117,16 +117,16 @@ function pbu_confirm() {
 
 function pbu_is_file_exist() {
   pbu_is_empty "$1"
-  if [ "$?" == 1 ]
+  if [ "$?" == 0 ]
   then
     echo "file path can not be empty"
     return 0
   fi
   if [ -f "$1" ]
   then
-    return 1
+    return 0
   fi
-  return 0
+  return 1
 }
 
 function pbu_read_input_date() {

@@ -1,10 +1,10 @@
-function epoch_to_date() {
+function date_from_epoch_seconds() {
   local d=$1
   echo "UTC: $(date -d @$d -u)"
   echo "Local: $(date -d @$d)"
 }
 
-function epoch_to_date_ms() {
+function date_from_epoch_milliseconds() {
   local d=$(($1 / 1000))
   echo "UTC: $(date -d @$d -u)"
   echo "Local: $(date -d @$d)"

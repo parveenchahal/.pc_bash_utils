@@ -1,3 +1,17 @@
+function pbu_assert() {
+  pbu_extract_arg 'e' 'expected' "$@" || pbu_echo_error "-e/--expected is required option" || return 1
+  local expected=$REPLY
+  
+  pbu_extract_arg 'a' 'actual' "$@" || pbu_echo_error "-a/--actual is required option" || return 1
+  local actual=$REPLY
+  
+  if [ "$expected" == "$actual" ]
+  then
+    return 0
+  fi
+  return 1
+}
+
 function pbu_error_exit() {
   if [ ! -z "$1" ]
   then

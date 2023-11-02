@@ -5,7 +5,7 @@ function edit-test-py() {
   pbu_extract_arg 'e' 'editor' "$@" || REPLY=vim
   local editor="$REPLY"
   
-  pbu_is_file_exist ~/.py-test.py || (echo 'Creating file $file_path'; touch ~/.py-test.py)
+  pbu_is_file_exist ~/.py-test.py || touch ~/.py-test.py
   cmd="$editor ~/.py-test.py"
   eval "$cmd"
 }

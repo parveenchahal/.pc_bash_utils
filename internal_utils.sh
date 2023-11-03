@@ -80,10 +80,16 @@ function pbu_extract_arg() {
 }
 
 function pbu_is_arg_present() {
-  pbu_extract_arg "$@"
-  local err=$?
-  REPLY=""
-  return $err
+  local short_key="$1"
+  shift
+  local long_key="$1"
+  shift
+  for x in "$@"
+  do
+    pbu_is_not_equal $x $short_key || return 0
+    pbu_is_not_equal $x $long_key || return 0
+  done
+  return 1
 }
 
 function pbu_is_arg_not_present() {

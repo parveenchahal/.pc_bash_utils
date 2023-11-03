@@ -1,14 +1,13 @@
-function pbu_assert() {
-  pbu_extract_arg 'e' 'expected' "$@" || pbu_echo_error "-e/--expected is required option" || return 1
-  local expected=$REPLY
-  
-  pbu_extract_arg 'a' 'actual' "$@" || pbu_echo_error "-a/--actual is required option" || return 1
-  local actual=$REPLY
-  
-  if [ "$expected" == "$actual" ]
+function pbu_is_equal() {
+  if [ "$1" == "$2" ]
   then
     return 0
   fi
+  return 1
+}
+
+function pbu_is_not_equal() {
+  pbu_is_equal "$@" || return 0
   return 1
 }
 
@@ -60,24 +59,23 @@ function pbu_extract_arg() {
   
   eval set -- "$ARGS"
 
-  REPLY=""
+  REPLY=()
   local found=0
-  local values=()
   while true ; do
     case "$1" in
       "--$long_key")
-          values+=("$2"); found=1 ; shift 2 ;;
+          REPLY+=("$2"); found=1 ; shift 2 ;;
       "-$short_key")
-          values+=("$2"); found=1 ; shift 2 ;;
+          REPLY+=("$2"); found=1 ; shift 2 ;;
       --) shift ; break ;;
       *) echo "Internal error in argument parsing!"; return 1 ;;
     esac
   done
   if [ "$found" == 0 ]
   then
+    REPLY=""
     return 1
   fi
-  REPLY=(${values[*]})
   return 0
 }
 

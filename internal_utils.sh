@@ -80,14 +80,36 @@ function pbu_extract_arg() {
 }
 
 function pbu_is_arg_present() {
-  local short_key="-$1"
+  local short_key="$1"
   shift
-  local long_key="--$1"
+  local long_key="$1"
   shift
+  
+  local ARGS=''
+  
+  if [[ -z "$short_key" && -z "$long_key" ]]
+  then
+    echo 'No option provided to pbu_extract_arg'
+    return 1
+  elif [[ ! -z "$short_key" && ! -z "$long_key" ]]
+  then
+    ARGS=$(getopt -q -o "$short_key:" -l "$long_key:" -- "" "$@")
+  elif [ ! -z "$short_key" ]
+  then
+    ARGS=$(getopt -q -o "$short_key:" -- "" "$@")
+  elif [ ! -z "$long_key" ]
+  then
+    ARGS=$(getopt -q -l "$long_key:" -- "" "$@")
+  fi
+  
+  eval set -- "$ARGS"
+
+  echo "$@"
+  
   for x in "$@";
   do
-    pbu_is_not_equal $x $short_key || return 0
-    pbu_is_not_equal $x $long_key || return 0
+    pbu_is_not_equal $x "-$short_key" || return 0
+    pbu_is_not_equal $x "--$long_key" || return 0
   done
   return 1
 }

@@ -11,6 +11,11 @@ function pbu_is_not_equal() {
   return 1
 }
 
+function pbu_is_digits() {
+   [[ "$1" =~ ^[+-]?[0-9]+\.?[0-9]*$ ]] || return 1
+   return 0
+}
+
 function pbu_error_exit() {
   if [ ! -z "$1" ]
   then

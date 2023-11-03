@@ -93,18 +93,16 @@ function pbu_is_arg_present() {
     return 1
   elif [[ ! -z "$short_key" && ! -z "$long_key" ]]
   then
-    ARGS=$(getopt -q -o "$short_key:" -l "$long_key:" -- "" "$@")
+    ARGS=$(getopt -q -o "$short_key::" -l "$long_key::" -- "" "$@")
   elif [ ! -z "$short_key" ]
   then
-    ARGS=$(getopt -q -o "$short_key:" -- "" "$@")
+    ARGS=$(getopt -q -o "$short_key::" -- "" "$@")
   elif [ ! -z "$long_key" ]
   then
-    ARGS=$(getopt -q -l "$long_key:" -- "" "$@")
+    ARGS=$(getopt -q -l "$long_key::" -- "" "$@")
   fi
   
   eval set -- "$ARGS"
-
-  echo "$@"
   
   for x in "$@";
   do

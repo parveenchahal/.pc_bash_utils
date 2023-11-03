@@ -86,6 +86,11 @@ function pbu_is_arg_present() {
   return $err
 }
 
+function pbu_is_arg_not_present() {
+  pbu_is_arg_present "$@" || return 0
+  return 1
+}
+
 function pbu_read_input() {
   if [ ! -z "$1" ]
   then

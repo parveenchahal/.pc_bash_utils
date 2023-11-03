@@ -84,8 +84,9 @@ function pbu_is_arg_present() {
   shift
   local long_key="$1"
   shift
-  for x in "$@"
+  for x in "$@";
   do
+    echo "$x $short_key $long_key"
     pbu_is_not_equal $x $short_key || return 0
     pbu_is_not_equal $x $long_key || return 0
   done

@@ -144,6 +144,7 @@ function pbu_is_not_empty() {
 }
 
 function pbu_confirm() {
+  pbu_is_not_empty || echo "$1"
   while $true;
   do
     pbu_read_input "yes/no: "

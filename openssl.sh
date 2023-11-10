@@ -37,10 +37,10 @@ function openssl-decode-key() {
   pbu_confirm
   local is_pub=$?
   
-  if [ "$is_pub" == 1 ]
+  if [ "$is_pub" == "0" ]
   then
     cmd="openssl $key_type -pubin -inform $inform -in \"$file\" -text -noout"
-  else [ "$is_pub" == 0 ]
+  else [ "$is_pub" == "1" ]
     cmd="openssl $key_type -inform $inform -in \"$file\" -text -noout"
   fi
   pbu_eval_cmd "$cmd"

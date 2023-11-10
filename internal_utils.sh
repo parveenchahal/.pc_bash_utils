@@ -150,11 +150,11 @@ function pbu_confirm() {
     result=$REPLY
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then
-      return 1
+      return 0
     fi
     if [ "$result" == "n" ] || [ "$result" == "no" ];
     then
-      return 0
+      return 1
     fi
   done
 }

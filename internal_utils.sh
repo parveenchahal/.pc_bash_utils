@@ -145,10 +145,10 @@ function pbu_is_not_empty() {
 
 function pbu_confirm() {
   local msg="Confirm"
-  pbu_is_empty "$1" || msg=$1
+  pbu_is_empty "$1" || msg="$1"
   while $true;
   do
-    pbu_read_input "yes/no: "
+    pbu_read_input "$msg (yes/no): "
     result=$REPLY
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then

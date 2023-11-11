@@ -144,7 +144,8 @@ function pbu_is_not_empty() {
 }
 
 function pbu_confirm() {
-  pbu_is_empty "$1" || echo "$1"
+  local msg="Confirm"
+  pbu_is_empty "$1" || msg=$1
   while $true;
   do
     pbu_read_input "yes/no: "

@@ -1,5 +1,5 @@
 alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - && source ~/.pc_bash_utils/init.sh'
-
+source ~/.pc_bash_utils/parse_arguments.sh
 source ~/.pc_bash_utils/internal_utils.sh
 source ~/.pc_bash_utils/python.sh
 source ~/.pc_bash_utils/common-jump.sh

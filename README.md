@@ -11,7 +11,7 @@
      ```sh
      source ~/.pc_bash_utils/init.sh
      ```
-# Update
+# Updates
   Run below command to get new updates
   ```
   update-pc-bash-utils

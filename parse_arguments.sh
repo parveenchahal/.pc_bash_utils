@@ -70,8 +70,8 @@ function pbu_is_arg_present() {
   
   for x in "$@";
   do
-    pbu_is_not_equal $x "-$short_key" || return 0
-    pbu_is_not_equal $x "--$long_key" || return 0
+    [[ ! "$x" == "-$short_key" ]] || return 0
+    [[ ! "$x" == "--$long_key" ]] || return 0
   done
   return 1
 }

@@ -66,7 +66,7 @@ function pbu_confirm() {
   while $true;
   do
     pbu_read_input "$msg (yes/no): "
-    result=$REPLY
+    result="${REPLY,,}"
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then
       return 0

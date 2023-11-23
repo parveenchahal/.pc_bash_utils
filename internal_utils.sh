@@ -12,10 +12,11 @@ function pbu_is_equal() {
 }
 
 function pbu_is_not_equal() {
-  local lastIndex="${#@}"
+  local size="${#@}"
+  local lastIndex=`expr $size - 1`
   local values=( ${@} )
   local i=0
-  while [ $i -le $lastIndex ]
+  while [ $i -lt $lastIndex ]
   do
     local j=`expr $i + 1`
     while [ $j -le $lastIndex ]

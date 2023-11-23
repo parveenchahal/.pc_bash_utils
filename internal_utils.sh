@@ -12,8 +12,18 @@ function pbu_is_equal() {
 }
 
 function pbu_is_not_equal() {
-  pbu_is_equal "$@" || return 0
-  return 1
+  for x in "$@"
+  do
+    shift
+    for y in "$@"
+    do
+      if [ "$x" == "$y" ]
+      then
+        return 1
+      fi
+    done
+  done
+  return 0
 }
 
 function pbu_is_digits() {

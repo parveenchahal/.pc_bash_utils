@@ -83,8 +83,11 @@ function pbu_is_empty() {
 }
 
 function pbu_is_not_empty() {
-  pbu_is_empty "$@" || return 0
-  return 1
+  for x in $@
+  do
+    pbu_is_not_equal "" "$x" || return 1
+  done
+  return 0
 }
 
 function pbu_confirm() {

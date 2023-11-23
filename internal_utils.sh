@@ -12,16 +12,21 @@ function pbu_is_equal() {
 }
 
 function pbu_is_not_equal() {
-  for x in "$@"
+  local lastIndex="${#@}"
+  local values=( ${@} )
+  local i=0
+  while [ $i -le $lastIndex ]
   do
-    shift
-    for y in "$@"
+    local j=`expr $i + 1`
+    while [ $j -le $lastIndex ]
     do
-      if [ "$x" == "$y" ]
+      if [ "${values[$i]}" == "${values[$j]}" ]
       then
         return 1
       fi
+      j=`expr $j + 1`
     done
+    i=`expr $i + 1`
   done
   return 0
 }

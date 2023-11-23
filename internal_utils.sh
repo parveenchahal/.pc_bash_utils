@@ -1,9 +1,14 @@
 function pbu_is_equal() {
-  if [ "$1" == "$2" ]
-  then
-    return 0
-  fi
-  return 1
+  local x="$1"
+  shift
+  for y in "$@"
+  do
+    if [ "$x" != "$y" ]
+    then
+      return 1
+    fi
+  done
+  return 0
 }
 
 function pbu_is_not_equal() {

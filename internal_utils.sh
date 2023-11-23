@@ -85,7 +85,10 @@ function pbu_is_empty() {
 function pbu_is_not_empty() {
   for x in "$@"
   do
-    pbu_is_not_equal "" "$x" || return 1
+    if [ "$x" == "" ]
+    then
+      return 1
+    fi
   done
   return 0
 }

@@ -53,15 +53,12 @@ function pbu_read_input() {
 }
 
 function pbu_is_empty() {
-  if [ -z "$1" ]
-  then
-    return 0
-  fi
-  return 1
+  pbu_is_equal "" "$@" || return 1
+  return 0
 }
 
 function pbu_is_not_empty() {
-  pbu_is_empty "$1" || return 0
+  pbu_is_empty "$@" || return 0
   return 1
 }
 

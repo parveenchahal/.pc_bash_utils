@@ -70,6 +70,10 @@ function pbu_is_arg_present() {
   
   for x in "$@";
   do
+    if [ "$x" == "--" ]
+    then
+      break
+    fi
     [[ ! "$x" == "-$short_key" ]] || return 0
     [[ ! "$x" == "--$long_key" ]] || return 0
   done

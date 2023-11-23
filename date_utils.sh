@@ -1,28 +1,49 @@
-function date_from_epoch_seconds() {
-  local d=$1
-  echo "UTC: $(date -d @$d -u)"
-  echo "Local: $(date -d @$d)"
+complete -W "--utc --nanoseconds --milliseconds --microseconds --seconds" date-from-epoch
+function date-from-epoch() {
+
+  pbu_is_arg_present '' 'nanoseconds' "$@" ||
+  pbu_is_arg_present '' 'microseconds' "$@" ||
+  pbu_is_arg_present '' 'milliseconds' "$@" ||
+  pbu_is_arg_present '' 'seconds' "$@" ||
+  pbu_error_echo "At least one of args nanoseconds, microseconds, milliseconds or seconds is required" || return 1
+  
+  local values=()
+  
+  pbu_extract_arg '' 'nanoseconds' "$@"
+  local value="$REPLY"
+  pbu_is_empty "$value" || values+=("$value")
+  
+  pbu_extract_arg '' 'microseconds' "$@"
+  local value="$REPLY"
+  pbu_is_empty "$value" || values+=( $(($value * 1000)) )
+  
+  pbu_extract_arg '' 'milliseconds' "$@"
+  local value="$REPLY"
+  pbu_is_empty "$value" || values+=( $(($value * 1000000)) )
+  
+  pbu_extract_arg '' 'seconds' "$@"
+  local value="$REPLY"
+  pbu_is_empty "$value" || values+=( "$(($value * 1000000000))" )
+  
+  pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of nanoseconds, microseconds, milliseconds or seconds" || return 1
+  
+  local nanoseconds="$values"
+
+  local tz='local'
+  pbu_is_arg_not_present '' 'utc' "$@" || tz='utc'
+  
+  local seconds=$(($nanoseconds / 1000000000))
+  local rem=$(($nanoseconds % 1000000000))
+  
+  if [ "$tz" == "utc" ]
+  then
+    date -u -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}Z"
+  else
+    date -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}%z"
+  fi
 }
 
-function date_from_epoch_milliseconds() {
-  local d=$(($1 / 1000))
-  echo "UTC: $(date -d @$d -u)"
-  echo "Local: $(date -d @$d)"
-}
-
-function date_from_epoch_microseconds() {
-  local d=$(($1 / 1000000))
-  echo "UTC: $(date -d @$d -u)"
-  echo "Local: $(date -d @$d)"
-}
-
-function date_from_epoch_nanoseconds() {
-  local d=$(($1 / 1000000000))
-  echo "UTC: $(date -d @$d -u)"
-  echo "Local: $(date -d @$d)"
-}
-
-function date_to_epoch() {
+function date-to-epoch() {
   if [ ! -z "$1" ]
   then
     echo "UTC: $(date -u -d "$1") -> $(date -u -d "$1" +"%s") epoch sec"
@@ -33,14 +54,14 @@ function date_to_epoch() {
   echo "Local: $(date) -> $(date +"%s") epoch sec"
 }
 
-function date_utc_to_local() {
+function date-utc-to-local() {
   date -d "$(date -u -d "$1")"
 }
 
-function date_local_to_utc() {
+function date-local-to-utc() {
   date -u -d "$(date -d "$1")"
 }
 
-function start_utc_clock() {
+function start-utc-clock() {
   watch -t -n 1 date -u
 }

@@ -34,6 +34,16 @@ function pbu_error_echo() {
   return 1
 }
 
+function pbu_is_success() {
+  pbu_is_equal "0" "$?" || return 1
+  return 0
+}
+
+function pbu_is_error() {
+  pbu_is_equal "0" "$?" || return 0
+  return 1
+}
+
 function pbu_echo_error() {
   pbu_error_echo "$@"
   return $?

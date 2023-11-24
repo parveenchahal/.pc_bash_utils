@@ -40,13 +40,13 @@ function pbu_is_digits() {
 function pbu_error_exit() {
   if [ ! -z "$1" ]
   then
-    echo $1
+    pbu_error_echo "$1"
   fi
   exit 1
 }
 
 function pbu_error_echo() {
-  echo "$@"
+  echo -e "\e[01;31m${@}\e[0m"
   return 1
 }
 

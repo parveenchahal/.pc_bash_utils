@@ -43,15 +43,29 @@ function date-from-epoch() {
   fi
 }
 
+complete -W "--date --nanoseconds --milliseconds --microseconds --seconds" date-to-epoch
 function date-to-epoch() {
-  if [ ! -z "$1" ]
-  then
-    echo "UTC: $(date -u -d "$1") -> $(date -u -d "$1" +"%s") epoch sec"
-    echo "Local: $(date -d "$1") -> $(date -d "$1" +"%s") epoch sec"
-    return 0
-  fi
-  echo "UTC: $(date -u) -> $(date -u +"%s") epoch sec"
-  echo "Local: $(date) -> $(date +"%s") epoch sec"
+
+  pbu_is_arg_present '' 'nanoseconds' "$@" ||
+  pbu_is_arg_present '' 'microseconds' "$@" ||
+  pbu_is_arg_present '' 'milliseconds' "$@" ||
+  pbu_is_arg_present '' 'seconds' "$@" ||
+  pbu_error_echo "At least one of args nanoseconds, microseconds, milliseconds or seconds is required" || return 1
+  
+  local input="$(date +%s%N)" # default is now
+  
+  pbu_extract_arg '' 'date' "$@" && input="$(date -d "$REPLY" +%s%N)"
+  
+  local values=()
+  
+  pbu_is_arg_present '' 'nanoseconds' "$@" && values+=("$input")  
+  pbu_is_arg_present '' 'microseconds' "$@" && values+=( $(($input / 1000)) )
+  pbu_is_arg_present '' 'milliseconds' "$@" && values+=( $(($input / 1000000)) ) 
+  pbu_is_arg_present '' 'seconds' "$@" && values+=( "$(($input / 1000000000))" )
+  
+  pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of nanoseconds, microseconds, milliseconds or seconds" || return 1
+  
+  echo "$values"
 }
 
 function date-utc-to-local() {

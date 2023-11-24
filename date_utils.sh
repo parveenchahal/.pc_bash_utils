@@ -9,21 +9,10 @@ function date-from-epoch() {
   
   local values=()
   
-  pbu_extract_arg '' 'nanoseconds' "$@"
-  local value="$REPLY"
-  pbu_is_empty "$value" || values+=("$value")
-  
-  pbu_extract_arg '' 'microseconds' "$@"
-  local value="$REPLY"
-  pbu_is_empty "$value" || values+=( $(($value * 1000)) )
-  
-  pbu_extract_arg '' 'milliseconds' "$@"
-  local value="$REPLY"
-  pbu_is_empty "$value" || values+=( $(($value * 1000000)) )
-  
-  pbu_extract_arg '' 'seconds' "$@"
-  local value="$REPLY"
-  pbu_is_empty "$value" || values+=( "$(($value * 1000000000))" )
+  pbu_extract_arg '' 'nanoseconds' "$@" && values+=("$REPLY")
+  pbu_extract_arg '' 'microseconds' "$@" && values+=( $(($REPLY * 1000)) )
+  pbu_extract_arg '' 'milliseconds' "$@" && values+=( $(($REPLY * 1000000)) )
+  pbu_extract_arg '' 'seconds' "$@" && values+=( "$(($REPLY * 1000000000))" )
   
   pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of nanoseconds, microseconds, milliseconds or seconds" || return 1
   

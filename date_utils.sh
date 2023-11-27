@@ -5,7 +5,7 @@ function date-from-epoch() {
   pbu_is_arg_present '' 'microseconds' "$@" ||
   pbu_is_arg_present '' 'milliseconds' "$@" ||
   pbu_is_arg_present '' 'seconds' "$@" ||
-  pbu_error_echo "At least one of args nanoseconds, microseconds, milliseconds or seconds is required" || return 1
+  pbu_error_echo "At least one of args --nanoseconds, --microseconds, --milliseconds or --seconds is required" || return 1
   
   local values=()
   
@@ -14,7 +14,7 @@ function date-from-epoch() {
   pbu_extract_arg '' 'milliseconds' "$@" && values+=( $(($REPLY * 1000000)) )
   pbu_extract_arg '' 'seconds' "$@" && values+=( "$(($REPLY * 1000000000))" )
   
-  pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of nanoseconds, microseconds, milliseconds or seconds" || return 1
+  pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of --nanoseconds, --microseconds, --milliseconds or --seconds" || return 1
   
   local nanoseconds="$values"
 

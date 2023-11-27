@@ -1,4 +1,4 @@
-complete -W "--utc --nanoseconds --milliseconds --microseconds --seconds" date-from-epoch
+complete -W "--out-utc --nanoseconds --milliseconds --microseconds --seconds" date-from-epoch
 function date-from-epoch() {
 
   pbu_is_arg_present '' 'nanoseconds' "$@" ||
@@ -19,7 +19,7 @@ function date-from-epoch() {
   local nanoseconds="$values"
 
   local tz='local'
-  pbu_is_arg_not_present '' 'utc' "$@" || tz='utc'
+  pbu_is_arg_not_present '' 'out-utc' "$@" || tz='utc'
   
   local seconds=$(($nanoseconds / 1000000000))
   local rem=$(($nanoseconds % 1000000000))

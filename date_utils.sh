@@ -32,14 +32,14 @@ function date-from-epoch() {
   fi
 }
 
-complete -W "--date --nanoseconds --milliseconds --microseconds --seconds" date-to-epoch
+complete -W "--date --out-nanoseconds --out-milliseconds --out-microseconds --out-seconds" date-to-epoch
 function date-to-epoch() {
 
-  pbu_is_arg_present '' 'nanoseconds' "$@" ||
-  pbu_is_arg_present '' 'microseconds' "$@" ||
-  pbu_is_arg_present '' 'milliseconds' "$@" ||
-  pbu_is_arg_present '' 'seconds' "$@" ||
-  pbu_error_echo "At least one of args nanoseconds, microseconds, milliseconds or seconds is required" || return 1
+  pbu_is_arg_present '' 'out-nanoseconds' "$@" ||
+  pbu_is_arg_present '' 'out-microseconds' "$@" ||
+  pbu_is_arg_present '' 'out-milliseconds' "$@" ||
+  pbu_is_arg_present '' 'out-seconds' "$@" ||
+  pbu_error_echo "At least one of args --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds is required" || return 1
   
   local input="$(date +%s%N)" # default is now
   
@@ -47,12 +47,12 @@ function date-to-epoch() {
   
   local values=()
   
-  pbu_is_arg_present '' 'nanoseconds' "$@" && values+=("$input")  
-  pbu_is_arg_present '' 'microseconds' "$@" && values+=( $(($input / 1000)) )
-  pbu_is_arg_present '' 'milliseconds' "$@" && values+=( $(($input / 1000000)) ) 
-  pbu_is_arg_present '' 'seconds' "$@" && values+=( "$(($input / 1000000000))" )
+  pbu_is_arg_present '' 'out-nanoseconds' "$@" && values+=("$input")  
+  pbu_is_arg_present '' 'out-microseconds' "$@" && values+=( $(($input / 1000)) )
+  pbu_is_arg_present '' 'out-milliseconds' "$@" && values+=( $(($input / 1000000)) ) 
+  pbu_is_arg_present '' 'out-seconds' "$@" && values+=( "$(($input / 1000000000))" )
   
-  pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of nanoseconds, microseconds, milliseconds or seconds" || return 1
+  pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds" || return 1
   
   echo "$values"
 }

@@ -11,6 +11,7 @@
      ```sh
      source ~/.bashrc
      ```
+
 # Updates
   Run below command to get new updates
   ```

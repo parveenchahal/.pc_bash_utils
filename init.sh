@@ -12,7 +12,7 @@ else
   date +"%s" > ~/.pc_bash_utils/.lastupdate
 fi
 
-alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - && (date +"%s" > ~/.pc_bash_utils/.lastupdate) && source ~/.pc_bash_utils/init.sh'
+alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - && ([ ! $(cat ~/.pc_bash_utils/.lastupdate) == "disabled" ] || (date +"%s" > ~/.pc_bash_utils/.lastupdate)) && source ~/.pc_bash_utils/init.sh'
 source ~/.pc_bash_utils/default-options-for-commands.sh
 source ~/.pc_bash_utils/parse_arguments.sh
 source ~/.pc_bash_utils/internal_utils.sh

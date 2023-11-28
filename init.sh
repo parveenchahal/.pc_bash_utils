@@ -34,7 +34,7 @@ then
 fi
 
 
-alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - > /dev/null 2>&1 && source ~/.pc_bash_utils/init.sh'
+alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - > /dev/null 2>&1 && echo "0" > ~/.pc_bash_utils/.updatepending && source ~/.pc_bash_utils/init.sh'
 source ~/.pc_bash_utils/default-options-for-commands.sh
 source ~/.pc_bash_utils/parse_arguments.sh
 source ~/.pc_bash_utils/internal_utils.sh

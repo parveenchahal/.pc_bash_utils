@@ -7,9 +7,9 @@
      ```sh
      source ~/.pc_bash_utils/init.sh
      ```
-  3. Run below command to load in current bash session.
+  3. Run below command to re-load `.bashrc` in current bash session.
      ```sh
-     source ~/.pc_bash_utils/init.sh
+     source ~/.bashrc
      ```
 # Updates
   Run below command to get new updates

@@ -1,4 +1,4 @@
-complete -W "--out-utc --nanoseconds --milliseconds --microseconds --seconds" date-from-epoch
+complete -W "--out-utc --nanoseconds --microseconds --milliseconds --seconds" date-from-epoch
 function date-from-epoch() {
 
   pbu_extract_arg '' 'nanoseconds' "$@" ||
@@ -32,7 +32,7 @@ function date-from-epoch() {
   fi
 }
 
-complete -W "--date --out-nanoseconds --out-milliseconds --out-microseconds --out-seconds" date-to-epoch
+complete -W "--date --out-nanoseconds --out-microseconds --out-milliseconds --out-seconds" date-to-epoch
 function date-to-epoch() {
   pbu_is_arg_present '' 'out-nanoseconds' "$@" ||
   pbu_is_arg_present '' 'out-microseconds' "$@" ||

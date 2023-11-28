@@ -1,6 +1,6 @@
 if [ -f ~/.pc_bash_utils/.lastupdate ]
 then
-  days30past="$(date -d "-1 minute" +"%s")"
+  days30past="$(date -d "-30 days" +"%s")"
   lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
   if [ "$lastUpdate" != "disabled" ]
   then

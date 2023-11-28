@@ -112,5 +112,3 @@ function date-local-to-utc() {
 function start-utc-clock() {
   watch -t -n 1 date -u
 }
-
-testing

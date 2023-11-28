@@ -1,12 +1,12 @@
 if [ -f ~/.pc_bash_utils/.lastupdate ]
 then
-  days30past="$(date -d "-30 days" +"%s")"
+  hours2past="$(date -d "-2 hours" +"%s")"
   lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
   if [ "$lastUpdate" != "disabled" ]
   then
-    if [ "$lastUpdate" -lt "$days30past" ]
+    if [ "$lastUpdate" -lt "$hours2past" ]
     then
-      echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
+      git remote update > /dev/null 2>&1 && git status -uno | grep -q 'Your branch is behind' && echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
     fi
   fi
 else

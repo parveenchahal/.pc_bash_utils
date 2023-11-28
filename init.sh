@@ -1,7 +1,7 @@
 if [ -f ~/.pc_bash_utils/.lastupdate ]
 then
-  local days30past="$(date -d "-1 minute" +"%s")"
-  local lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
+  days30past="$(date -d "-1 minute" +"%s")"
+  lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
   if [ "$lastUpdate" -lt "$days30past" ]
   then
     echo "Please run update-pc-bash-utils to update pc bash utils"

@@ -1,6 +1,6 @@
-if [ ! -f ~/.pc_bash_utils/.lastupdate ]
+if [ ! -f ~/.pc_bash_utils/.lastupdatecheck ]
 then
-  echo 0 > ~/.pc_bash_utils/.lastupdate
+  echo 0 > ~/.pc_bash_utils/.lastupdatecheck
 fi
 
 if [ ! -f ~/.pc_bash_utils/.updatepending ]
@@ -9,10 +9,10 @@ then
 fi
 
 hours2past="$(date -d "-1 day" +"%s")"
-lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
-if [ "$lastUpdate" != "disabled" ]
+lastupdatecheck=$(cat ~/.pc_bash_utils/.lastupdatecheck)
+if [ "$lastupdatecheck" != "disabled" ]
 then
-  if [ "$lastUpdate" -lt "$hours2past" ]
+  if [ "$lastupdatecheck" -lt "$hours2past" ]
   then
     cd ~/.pc_bash_utils
     updatePending=$(cat ~/.pc_bash_utils/.updatepending)
@@ -27,7 +27,7 @@ then
     then
       echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
     else
-      date +"%s" > ~/.pc_bash_utils/.lastupdate
+      date +"%s" > ~/.pc_bash_utils/.lastupdatecheck
     fi
     cd - > /dev/null 2>&1
   fi

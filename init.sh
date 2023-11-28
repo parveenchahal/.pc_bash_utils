@@ -6,7 +6,9 @@ then
   then
     if [ "$lastUpdate" -lt "$hours2past" ]
     then
+      cd ~/.pc_bash_utils
       git remote update > /dev/null 2>&1 && git status -uno | grep -q 'Your branch is behind' && echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
+      cd -
     fi
   fi
 else

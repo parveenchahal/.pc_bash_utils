@@ -32,3 +32,5 @@ then
     cd - > /dev/null 2>&1
   fi
 fi
+
+alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - > /dev/null 2>&1 && echo "0" > ~/.pc_bash_utils/.updatepending && source ~/.pc_bash_utils/init.sh'

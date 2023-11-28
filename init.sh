@@ -3,17 +3,21 @@ then
   echo 0 > ~/.pc_bash_utils/.lastupdate
 fi
 
+if [ ! -f ~/.pc_bash_utils/.updatepending ]
+then
+  echo 0 > ~/.pc_bash_utils/.updatepending
+fi
+
 hours2past="$(date -d "-1 day" +"%s")"
 lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
+updatePending=$(~/.pc_bash_utils/.updatepending)
 if [ "$lastUpdate" != "disabled" ]
 then
   if [ "$lastUpdate" -lt "$hours2past" ]
   then
     cd ~/.pc_bash_utils
-    changed=0
-    echo "Checking for new updates for pc_bash_utils"
-    git remote update > /dev/null 2>&1 && git status -uno | grep -q 'Your branch is behind' && changed=1
-    if [ "$changed" == "1" ]
+    [ "$updatePending" == "0" ] && echo "Checking for new updates for pc_bash_utils" && git remote update > /dev/null 2>&1 && git status -uno | grep -q 'Your branch is behind' && (echo 1 > ~/.pc_bash_utils/.updatepending)
+    if [ "$updatePending" == "1" ]
     then
       echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
     else

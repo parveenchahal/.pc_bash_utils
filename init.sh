@@ -8,7 +8,7 @@ then
     then
       cd ~/.pc_bash_utils
       git remote update > /dev/null 2>&1 && git status -uno | grep -q 'Your branch is behind' && echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
-      cd -
+      cd - > /dev/null 2>&1
     fi
   fi
 else

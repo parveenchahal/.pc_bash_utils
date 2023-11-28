@@ -56,6 +56,51 @@ function date-to-epoch() {
   echo "$values"
 }
 
+complete -W "add subtract --nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days" pbu_date_add_sub
+function pbu_date_add_sub() {
+
+  local op="$1"
+  shift
+  pbu_is_equal "$op" "add" || pbu_is_equal "$op" "subtract" || pbu_error_echo "Invalid operation, supported operations are 'add' or 'subtract'" || return 1
+
+  local base="$(date-to-epoch --out-nanoseconds)"
+  pbu_extract_arg '' 'date' "$@" && base="$(date-to-epoch --date "$REPLY" --out-nanoseconds)"
+  local diff=0
+  pbu_extract_arg '' 'nanoseconds' "$@" && diff=$(($diff + $REPLY))
+  pbu_extract_arg '' 'microseconds' "$@" && diff=$(($diff + $REPLY * 1000))
+  pbu_extract_arg '' 'milliseconds' "$@" && diff=$(($diff + $REPLY * 1000000))
+  pbu_extract_arg '' 'seconds' "$@" && diff=$(($diff + $REPLY * 1000000000))
+  pbu_extract_arg '' 'minutes' "$@" && diff=$(($diff + $REPLY * 1000000000 * 60))
+  pbu_extract_arg '' 'hours' "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60))
+  pbu_extract_arg '' 'days' "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60 * 24))
+  
+  local newtime=""
+  
+  pbu_is_equal "$op" "add" && newtime=$(($base + $diff))
+  pbu_is_equal "$op" "subtract" && newtime=$(($base - $diff))
+  
+  local tz='local'
+  pbu_is_arg_present '' 'out-utc' "$@" && tz='utc'
+  
+  
+  if [ "$tz" == "utc" ]
+  then
+    date-from-epoch --nanoseconds "$newtime" --out-utc
+  else
+    date-from-epoch --nanoseconds "$newtime"
+  fi
+}
+
+complete -W "--nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days" date-add
+function date-add() {
+  pbu_date_add_sub add "$@"
+}
+
+complete -W "--nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days" date-subtract
+function date-subtract() {
+  pbu_date_add_sub subtract "$@"
+}
+
 function date-utc-to-local() {
   date -d "$(date -u -d "$1")"
 }

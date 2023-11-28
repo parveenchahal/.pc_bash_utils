@@ -6,7 +6,7 @@ then
   then
     if [ "$lastUpdate" -lt "$days30past" ]
     then
-      echo "Please run \"update-pc-bash-utils\" to update bash utils"
+      echo "Please run \"update-pc-bash-utils\" to update latest bash utils"
     fi
   fi
 else

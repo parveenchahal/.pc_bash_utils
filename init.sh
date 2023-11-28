@@ -3,6 +3,7 @@ then
   days30past="$(date -d "-1 minute" +"%s")"
   lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
   if [ ! "$lastUpdate" == "disabled" ]
+  then
     if [ "$lastUpdate" -lt "$days30past" ]
     then
       echo "Please run \"update-pc-bash-utils\" to update bash utils"

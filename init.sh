@@ -10,7 +10,7 @@ fi
 
 hours2past="$(date -d "-1 day" +"%s")"
 lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
-updatePending=$(~/.pc_bash_utils/.updatepending)
+updatePending=$(cat ~/.pc_bash_utils/.updatepending)
 if [ "$lastUpdate" != "disabled" ]
 then
   if [ "$lastUpdate" -lt "$hours2past" ]

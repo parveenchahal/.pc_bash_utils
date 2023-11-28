@@ -1,6 +1,6 @@
 if [ ! -f ~/.pc_bash_utils/.lastupdate ]
 then
-  date +"%s" > ~/.pc_bash_utils/.lastupdate
+  echo 0 > ~/.pc_bash_utils/.lastupdate
 fi
 
 hours2past="$(date -d "-2 hours" +"%s")"

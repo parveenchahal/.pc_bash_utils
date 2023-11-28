@@ -30,3 +30,5 @@ source ~/.pc_bash_utils/copy.sh
 source ~/.pc_bash_utils/docker.sh
 source ~/.pc_bash_utils/exec-command.sh
 source ~/.pc_bash_utils/conversion.sh
+
+echo testing

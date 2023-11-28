@@ -4,7 +4,7 @@ then
   lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
   if [ "$lastUpdate" -lt "$days30past" ]
   then
-    echo "Please run update-pc-bash-utils to update pc bash utils"
+    echo "Please run \"update-pc-bash-utils\" to update bash utils"
   fi
 else
   date +"%s" > ~/.pc_bash_utils/.lastupdate

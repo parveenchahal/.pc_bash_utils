@@ -11,6 +11,7 @@ then
   then
     cd ~/.pc_bash_utils
     changed=0
+    echo "Checking for new updates for pc_bash_utils"
     git remote update > /dev/null 2>&1 && git status -uno | grep -q 'Your branch is behind' && changed=1
     if [ "$changed" == "1" ]
     then

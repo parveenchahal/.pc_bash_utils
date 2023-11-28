@@ -3,7 +3,7 @@ then
   echo 0 > ~/.pc_bash_utils/.lastupdate
 fi
 
-hours2past="$(date -d "-2 hours" +"%s")"
+hours2past="$(date -d "-1 day" +"%s")"
 lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
 if [ "$lastUpdate" != "disabled" ]
 then
@@ -41,5 +41,3 @@ source ~/.pc_bash_utils/copy.sh
 source ~/.pc_bash_utils/docker.sh
 source ~/.pc_bash_utils/exec-command.sh
 source ~/.pc_bash_utils/conversion.sh
-
-echo testing2

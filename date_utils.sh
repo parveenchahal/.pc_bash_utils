@@ -1,10 +1,10 @@
 complete -W "--out-utc --nanoseconds --milliseconds --microseconds --seconds" date-from-epoch
 function date-from-epoch() {
 
-  pbu_is_arg_present '' 'nanoseconds' "$@" ||
-  pbu_is_arg_present '' 'microseconds' "$@" ||
-  pbu_is_arg_present '' 'milliseconds' "$@" ||
-  pbu_is_arg_present '' 'seconds' "$@" ||
+  pbu_extract_arg '' 'nanoseconds' "$@" ||
+  pbu_extract_arg '' 'microseconds' "$@" ||
+  pbu_extract_arg '' 'milliseconds' "$@" ||
+  pbu_extract_arg '' 'seconds' "$@" ||
   pbu_error_echo "At least one of args --nanoseconds, --microseconds, --milliseconds or --seconds is required" || return 1
   
   local values=()
@@ -19,7 +19,7 @@ function date-from-epoch() {
   local nanoseconds="$values"
 
   local tz='local'
-  pbu_is_arg_not_present '' 'out-utc' "$@" || tz='utc'
+  pbu_is_arg_present '' 'out-utc' "$@" && tz='utc'
   
   local seconds=$(($nanoseconds / 1000000000))
   local rem=$(($nanoseconds % 1000000000))
@@ -34,11 +34,10 @@ function date-from-epoch() {
 
 complete -W "--date --out-nanoseconds --out-milliseconds --out-microseconds --out-seconds" date-to-epoch
 function date-to-epoch() {
-
-  pbu_is_arg_present '' 'out-nanoseconds' "$@" ||
-  pbu_is_arg_present '' 'out-microseconds' "$@" ||
-  pbu_is_arg_present '' 'out-milliseconds' "$@" ||
-  pbu_is_arg_present '' 'out-seconds' "$@" ||
+  pbu_extract_arg '' 'out-nanoseconds' "$@" ||
+  pbu_extract_arg '' 'out-microseconds' "$@" ||
+  pbu_extract_arg '' 'out-milliseconds' "$@" ||
+  pbu_extract_arg '' 'out-seconds' "$@" ||
   pbu_error_echo "At least one of args --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds is required" || return 1
   
   local input="$(date +%s%N)" # default is now

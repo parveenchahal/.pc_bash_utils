@@ -1,3 +1,15 @@
+if [ -f ~/.pc_bash_utils/.lastupdate ]
+then
+  local days30past="$(date -d "-1 minute" +"%s")"
+  local lastUpdate=$(cat ~/.pc_bash_utils/.lastupdate)
+  if [ "$lastUpdate" -lt "$days30past" ]
+  then
+    echo "Please run update-pc-bash-utils to update pc bash utils"
+  fi
+else
+  date +"%s" > ~/.pc_bash_utils/.lastupdate
+fi
+
 alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - && source ~/.pc_bash_utils/init.sh'
 source ~/.pc_bash_utils/default-options-for-commands.sh
 source ~/.pc_bash_utils/parse_arguments.sh

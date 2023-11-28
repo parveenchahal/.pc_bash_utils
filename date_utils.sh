@@ -34,10 +34,10 @@ function date-from-epoch() {
 
 complete -W "--date --out-nanoseconds --out-milliseconds --out-microseconds --out-seconds" date-to-epoch
 function date-to-epoch() {
-  pbu_extract_arg '' 'out-nanoseconds' "$@" ||
-  pbu_extract_arg '' 'out-microseconds' "$@" ||
-  pbu_extract_arg '' 'out-milliseconds' "$@" ||
-  pbu_extract_arg '' 'out-seconds' "$@" ||
+  pbu_is_arg_present '' 'out-nanoseconds' "$@" ||
+  pbu_is_arg_present '' 'out-microseconds' "$@" ||
+  pbu_is_arg_present '' 'out-milliseconds' "$@" ||
+  pbu_is_arg_present '' 'out-seconds' "$@" ||
   pbu_error_echo "At least one of args --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds is required" || return 1
   
   local input="$(date +%s%N)" # default is now

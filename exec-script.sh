@@ -12,7 +12,7 @@ function exec-script() {
   _pbu_create_exec_script_dir_if_not_created
   cd ~/.exec-script
   eval "\"./$name.sh\""
-  cd -
+  cd - > /dev/null 2>&1
 }
 
 complete -W "-n --name -e --editor" edit-exec-script

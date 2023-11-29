@@ -27,11 +27,10 @@ function edit-exec-script() {
   _pbu_create_exec_script_dir_if_not_created
   pbu_extract_arg 'e' 'editor' "$@" || REPLY=vim
   local editor="$REPLY"
-  cd ~/.exec-script
   if [ ! -f "$name.sh" ]
   then
-    eval "touch \"$name.sh\""
-    eval "chmod +x \"$name.sh\""
+    eval "touch \"~/.exec-script/$name.sh\""
+    eval "chmod +x \"~/.exec-script/$name.sh\""
   fi
   eval "$editor \"~/.exec-script/$name.sh\""
 }

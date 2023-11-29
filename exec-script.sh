@@ -11,7 +11,7 @@ function exec-script() {
   local name="$REPLY"
   _pbu_create_exec_script_dir_if_not_created
   cd ~/.exec-script
-  eval "\"./$name.sh\""
+  eval "\"./$name.sh\" \"$@\""
   cd - > /dev/null 2>&1
 }
 

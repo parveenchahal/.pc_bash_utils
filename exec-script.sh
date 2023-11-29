@@ -30,7 +30,7 @@ function edit-exec-script() {
   cd ~/.exec-script
   if [ ! -f "$name.sh" ]
   then
-    eval "touch \"$name\""
+    eval "touch \"$name.sh\""
     eval "chmod +x \"$name.sh\""
   fi
   eval "$editor \"~/.exec-script/$name.sh\""

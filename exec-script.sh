@@ -11,12 +11,7 @@ function exec-script() {
   local name="$REPLY"
   _pbu_create_exec_script_dir_if_not_created
   cd ~/.exec-script
-  if [ ! -f "$name.sh" ]
-  then
-    eval "touch \"$name\""
-    eval "chmod +x \"$name.sh\""
-  fi
-  eval "bash \"$name.sh\""
+  eval "\"$name.sh\""
   cd -
 }
 

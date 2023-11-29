@@ -22,6 +22,7 @@ function exec-script() {
 
 complete -W "-n --name -e --editor" edit-exec-script
 function edit-exec-script() {
+  local basePath="$(realpath ~/.exec-script)"
   pbu_extract_arg 'n' 'name' "$@" || pbu_error_echo "-n/--name is required argument." || return 1
   local name="$REPLY"
   _pbu_create_exec_script_dir_if_not_created
@@ -29,8 +30,8 @@ function edit-exec-script() {
   local editor="$REPLY"
   if [ ! -f "$name.sh" ]
   then
-    eval "touch \"~/.exec-script/$name.sh\""
-    eval "chmod +x \"~/.exec-script/$name.sh\""
+    eval "touch \"$basePath/$name.sh\""
+    eval "chmod +x \"$basePath/$name.sh\""
   fi
-  eval "$editor \"~/.exec-script/$name.sh\""
+  eval "$editor \"$basePath/$name.sh\""
 }

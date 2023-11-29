@@ -28,7 +28,7 @@ function edit-exec-script() {
   _pbu_create_exec_script_dir_if_not_created
   pbu_extract_arg 'e' 'editor' "$@" || REPLY=vim
   local editor="$REPLY"
-  if [ ! -f "$name.sh" ]
+  if [ ! -f "$basePath/$name.sh" ]
   then
     eval "touch \"$basePath/$name.sh\""
     eval "chmod +x \"$basePath/$name.sh\""

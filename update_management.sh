@@ -14,7 +14,7 @@ if [ "$lastupdatecheck" != "disabled" ]
 then
   if [ "$lastupdatecheck" -lt "$hours2past" ]
   then
-    cd ~/.pc_bash_utils
+    pushd ~/.pc_bash_utils > /dev/null
     updatePending=$(cat ~/.pc_bash_utils/.updatepending)
     if [ "$updatePending" == "0" ]
     then
@@ -29,8 +29,8 @@ then
     else
       date +"%s" > ~/.pc_bash_utils/.lastupdatecheck
     fi
-    cd - > /dev/null 2>&1
+    popd > /dev/null
   fi
 fi
 
-alias update-pc-bash-utils='cd ~/.pc_bash_utils && git pull && cd - > /dev/null 2>&1 && echo "0" > ~/.pc_bash_utils/.updatepending && source ~/.pc_bash_utils/init.sh'
+alias update-pc-bash-utils='pushd ~/.pc_bash_utils > /dev/null && git pull && popd > /dev/null && echo "0" > ~/.pc_bash_utils/.updatepending && source ~/.pc_bash_utils/init.sh'

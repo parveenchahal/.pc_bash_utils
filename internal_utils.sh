@@ -167,14 +167,12 @@ function pbu_read_input_date() {
 }
 
 function pbu_copy_file_to_local_bin() {
-  if [ ! -d ~/.local ]
-  then
-    mkdir ~/.local
-  fi
-  if [ ! -d ~/.local/bin ]
-  then
-    mkdir ~/.local/bin
-  fi
-  cp $1/$2 ~/.local/bin/
-  chmod +rx ~/.local/bin/$2
+  pbu_is_file_exist "$1" || pbu_error_echo "file $1 does not exist" || return 1
+  
+  pbu_get_full_path "$1"
+  local fullpath="$REPLY"
+  
+  pbu_create_dir_if_does_not_exist ~/.local/bin
+  cp "$fullpath" ~/.local/bin/
+  chmod +rx "$(realpath ~/.local/bin)/$(basename "$fullpath")"
 }

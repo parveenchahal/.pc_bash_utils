@@ -16,7 +16,7 @@ function edit-py-script() {
   pbu_create_dir_if_does_not_exist ~/.py-script
   pbu_extract_arg '' 'editor' "$@" || REPLY=vim
   local editor="$REPLY"
-  pbu_create_dir_if_does_not_exist "$basePath/$name.py"
+  pbu_create_file_if_does_not_exist "$basePath/$name.py"
   eval "$editor \"$basePath/$name.py\""
 }
 

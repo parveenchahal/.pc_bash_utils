@@ -1,8 +1,8 @@
 function pbu_create_dir_if_does_not_exist() {
   local path="$1"
   local fullPath="$path"
-  [[ "$path" =~ ^\/.* ]] && fullPath="$(realpath .)/$path"
-  [[ "$path" =~ ^\~\/.* ]] && fullPath="$(realpath ~)/${path:2}"
+  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
+  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
   [ -d "$fullPath" ] || eval "mkdir \"$fullPath\""
 }
 

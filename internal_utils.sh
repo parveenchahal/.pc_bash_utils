@@ -138,7 +138,7 @@ function pbu_is_dir_exist() {
 function pbu_create_dir_if_does_not_exist() {
   pbu_get_full_path "$1"
   local fullPath="$REPLY"
-  [ -d "$fullPath" ] || eval "mkdir \"$fullPath\""
+  [ -d "$fullPath" ] || eval "mkdir -p \"$fullPath\""
 }
 
 function pbu_create_file_if_does_not_exist() {

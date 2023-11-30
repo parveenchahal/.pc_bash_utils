@@ -1,11 +1,3 @@
-function pbu_create_dir_if_does_not_exist() {
-  local path="$1"
-  local fullPath="$path"
-  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
-  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
-  [ -d "$fullPath" ] || eval "mkdir \"$fullPath\""
-}
-
 function pbu_is_equal() {
   local x="$1"
   shift
@@ -136,11 +128,22 @@ function pbu_is_file_exist() {
   return 0
 }
 
+function pbu_is_dir_exist() {
+  pbu_get_full_path "$1"
+  local fullPath="$REPLY"
+  [ -d "$fullPath" ] || return 1
+  return 0
+}
+
+function pbu_create_dir_if_does_not_exist() {
+  pbu_get_full_path "$1"
+  local fullPath="$REPLY"
+  [ -d "$fullPath" ] || eval "mkdir \"$fullPath\""
+}
+
 function pbu_create_file_if_does_not_exist() {
-  local path="$1"
-  local fullPath="$path"
-  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
-  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
+  pbu_get_full_path "$1"
+  local fullPath="$REPLY"
   [ -f "$fullPath" ] || eval "touch \"$fullPath\""
 }
 

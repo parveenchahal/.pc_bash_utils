@@ -3,7 +3,6 @@ function exec-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.exec-script
-  _pbu_create_exec_script_dir_if_not_created
   cd ~/.exec-script
   eval "\"./$name.sh\" \"$@\""
   cd - > /dev/null 2>&1

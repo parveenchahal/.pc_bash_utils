@@ -1,14 +1,8 @@
-function _pbu_create_exec_script_dir_if_not_created() {
-  if [ ! -d ~/.exec-script ]
-  then
-    mkdir ~/.exec-script
-  fi
-}
-
 complete -W "--script-name" exec-script
 function exec-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
+  pbu_create_dir_if_does_not_exist ~/.exec-script
   _pbu_create_exec_script_dir_if_not_created
   cd ~/.exec-script
   eval "\"./$name.sh\" \"$@\""
@@ -20,7 +14,7 @@ function edit-exec-script() {
   local basePath="$(realpath ~/.exec-script)"
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
-  _pbu_create_exec_script_dir_if_not_created
+  pbu_create_dir_if_does_not_exist ~/.exec-script
   pbu_extract_arg '' 'editor' "$@" || REPLY=vim
   local editor="$REPLY"
   if [ ! -f "$basePath/$name.sh" ]

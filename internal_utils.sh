@@ -6,14 +6,6 @@ function pbu_create_dir_if_does_not_exist() {
   [ -d "$fullPath" ] || eval "mkdir \"$fullPath\""
 }
 
-function pbu_create_file_if_does_not_exist() {
-  local path="$1"
-  local fullPath="$path"
-  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
-  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
-  [ -f "$fullPath" ] || eval "touch \"$fullPath\""
-}
-
 function pbu_is_equal() {
   local x="$1"
   shift
@@ -128,14 +120,28 @@ function pbu_confirm() {
   done
 }
 
-function pbu_is_file_exist() {
+function pbu_get_full_path() {
   local path="$1"
-  pbu_is_not_empty "$path" || pbu_error_echo "file path can not be empty" || return 1
+  pbu_is_not_empty "$path" || pbu_error_echo "path can not be empty" || return 1
   local fullPath="$path"
   [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
   [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
+  REPLY="$fullPath"
+}
+
+function pbu_is_file_exist() {
+  pbu_get_full_path "$1"
+  local fullPath="$REPLY"
   [ -f "$fullPath" ] || return 1
   return 0
+}
+
+function pbu_create_file_if_does_not_exist() {
+  local path="$1"
+  local fullPath="$path"
+  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
+  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
+  [ -f "$fullPath" ] || eval "touch \"$fullPath\""
 }
 
 function pbu_read_input_date() {

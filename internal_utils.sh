@@ -129,12 +129,13 @@ function pbu_confirm() {
 }
 
 function pbu_is_file_exist() {
-  pbu_is_not_empty "$1" || (echo "file path can not be empty"; return 1)
-  if [ -f "$1" ]
-  then
-    return 0
-  fi
-  return 1
+  local path="$1"
+  pbu_is_not_empty "$path" || pbu_error_echo "file path can not be empty" || return 1
+  local fullPath="$path"
+  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
+  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
+  [ -f "$fullPath" ] || return 1
+  return 0
 }
 
 function pbu_read_input_date() {

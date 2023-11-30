@@ -4,7 +4,7 @@ function exec-py-script() {
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.py-script
   cd ~/.py-script
-  eval "\"python3 $name.py\""
+  python3 "$name.py"
   cd - > /dev/null 2>&1
 }
 

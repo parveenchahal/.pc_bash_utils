@@ -1,13 +1,7 @@
 function pbu_create_dir_if_does_not_exist() {
   local fullPath="$1"
-  if [ ! "$1" == "/*" ]
-  then
-    fullPath="$(realpath .)/$1"
-  fi
-  if [ ! -d "$fullPath" ]
-  then
-    mkdir "$fullPath"
-  fi
+  [[ ! "$x" =~ ^\/.* ]] || fullPath="$(realpath .)/$1"
+  [ -d "$fullPath" ] || mkdir "$fullPath"
 }
 
 function pbu_is_equal() {

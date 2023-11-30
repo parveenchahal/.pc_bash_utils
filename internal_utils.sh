@@ -6,6 +6,14 @@ function pbu_create_dir_if_does_not_exist() {
   [ -d "$fullPath" ] || eval "mkdir \"$fullPath\""
 }
 
+function pbu_create_file_if_does_not_exist() {
+  local path="$1"
+  local fullPath="$path"
+  [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
+  [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
+  [ -f "$fullPath" ] || eval "touch \"$fullPath\""
+}
+
 function pbu_is_equal() {
   local x="$1"
   shift

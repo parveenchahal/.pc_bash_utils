@@ -1,5 +1,5 @@
-complete -W "--script-name" exec-script
-function exec-script() {
+complete -W "--script-name" exec-bash-script
+function exec-bash-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.exec-script
@@ -8,8 +8,8 @@ function exec-script() {
   cd - > /dev/null 2>&1
 }
 
-complete -W "--script-name --editor" edit-exec-script
-function edit-exec-script() {
+complete -W "--script-name --editor" edit-bash-script
+function edit-bash-script() {
   local basePath="$(realpath ~/.exec-script)"
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"

@@ -3,9 +3,9 @@ function exec-py-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.py-script
-  cd ~/.py-script
+  pushd ~/.py-script > /dev/null
   python3 "$name.py"
-  cd - > /dev/null 2>&1
+  popd > /dev/null
 }
 
 complete -W "--script-name --editor" edit-py-script

@@ -28,7 +28,7 @@ function date-from-epoch() {
   then
     date -u -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}Z"
   else
-    date -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}%z"
+    date -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}%:z"
   fi
 }
 

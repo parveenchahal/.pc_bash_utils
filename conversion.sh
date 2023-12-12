@@ -15,13 +15,13 @@ function num-hex-to-bin() {
 function num-bin-to-hex() {
   py-exec "
     b = '$1'
-    if (len(b) % 4) != 0:
-      b = ('0' * (4 - len(b) % 4)) + b
-    h = []
-    for i in range(0, len(b), 4):
-      x = b[i:i+4]
-      h.append(hex(int(x, base=2))[2:])
-    print(''.join(h))
+if (len(b) % 4) != 0:
+  b = ('0' * (4 - len(b) % 4)) + b
+h = []
+for i in range(0, len(b), 4):
+  x = b[i:i+4]
+  h.append(hex(int(x, base=2))[2:])
+print(''.join(h))
   "
 }
 

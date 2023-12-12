@@ -12,7 +12,7 @@ function num-hex-to-bin() {
   #echo "obase=2; ibase=16; $input" | bc
 }
 
-funciton num-bin-to-hex() {
+function num-bin-to-hex() {
   py-exec "
     b = '$1'
     if (len(b) % 4) != 0:

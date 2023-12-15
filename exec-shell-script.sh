@@ -4,7 +4,7 @@ function exec-bash-script() {
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
-  eval "\"./$name.sh\" \"$@\""
+  eval ". \"./$name.sh\" \"$@\""
   popd > /dev/null
 }
 

@@ -1,6 +1,6 @@
 complete -W "--table-definition-base64 --limit --select --table --where" pbu_sql_filter_query_echo
 function pbu_sql_filter_query_echo() {
-  pbu_extract_arg '' 'limit' "$@" || REPLY="100"
+  pbu_extract_arg '' 'limit' "$@" || REPLY="10"
   local limit="$REPLY"
   
   pbu_extract_arg '' 'table' "$@" || pbu_error_echo "--table is required arg" || return 1

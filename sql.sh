@@ -1,4 +1,4 @@
-complete -W "--table-definition-base64 --limit --select --table" pbu_sql_filter
+complete -W "--table-definition-base64 --limit --select --table --where" pbu_sql_filter_query_echo
 function pbu_sql_filter_query_echo() {
   pbu_extract_arg '' 'limit' "$@" || REPLY="100"
   local limit="$REPLY"

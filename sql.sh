@@ -27,10 +27,8 @@ EOF
   
   local where=""
   pbu_extract_arg '' 'where' "$@" || pbu_error_echo "At least one where condition is required" || return 1
-  echo "WHERE ${REPLY[@]}  $@"
   for w in "${REPLY[@]}"
   do
-    #echo "${w[*]}"
     if [ "$where" == "" ]
     then
       where="${w[@]}"

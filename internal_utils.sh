@@ -165,3 +165,10 @@ function pbu_read_input_date() {
   REPLY="${date_str}T${time_str}.0Z"
   return 0
 }
+
+function pbu_string_join {
+  local d=${1-} f=${2-}
+  if shift 2; then
+    printf %s "$f" "${@/#/$d}"
+  fi
+}

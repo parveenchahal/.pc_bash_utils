@@ -86,12 +86,12 @@ function pbu_is_empty() {
 function pbu_is_not_empty() {
   for x in "$@"
   do
-    if [ "$x" == "" ]
+    if [ "$x" != "" ]
     then
-      return 1
+      return 0
     fi
   done
-  return 0
+  return 1
 }
 
 function pbu_confirm() {

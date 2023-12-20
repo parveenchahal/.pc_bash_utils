@@ -109,20 +109,6 @@ function pbu_extract_arg() {
 #   return 1
 # }
 
-function pbu_is_arg_present() {
-  local short_key="$1"
-  shift
-  local long_key="$1"
-  shift
-  pbu_extract_arg "$short_key" "$long_key" "$@" || return 1
-  return 0
-}
-
-function pbu_is_arg_not_present() {
-  pbu_is_arg_present "$@" || return 0
-  return 1
-}
-
 function pbu_is_arg_switch_enabled() {
   local short_key="$1"
   shift

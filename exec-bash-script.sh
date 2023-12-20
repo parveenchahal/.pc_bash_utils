@@ -2,13 +2,13 @@ function pbu_complete-fn-exec-bash-script(){
   if [ "$3" == "--script-name" ]
   then
     local values=()
-    local files=( "$(ls ~/.bash-script | grep .*\.sh | xargs)" )
     for file in ~/.bash-script/*.sh
     do
-      local name=${file##*/}
-      values+=( "${name%.sh}" )
+      local name="$(basename "$file")"
+      values+=( "'$(printf %q "${name%.sh}")'" )
     done
-    COMPREPLY=( $(compgen -W "$(pbu_string_join ' ' "${values[@]}")" -- "$2") )
+    values="$(pbu_string_join ' ' "${values[@]}")"
+    COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --in-current-bash-session" -- "$2") )
   fi

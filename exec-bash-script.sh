@@ -1,4 +1,20 @@
-complete -W "--script-name" exec-bash-script
+function pbu_complete-fn-exec-bash-script(){
+  if [ "$3" == "--script-name" ]
+  then
+    local values=()
+    local files=( "$(ls ~/.bash-script | grep .*\.sh | xargs)" )
+    for file in ~/.bash-script/*.sh
+    do
+      local name=${file##*/}
+      values+=( "${name%.sh}" )
+    done
+    COMPREPLY=( $(compgen -W "$(pbu_string_join ' ' "${values[@]}")" -- "$2") )
+  else
+    COMPREPLY=( $(compgen -W "--script-name" -- "$2") )
+  fi
+}
+
+complete -F pbu_complete-fn-exec-bash-script exec-bash-script
 function exec-bash-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
@@ -8,7 +24,24 @@ function exec-bash-script() {
   popd > /dev/null
 }
 
-complete -W "--script-name --editor" edit-bash-script
+
+function pbu_complete-fn-edit-bash-script(){
+  if [ "$3" == "--script-name" ]
+  then
+    local values=()
+    local files=( "$(ls ~/.bash-script | grep .*\.sh | xargs)" )
+    for file in ~/.bash-script/*.sh
+    do
+      local name=${file##*/}
+      values+=( "${name%.sh}" )
+    done
+    COMPREPLY=( $(compgen -W "$(pbu_string_join ' ' "${values[@]}")" -- "$2") )
+  else
+    COMPREPLY=( $(compgen -W "--script-name --editor" -- "$2") )
+  fi
+}
+
+complete -F pbu_complete-fn-edit-bash-script edit-bash-script
 function edit-bash-script() {
   local basePath="$(realpath ~/.bash-script)"
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1

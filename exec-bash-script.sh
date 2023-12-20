@@ -10,17 +10,23 @@ function pbu_complete-fn-exec-bash-script(){
     done
     COMPREPLY=( $(compgen -W "$(pbu_string_join ' ' "${values[@]}")" -- "$2") )
   else
-    COMPREPLY=( $(compgen -W "--script-name" -- "$2") )
+    COMPREPLY=( $(compgen -W "--script-name --in-current-bash-session" -- "$2") )
   fi
 }
 
 complete -F pbu_complete-fn-exec-bash-script exec-bash-script
 function exec-bash-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
+
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
-  eval ". \"./$name.sh\""
+  if pbu_is_arg_switch_enabled '' 'in-current-bash-session' "#@";
+  then
+    eval ". \"./$name.sh\""
+  else
+    eval "\"./$name.sh\"" "$@"
+  fi
   popd > /dev/null
 }
 

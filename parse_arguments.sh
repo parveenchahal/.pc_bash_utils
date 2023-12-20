@@ -118,6 +118,11 @@ function pbu_is_arg_present() {
   return 0
 }
 
+function pbu_is_arg_not_present() {
+  pbu_is_arg_present "$@" || return 0
+  return 1
+}
+
 function pbu_is_arg_switch_enabled() {
   local short_key="$1"
   shift
@@ -127,9 +132,4 @@ function pbu_is_arg_switch_enabled() {
   local value="$REPLY"
   pbu_is_equal "false" "$value" && return 1
   return 0
-}
-
-function pbu_is_arg_not_present() {
-  pbu_is_arg_present "$@" || return 0
-  return 1
 }

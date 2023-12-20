@@ -117,12 +117,5 @@ function pbu_is_arg_switch_enabled() {
   pbu_extract_arg "$short_key" "$long_key" "$@" || return 1
   local value="$REPLY"
   pbu_is_equal "false" "$value" && return 1
-  pbu_is_equal "true" "$value" && return 0
-  
-  local name=()
-  pbu_is_empty "$short_key" || name+=("-$short_key")
-  pbu_is_empty "$long_key" || name+=("--$long_key")
-  [[ "$value" == -* || "$value" == "" ]] || pbu_error_echo "Invalid value for $(pbu_string_join '/' "${name[@]}"). It can be either true or false." || return 1
-  
   return 0
 }

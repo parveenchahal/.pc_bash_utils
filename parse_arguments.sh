@@ -116,6 +116,6 @@ function pbu_is_arg_switch_enabled() {
   shift
   pbu_extract_arg "$short_key" "$long_key" "$@" || return 1
   local value="$REPLY"
-  pbu_is_equal "false" "$value" && return 1
+  [ "$value" == "false" ] && return 1
   return 0
 }

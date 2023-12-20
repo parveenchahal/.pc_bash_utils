@@ -1,4 +1,4 @@
-complete -W "--define-base64 --limit --select --table --where" pbu_sql_filter_query_echo
+complete -W "--pre-define-base64 --limit --select --table --where" pbu_sql_filter_query_echo
 function pbu_sql_filter_query_echo() {
   pbu_extract_arg '' 'limit' "$@" || REPLY="10"
   local limit="$REPLY"
@@ -43,7 +43,7 @@ EOF
 
   local query=''
 
-  pbu_extract_arg '' 'define-base64' "$@" && query=$(cat<<EOF
+  pbu_extract_arg '' 'pre-define-base64' "$@" && query=$(cat<<EOF
 $(echo "$REPLY" | base64 -d)
 
 --

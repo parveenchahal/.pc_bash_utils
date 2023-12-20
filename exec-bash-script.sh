@@ -25,7 +25,7 @@ function exec-bash-script() {
   then
     eval ". \"./$name.sh\""
   else
-    eval "\"./$name.sh\"" "$@"
+    eval "\"./$name.sh\" \"$@\""
   fi
   popd > /dev/null
 }

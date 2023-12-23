@@ -1,23 +1,34 @@
 alias j-desktop='cd ~/Desktop'
 alias j-downloads='cd ~/Downloads'
 
+complete -W '--editor' tmp
 function tmp() {
-  if [ -z "$1" ]
+  local ARGS=$(getopt -q -l "editor:" -- "" "$@")
+  eval set -- "$ARGS"
+
+  pbu_non_option_arg_from_getopt_formated "$@"
+  local path="$REPLY"
+  
+  if [ -z "$path" ]
   then
     cd /tmp
     return 0
   fi
-  local path="/tmp/$1"
+  
+  local path="/tmp/$path"
   if [ -f "$path" ]
   then
-    vim "$path"
+    pbu_extract_arg '' 'editor' "$@" || REPLY="vim"
+    eval "$REPLY \"$path\""
     return 0
   fi
+  
   if [ -d "$path" ]
   then
     cd "$path"
     return 0
   fi
-  echo "Invalid path."
+  
+  pbu_error_echo "Invalid path."
   return 1
 }

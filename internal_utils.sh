@@ -66,8 +66,12 @@ function pbu_echo_error() {
 }
 
 function pbu_eval_cmd() {
-  echo "Executing command: $@"
   eval "$@"
+}
+
+function pbu_eval_cmd_with_echo() {
+  echo "Executing command: $@"
+  pbu_eval_cmd "$@"
 }
 
 function pbu_read_input() {

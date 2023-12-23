@@ -124,3 +124,17 @@ function pbu_is_arg_switch_enabled() {
   [ "$value" == "false" ] && return 1
   return 0
 }
+
+function pbu_non_option_arg_from_getopt_formated() {
+  REPLY=""
+  while [ $# -gt 0 ]
+  do
+    if [ "$1" == "--" ]
+    then
+      REPLY="$2"
+      return 0
+    fi
+    shift
+  done
+  return 1
+}

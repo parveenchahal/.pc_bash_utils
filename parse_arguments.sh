@@ -52,7 +52,7 @@ function pbu_extract_arg() {
   REPLY=()
   local found=0
   while [ "${#@}" != "0" ] ; do
-    if [ [ "$1" == "--" ] || [ "$1" == "-" ] ]
+    if [[ "$1" == "--" || "$1" == "-" ]]
     then
       shift
       continue

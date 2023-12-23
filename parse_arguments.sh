@@ -52,6 +52,11 @@ function pbu_extract_arg() {
   REPLY=()
   local found=0
   while [ "${#@}" != "0" ] ; do
+    if [ [ "$1" == "--" ] || [ "$1" == "-" ] ]
+    then
+      shift
+      continue
+    fi
     case "$1" in
       --$long_key)
           REPLY+=( "$2" ); found=1 ; shift ;;

@@ -2,6 +2,7 @@
 
 source ~/.pc_bash_utils/default-options-for-commands.sh
 source ~/.pc_bash_utils/parse_arguments.sh
+source ~/.pc_bash_utils/eval.sh
 source ~/.pc_bash_utils/internal_utils.sh
 source ~/.pc_bash_utils/python.sh
 source ~/.pc_bash_utils/common-jump.sh

@@ -65,15 +65,6 @@ function pbu_echo_error() {
   return $?
 }
 
-function pbu_eval_cmd() {
-  eval "$@"
-}
-
-function pbu_eval_cmd_with_echo() {
-  echo "Executing command: $@"
-  pbu_eval_cmd "$@"
-}
-
 function pbu_read_input() {
   if [ ! -z "$1" ]
   then

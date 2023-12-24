@@ -19,7 +19,7 @@ function tmp() {
   if [ -f "$path" ]
   then
     pbu_extract_arg '' 'editor' "$@" || REPLY="vim"
-    eval "$REPLY \"$path\""
+    pbu_eval_cmd "$REPLY" "\"$path\""
     return 0
   fi
   

@@ -38,11 +38,10 @@ function openssl-decode-key() {
   
   if [ "$is_pub" == "0" ]
   then
-    cmd="openssl $key_type -pubin -inform $inform -in \"$file\" -text -noout"
+    pbu_eval_cmd_with_echo openssl "$key_type" -pubin -inform "$inform" -in "$file" -text -noout
   else [ "$is_pub" == "1" ]
-    cmd="openssl $key_type -inform $inform -in \"$file\" -text -noout"
+    pbu_eval_cmd_with_echo openssl "$key_type" -inform "$inform" -in "$file" -text -noout
   fi
-  pbu_eval_cmd "$cmd"
 }
 
 complete -d -f -W "-f --file --inform" openssl-decode-asn1

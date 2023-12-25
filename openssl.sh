@@ -9,7 +9,7 @@ function pbu_openssl_decode() {
   local inform=$REPLY
   
   cmd="openssl $type -inform $inform -in \"$file\" -text -noout"
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo "$cmd"
 }
 
 complete -d -f -W "-f --file --inform" openssl-decode-cert 

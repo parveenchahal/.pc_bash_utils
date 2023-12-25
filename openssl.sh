@@ -50,8 +50,7 @@ function openssl-decode-asn1() {
   local file=$REPLY
   pbu_extract_arg '' 'inform' "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
-  cmd="openssl asn1parse -inform $inform -in \"$file\""
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo openssl asn1parse -inform "$inform" -in "$file"
 }
 
 complete -d -f -W "-f --file --inform -o --outfile" openssl-tbs-extract
@@ -65,8 +64,7 @@ function openssl-tbs-extract() {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  cmd="openssl asn1parse -inform $inform -in \"$file\" -out \"$outfile\" -strparse 4 -noout"
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse 4 -noout
 }
 
 complete -d -f -W "-f --file --inform -o --outfile" openssl-signature-extract

@@ -80,8 +80,7 @@ function openssl-signature-extract() {
   
   local x=$(openssl asn1parse -inform $inform -in "$file" | tail -n 1 | cut -d ":" -f 1 | xargs)
   
-  cmd="openssl asn1parse -inform $inform -in \"$file\" -out \"$outfile\" -strparse $x -noout"
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse "$x" -noout
 }
 
 complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-der-to-pem
@@ -92,8 +91,7 @@ function openssl-x509-convert-der-to-pem () {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  cmd="openssl x509 -inform der -in \"$file\" -outform pem -out $outfile -noout"
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo openssl x509 -inform der -in "$file" -outform pem -out "$outfile" -noout
 }
 
 complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-pem-to-der
@@ -104,8 +102,7 @@ function openssl-x509-convert-pem-to-der () {
   pbu_extract_arg 'o' 'outfile' "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  cmd="openssl x509 -inform pem -in \"$file\" -outform der -out $outfile -noout"
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo openssl x509 -inform pem -in "$file" -outform der -out $outfile -noout
 }
 
 complete -d -f -W "-f --file -o --outfile --inform --outform" openssl-publickey-extract
@@ -122,6 +119,5 @@ function openssl-publickey-extract() {
   pbu_extract_arg '' 'outform' "$@" || pbu_read_input "--outform (der/pem): "
   local outform=$REPLY
   
-  cmd="openssl x509 -pubkey -inform $inform -in \"$file\" -outform $outform -out $outfile -noout"
-  pbu_eval_cmd "$cmd"
+  pbu_eval_cmd_with_echo openssl x509 -pubkey -inform "$inform" -in "$file" -outform "$outform" -out "$outfile" -noout
 }

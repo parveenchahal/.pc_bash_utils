@@ -57,7 +57,7 @@ function edit-py-script() {
   pbu_extract_arg '' 'editor' "$@" || REPLY=vim
   local editor="$REPLY"
   pbu_create_file_if_does_not_exist "$basePath/$name.py"
-  eval "$editor \"$basePath/$name.py\""
+  pbu_eval_cmd "$editor" "$basePath/$name.py"
 }
   
 function py-exec() {

@@ -49,6 +49,8 @@ function pbu_extract_arg() {
   local long_key="$1"
   shift
 
+  REMAINING_ARGS=()
+
   REPLY=()
   local found=0
   while [ "${#@}" != "0" ] ; do
@@ -66,9 +68,12 @@ function pbu_extract_arg() {
           REPLY+=( "${1#"--$long_key="}" ); found=1 ;;
       -$short_key=*)
           REPLY+=( "${1#"-$short_key="}" ); found=1 ;;
+      *)
+          REMAINING_ARGS+=( "$1" );;
     esac
     shift
   done
+
   if [ "$found" == 0 ]
   then
     REPLY=""

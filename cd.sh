@@ -1,5 +1,5 @@
-alias j-desktop='cd ~/Desktop'
-alias j-downloads='cd ~/Downloads'
+alias cd-desktop='cd ~/Desktop'
+alias cd-downloads='cd ~/Downloads'
 
 complete -W '--editor' tmp
 function tmp() {

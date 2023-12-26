@@ -3,8 +3,8 @@ source ~/.pc_bash_utils/internal/init.sh
 source ~/.pc_bash_utils/default-options-for-commands.sh
 source ~/.pc_bash_utils/python.sh
 source ~/.pc_bash_utils/common-jump.sh
-source ~/.pc_bash_utils/kubectl/init.sh
-source ~/.pc_bash_utils/git/init.sh
+source ~/.pc_bash_utils/kubectl.sh
+source ~/.pc_bash_utils/git.sh
 source ~/.pc_bash_utils/openssl.sh
 source ~/.pc_bash_utils/open.sh
 source ~/.pc_bash_utils/date_utils.sh

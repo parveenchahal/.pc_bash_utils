@@ -23,7 +23,7 @@ function exec-bash-script() {
   pushd ~/.bash-script > /dev/null
   if pbu_is_arg_switch_enabled '' 'in-current-bash-session' "$@";
   then
-    eval ". \"./$name.sh\""
+    pbu_eval_cmd "." "./$name.sh"
   else
     bash "$name.sh" "$@"
   fi
@@ -57,8 +57,8 @@ function edit-bash-script() {
   local editor="$REPLY"
   if [ ! -f "$basePath/$name.sh" ]
   then
-    eval "touch \"$basePath/$name.sh\""
-    eval "chmod +x \"$basePath/$name.sh\""
+    pbu_eval_cmd touch "$basePath/$name.sh"
+    pbu_eval_cmd chmod +x "$basePath/$name.sh"
   fi
-  eval "$editor \"$basePath/$name.sh\""
+  pbu_eval_cmd "$editor" "$basePath/$name.sh"
 }

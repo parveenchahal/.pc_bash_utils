@@ -1,4 +1,4 @@
-source ~/.pc_bash_utils/intenal/init.sh
+source ~/.pc_bash_utils/internal/init.sh
 . ~/.pc_bash_utils/update_management.sh
 
 source ~/.pc_bash_utils/default-options-for-commands.sh

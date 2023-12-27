@@ -1,3 +1,47 @@
+function pbu_extract_arg() {
+  local internal_args=()
+  while [ $# -gt 0 ]
+  do
+    if [ "$1" == "--" ]
+    then
+      shift
+      break
+    fi
+    case "$1" in
+      -s|--short)
+          internal_args+=( "$1" ) ;
+          internal_args+=( "$2" ) ;
+          shift ;
+          ;;
+      -l|--long)
+          internal_args+=( "$1" ) ;
+          internal_args+=( "$2" ) ;
+          shift ;
+          ;;
+      *)
+          pbu_error_echo "Invalid option "$1". Expected options are -s/--short or -l/--long before double-hyphen(--)." ;
+          return 1 ;
+          ;;
+    esac
+    shift
+  done
+
+  ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
+  local short_key="$REPLY"
+  ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
+  local long_key="$REPLY"
+
+  ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
+}
+
+function pbu_is_switch_arg_enabled() {
+  pbu_extract_arg "$@" || return 1
+  local value="$REPLY"
+  [ "$value" == "false" ] && return 1
+  [ "$value" == "true" ] && return 0
+  return 1
+}
+
 function ___pbu_extract_arg___() {
   local short_key="$1"
   shift
@@ -64,50 +108,6 @@ function ___pbu_extract_arg___() {
     return 1
   fi
   return 0
-}
-
-function pbu_extract_arg() {
-  local internal_args=()
-  while [ $# -gt 0 ]
-  do
-    if [ "$1" == "--" ]
-    then
-      shift
-      break
-    fi
-    case "$1" in
-      -s|--short)
-          internal_args+=( "$1" ) ;
-          internal_args+=( "$2" ) ;
-          shift ;
-          ;;
-      -l|--long)
-          internal_args+=( "$1" ) ;
-          internal_args+=( "$2" ) ;
-          shift ;
-          ;;
-      *)
-          pbu_error_echo "Invalid option "$1". Expected options are -s/--short or -l/--long before double-hyphen(--)." ;
-          return 1 ;
-          ;;
-    esac
-    shift
-  done
-
-  ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
-  local short_key="$REPLY"
-  ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
-  local long_key="$REPLY"
-
-  ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
-}
-
-function pbu_is_switch_arg_enabled() {
-  pbu_extract_arg "$@" || return 1
-  local value="$REPLY"
-  [ "$value" == "false" ] && return 1
-  [ "$value" == "true" ] && return 0
-  return 1
 }
 
 

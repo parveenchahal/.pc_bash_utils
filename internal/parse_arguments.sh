@@ -50,8 +50,8 @@ function pbu_extract_arg() {
   shift
 
   REMAINING_ARGS=()
-
   REPLY=()
+
   local found=0
   while [ "${#@}" != "0" ] ; do
     if [[ "$1" == "--" || "$1" == "-" ]]
@@ -61,13 +61,17 @@ function pbu_extract_arg() {
     fi
     case "$1" in
       --$long_key)
-          REPLY+=( "$2" ); found=1 ; shift ;;
+          found=1 ;
+          [ "$2" != "" ] && [[ ! "$2" =~ ^-.* ]] && REPLY+=( "$2" ) && shift ;;
       -$short_key)
-          REPLY+=( "$2" ); found=1 ; shift ;;
+          found=1 ;
+          [ "$2" != "" ] && [[ ! "$2" =~ ^-.* ]] && REPLY+=( "$2" ) && shift ;;
       --$long_key=*)
-          REPLY+=( "${1#"--$long_key="}" ); found=1 ;;
+          found=1 ;
+          REPLY+=( "${1#"--$long_key="}" ) ;;
       -$short_key=*)
-          REPLY+=( "${1#"-$short_key="}" ); found=1 ;;
+          found=1 ;
+          REPLY+=( "${1#"-$short_key="}" ) ;;
       *)
           REMAINING_ARGS+=( "$1" );;
     esac
@@ -76,7 +80,7 @@ function pbu_extract_arg() {
 
   if [ "$found" == 0 ]
   then
-    REPLY=""
+    REPLY=()
     return 1
   fi
   return 0

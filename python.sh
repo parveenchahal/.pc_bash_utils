@@ -25,7 +25,7 @@ function pbu_complete-fn-exec-py-script(){
 }
 complete -F pbu_complete-fn-exec-py-script exec-py-script
 function exec-py-script() {
-  pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
+  pbu_extract_arg '' 'script-name:' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   set -- "${REMAINING_ARGS[@]}"
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.py-script
@@ -52,10 +52,10 @@ function pbu_complete-fn-edit-py-script(){
 complete -F pbu_complete-fn-edit-py-script edit-py-script
 function edit-py-script() {
   local basePath="$(realpath ~/.py-script)"
-  pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
+  pbu_extract_arg '' 'script-name:' "$@" || pbu_error_echo "--script-name is required argument." || return 1
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.py-script
-  pbu_extract_arg '' 'editor' "$@" || REPLY=vim
+  pbu_extract_arg '' 'editor:' "$@" || REPLY=vim
   local editor="$REPLY"
   pbu_create_file_if_does_not_exist "$basePath/$name.py"
   pbu_eval_cmd "$editor" "$basePath/$name.py"

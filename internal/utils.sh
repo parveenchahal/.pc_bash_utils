@@ -167,3 +167,7 @@ function pbu_string_join {
     printf %s "$f" "${@/#/$d}"
   fi
 }
+
+function pbu_print_array {
+  pbu_string_join "', '" "$@"
+}

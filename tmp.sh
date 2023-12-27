@@ -1,10 +1,10 @@
-complete -W '--editor' tmp
-function tmp() {
-  local ARGS=$(getopt -q -l "editor:" -- "" "$@")
-  eval set -- "$ARGS"
 
-  pbu_non_option_arg_from_getopt_formated "$@"
-  local path="$REPLY"
+function tmp() {
+  pbu_extract_arg '' 'editor' "$@" || REPLY="vim"
+  local editor="$REPLY"
+  set -- "${REMAINING_ARGS[@]}"
+
+  local path="$1"
   
   if [ -z "$path" ]
   then
@@ -15,8 +15,8 @@ function tmp() {
   local path="/tmp/$path"
   if [ -f "$path" ]
   then
-    pbu_extract_arg '' 'editor' "$@" || REPLY="vim"
-    pbu_eval_cmd "$REPLY" "$path"
+
+    pbu_eval_cmd "$editor" "$path"
     return 0
   fi
   
@@ -25,7 +25,7 @@ function tmp() {
     cd "$path"
     return 0
   fi
-  
+
   pbu_error_echo "Invalid path."
   return 1
 }

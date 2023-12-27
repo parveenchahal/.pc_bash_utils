@@ -26,6 +26,7 @@ function pbu_complete-fn-exec-py-script(){
 complete -F pbu_complete-fn-exec-py-script exec-py-script
 function exec-py-script() {
   pbu_extract_arg '' 'script-name' "$@" || pbu_error_echo "--script-name is required argument." || return 1
+  set -- "${REMAINING_ARGS[@]}"
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.py-script
   pushd ~/.py-script > /dev/null

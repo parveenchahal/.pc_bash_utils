@@ -11,6 +11,7 @@ function pbu_eval_cmd() {
   do
     args+=( "$(pbu_format_string_for_eval "$x")" )
   done
+  set -- ""
   eval "${args[@]}"
 }
 

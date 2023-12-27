@@ -92,7 +92,7 @@ function pbu_extract_arg() {
           ;;
       -$short_key=*)
           found=1 ;
-          local val="${1#"--$long_key="}" ;
+          local val="${1#"-$short_key="}" ;
           [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for -$short_key. Expected true or false." || return 1;
           REPLY+=( "$val" )
           ;;

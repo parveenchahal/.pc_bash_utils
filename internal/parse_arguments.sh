@@ -155,19 +155,6 @@ function pbu_is_switch_arg_enabled() {
   pbu_extract_arg "$short_key" "$long_key" "$@" || return 1
   local value="$REPLY"
   [ "$value" == "false" ] && return 1
-  return 0
-}
-
-function pbu_non_option_arg_from_getopt_formated() {
-  REPLY=""
-  while [ $# -gt 0 ]
-  do
-    if [ "$1" == "--" ]
-    then
-      REPLY="$2"
-      return 0
-    fi
-    shift
-  done
+  [ "$value" == "true" ] && return 0
   return 1
 }

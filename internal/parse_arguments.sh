@@ -1,4 +1,4 @@
-function pbu_extract_arg() {
+function __pbu_extract_arg__() {
   local short_key="$1"
   shift
   local long_key="$1"
@@ -7,7 +7,7 @@ function pbu_extract_arg() {
   REMAINING_ARGS=( "$@" )
   REPLY=()
 
-  [ "$short_key" != "" ] || [ "$long_key" != "" ] || return 1
+  [ "$short_key" != "" ] || [ "$long_key" != "" ] || pbu_error_echo "At least one of either short or long option is required" || return 1
 
   local short_is_switch_arg=0
   [ "$short_key" != "" ] && [[ ! "$short_key" =~ .*:$ ]] && short_is_switch_arg=1
@@ -66,12 +66,44 @@ function pbu_extract_arg() {
   return 0
 }
 
+function pbu_extract_arg() {
+  local internal_args=()
+  while [ $# -gt 0 ]
+  do
+    if [ "$1" == "--" ]
+    then
+      shift
+      break
+    fi
+    case "$1" in
+      -s|--short)
+          internal_args+=( "$1" ) ;
+          internal_args+=( "$2" ) ;
+          shift ;
+          ;;
+      -l|--long)
+          internal_args+=( "$1" ) ;
+          internal_args+=( "$2" ) ;
+          shift ;
+          ;;
+      *)
+          pbu_error_echo "Invalid option "$1". Expected options are -s/--short or -l/--long before double-hyphen(--)." ;
+          return 1 ;
+          ;;
+    esac
+    shift
+  done
+
+  __pbu_extract_arg__ 's:' 'short:' "${internal_args[@]}"
+  local short_key="$REPLY"
+  __pbu_extract_arg__ 'l:' 'long:' "${internal_args[@]}"
+  local long_key="$REPLY"
+
+  __pbu_extract_arg__ "$short_key" "$long_key" "$@"
+}
+
 function pbu_is_switch_arg_enabled() {
-  local short_key="$1"
-  shift
-  local long_key="$1"
-  shift
-  pbu_extract_arg "$short_key" "$long_key" "$@" || return 1
+  pbu_extract_arg "$@" || return 1
   local value="$REPLY"
   [ "$value" == "false" ] && return 1
   [ "$value" == "true" ] && return 0

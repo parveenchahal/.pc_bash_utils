@@ -49,6 +49,8 @@ function pbu_extract_arg() {
   local long_key="$1"
   shift
 
+  [ "$short_key" != "" ] || [ "$long_key" != "" ] || return 1
+
   REMAINING_ARGS=()
   REPLY=()
 

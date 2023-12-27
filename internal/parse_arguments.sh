@@ -44,15 +44,31 @@
 # }
 
 function pbu_extract_arg() {
-  REMAINING_ARGS=()
-  REPLY=()
-
   local short_key="$1"
   shift
   local long_key="$1"
   shift
 
+  REMAINING_ARGS=( "$@" )
+  REPLY=()
+
   [ "$short_key" != "" ] || [ "$long_key" != "" ] || return 1
+
+  local short_is_switch_arg=0
+  [ "$short_key" != "" ] && [[ ! "$short_key" =~ .*:$ ]] && short_is_switch_arg=1
+  short_key=${short_key%:}
+
+  local long_is_switch_arg=0
+  [ "$long_key" != "" ] && [[ ! "$long_key" =~ .*:$ ]] && long_is_switch_arg=1
+  long_key=${long_key%:}
+
+  [ "$short_key" == "" ] || [ "$long_key" == "" ] || [ "$short_is_switch_arg" == "$long_is_switch_arg" ] || pbu_error_echo "Short and long args should be of same type either switch or key/value." || return 1
+
+  local is_switch_arg=0
+  [ "$short_is_switch_arg" == "1" ] && is_switch_arg=1
+  [ "$long_is_switch_arg" == "1" ] && is_switch_arg=1
+
+  REMAINING_ARGS=()
 
   local found=0
   while [ "${#@}" != "0" ] ; do
@@ -64,16 +80,20 @@ function pbu_extract_arg() {
     case "$1" in
       --$long_key)
           found=1 ;
-          [ "$2" != "" ] && [[ ! "$2" =~ ^-.* ]] && REPLY+=( "$2" ) && shift ;;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && REPLY+=( "$2" ) && shift ;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && REPLY+=( "$2" ) && shift ;;
       -$short_key)
           found=1 ;
-          [ "$2" != "" ] && [[ ! "$2" =~ ^-.* ]] && REPLY+=( "$2" ) && shift ;;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && REPLY+=( "$2" ) && shift ;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && REPLY+=( "$2" ) && shift ;;
       --$long_key=*)
           found=1 ;
-          REPLY+=( "${1#"--$long_key="}" ) ;;
+          local val="${1#"--$long_key="}" ;
+          REPLY+=( "$val" ) ;;
       -$short_key=*)
           found=1 ;
-          REPLY+=( "${1#"-$short_key="}" ) ;;
+          local val="${1#"--$long_key="}" ;
+          REPLY+=( "$val" ) ;;
       *)
           REMAINING_ARGS+=( "$1" );;
     esac

@@ -44,15 +44,15 @@
 # }
 
 function pbu_extract_arg() {
+  REMAINING_ARGS=()
+  REPLY=()
+
   local short_key="$1"
   shift
   local long_key="$1"
   shift
 
   [ "$short_key" != "" ] || [ "$long_key" != "" ] || return 1
-
-  REMAINING_ARGS=()
-  REPLY=()
 
   local found=0
   while [ "${#@}" != "0" ] ; do

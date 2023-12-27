@@ -11,7 +11,8 @@ function pbu_eval_cmd() {
   do
     args+=( "$(pbu_format_string_for_eval "$x")" )
   done
-  set -- ()
+  local t=()
+  set -- "${t[@]}"
   eval "${args[@]}"
 }
 

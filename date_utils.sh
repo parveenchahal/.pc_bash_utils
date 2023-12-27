@@ -19,7 +19,7 @@ function date-from-epoch() {
   local nanoseconds="$values"
 
   local tz='local'
-  pbu_is_switch_arg_enabled '' 'out-utc' "$@" && tz='utc'
+  pbu_is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
   
   local seconds=$(($nanoseconds / 1000000000))
   local rem=$(($nanoseconds % 1000000000))
@@ -34,10 +34,10 @@ function date-from-epoch() {
 
 complete -W "--date --out-nanoseconds --out-microseconds --out-milliseconds --out-seconds" date-to-epoch
 function date-to-epoch() {
-  pbu_is_switch_arg_enabled '' 'out-nanoseconds' "$@" ||
-  pbu_is_switch_arg_enabled '' 'out-microseconds' "$@" ||
-  pbu_is_switch_arg_enabled '' 'out-milliseconds' "$@" ||
-  pbu_is_switch_arg_enabled '' 'out-seconds' "$@" ||
+  pbu_is_switch_arg_enabled -l 'out-nanoseconds' -- "$@" ||
+  pbu_is_switch_arg_enabled -l 'out-microseconds' -- "$@" ||
+  pbu_is_switch_arg_enabled -l 'out-milliseconds' -- "$@" ||
+  pbu_is_switch_arg_enabled -l 'out-seconds' -- "$@" ||
   pbu_error_echo "At least one of args --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds is required" || return 1
   
   local input="$(date +%s%N)" # default is now
@@ -46,10 +46,10 @@ function date-to-epoch() {
   
   local values=()
   
-  pbu_is_switch_arg_enabled '' 'out-nanoseconds' "$@" && values+=("$input")  
-  pbu_is_switch_arg_enabled '' 'out-microseconds' "$@" && values+=( $(($input / 1000)) )
-  pbu_is_switch_arg_enabled '' 'out-milliseconds' "$@" && values+=( $(($input / 1000000)) ) 
-  pbu_is_switch_arg_enabled '' 'out-seconds' "$@" && values+=( "$(($input / 1000000000))" )
+  pbu_is_switch_arg_enabled -l 'out-nanoseconds' -- "$@" && values+=("$input")
+  pbu_is_switch_arg_enabled -l 'out-microseconds' -- "$@" && values+=( $(($input / 1000)) )
+  pbu_is_switch_arg_enabled -l 'out-milliseconds' -- "$@" && values+=( $(($input / 1000000)) )
+  pbu_is_switch_arg_enabled -l 'out-seconds' -- "$@" && values+=( "$(($input / 1000000000))" )
   
   pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds" || return 1
   
@@ -80,7 +80,7 @@ function pbu_date_add_sub() {
   pbu_is_equal "$op" "subtract" && newtime=$(($base - $diff))
   
   local tz='local'
-  pbu_is_switch_arg_enabled '' 'out-utc' "$@" && tz='utc'
+  pbu_is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
   
   
   if [ "$tz" == "utc" ]

@@ -80,18 +80,22 @@ function pbu_extract_arg() {
     case "$1" in
       --$long_key|-$short_key)
           found=1 ;
+          [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && REPLY+=( "true" ) ;
           [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && REPLY+=( "$2" ) && shift ;
-          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && REPLY+=( "$2" ) && shift ;;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && REPLY+=( "$2" ) && shift
+          ;;
       --$long_key=*)
           found=1 ;
           local val="${1#"--$long_key="}" ;
-          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for --$long_key. Expected true or false." ;
-          REPLY+=( "$val" ) ;;
+          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for --$long_key. Expected true or false." || return 1 ;
+          REPLY+=( "$val" )
+          ;;
       -$short_key=*)
           found=1 ;
           local val="${1#"--$long_key="}" ;
-          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for -$short_key. Expected true or false." ;
-          REPLY+=( "$val" ) ;;
+          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for -$short_key. Expected true or false." || return 1;
+          REPLY+=( "$val" )
+          ;;
       *)
           REMAINING_ARGS+=( "$1" );;
     esac

@@ -30,7 +30,7 @@ function exec-py-script() {
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.py-script
   pushd ~/.py-script > /dev/null
-  pbu_py "$name.py"
+  pbu_py "$name.py" "$@"
   popd > /dev/null
 }
 

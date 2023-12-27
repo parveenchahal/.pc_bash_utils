@@ -1,4 +1,4 @@
-function __pbu_extract_arg__() {
+function ___pbu_extract_arg___() {
   local short_key="$1"
   shift
   local long_key="$1"
@@ -94,12 +94,12 @@ function pbu_extract_arg() {
     shift
   done
 
-  __pbu_extract_arg__ 's:' 'short:' "${internal_args[@]}"
+  ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
   local short_key="$REPLY"
-  __pbu_extract_arg__ 'l:' 'long:' "${internal_args[@]}"
+  ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
   local long_key="$REPLY"
 
-  __pbu_extract_arg__ "$short_key" "$long_key" "$@"
+  ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
 }
 
 function pbu_is_switch_arg_enabled() {

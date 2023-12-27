@@ -123,7 +123,7 @@ function pbu_extract_arg() {
 #   return 1
 # }
 
-function pbu_is_arg_switch_enabled() {
+function pbu_is_switch_arg_enabled() {
   local short_key="$1"
   shift
   local long_key="$1"

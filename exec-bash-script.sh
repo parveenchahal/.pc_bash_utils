@@ -21,7 +21,7 @@ function exec-bash-script() {
   local name="$REPLY"
   pbu_create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
-  if pbu_is_arg_switch_enabled '' 'in-current-bash-session' "$@";
+  if pbu_is_switch_arg_enabled '' 'in-current-bash-session' "$@";
   then
     pbu_eval_cmd "." "./$name.sh"
   else

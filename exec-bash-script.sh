@@ -23,7 +23,7 @@ function exec-bash-script() {
   pushd ~/.bash-script > /dev/null
   if pbu_is_switch_arg_enabled '' 'in-current-bash-session' "$@";
   then
-    pbu_eval_cmd "." "./$name.sh"
+    pbu_eval_cmd "." "./$name.sh" "$@"
   else
     bash "$name.sh" "$@"
   fi

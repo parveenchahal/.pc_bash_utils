@@ -38,8 +38,7 @@ function pbu_extract_arg() {
           [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && REPLY+=( "true" ) ;
           [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ "$2" =~ -.* ]] && REPLY+=( "" ) ;
           [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && REPLY+=( "$2" ) && shift ;
-          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ -.* ]] && REPLY+=( "$2" ) && shift;
-          
+          [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ -.* ]] && REPLY+=( "$2" ) && shift
           ;;
       --$long_key=*)
           found=1 ;

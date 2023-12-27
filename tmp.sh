@@ -1,4 +1,4 @@
-
+complete -W "--editor" tmp
 function tmp() {
   pbu_extract_arg '' 'editor:' "$@" || REPLY="vim"
   local editor="$REPLY"

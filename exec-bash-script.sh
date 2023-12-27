@@ -22,7 +22,7 @@ function exec-bash-script() {
 
   pbu_create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
-  if pbu_is_switch_arg_enabled '' 'in-current-bash-session' "$@";
+  if pbu_is_switch_arg_enabled -l 'in-current-bash-session' -- "$@";
   then
     set -- "${REMAINING_ARGS[@]}"
     pbu_eval_cmd "." "./$name.sh" "$@"

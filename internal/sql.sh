@@ -1,14 +1,14 @@
 complete -W "--pre-define-base64 --limit --select --table --where" pbu_sql_filter_query_echo
 function pbu_sql_filter_query_echo() {
-  pbu_extract_arg '' 'limit:' "$@" || REPLY="10"
+  pbu_extract_arg -l 'limit:' -- "$@" || REPLY="10"
   local limit="$REPLY"
   
-  pbu_extract_arg '' 'table:' "$@" || pbu_error_echo "--table is required arg" || return 1
+  pbu_extract_arg -l 'table:' -- "$@" || pbu_error_echo "--table is required arg" || return 1
   local table="$REPLY"
 
 
   local selectFields=''
-  pbu_extract_arg '' 'select:' "$@"
+  pbu_extract_arg -l 'select:' -- "$@"
   for s in "${REPLY[@]}"
   do
     if [ "$selectFields" == '' ]
@@ -26,7 +26,7 @@ EOF
   pbu_is_empty "$selectFields" && selectFields='*'
   
   local where=""
-  pbu_extract_arg '' 'where:' "$@" || pbu_error_echo "At least one where condition is required" || return 1
+  pbu_extract_arg -l 'where:' -- "$@" || pbu_error_echo "At least one where condition is required" || return 1
   for w in "${REPLY[@]}"
   do
     if [ "$where" == "" ]
@@ -43,7 +43,7 @@ EOF
 
   local query=''
 
-  pbu_extract_arg '' 'pre-define-base64:' "$@" && query=$(cat<<EOF
+  pbu_extract_arg -l 'pre-define-base64:' -- "$@" && query=$(cat<<EOF
 $(echo "$REPLY" | base64 -d)
 
 --

@@ -1,18 +1,18 @@
 complete -W "--out-utc --nanoseconds --microseconds --milliseconds --seconds" date-from-epoch
 function date-from-epoch() {
 
-  pbu_extract_arg '' 'nanoseconds:' "$@" ||
-  pbu_extract_arg '' 'microseconds:' "$@" ||
-  pbu_extract_arg '' 'milliseconds:' "$@" ||
-  pbu_extract_arg '' 'seconds:' "$@" ||
+  pbu_extract_arg -l 'nanoseconds:' -- "$@" ||
+  pbu_extract_arg -l 'microseconds:' -- "$@" ||
+  pbu_extract_arg -l 'milliseconds:' -- "$@" ||
+  pbu_extract_arg -l 'seconds:' -- "$@" ||
   pbu_error_echo "At least one of args --nanoseconds, --microseconds, --milliseconds or --seconds is required" || return 1
   
   local values=()
   
-  pbu_extract_arg '' 'nanoseconds:' "$@" && values+=("$REPLY")
-  pbu_extract_arg '' 'microseconds:' "$@" && values+=( $(($REPLY * 1000)) )
-  pbu_extract_arg '' 'milliseconds:' "$@" && values+=( $(($REPLY * 1000000)) )
-  pbu_extract_arg '' 'seconds:' "$@" && values+=( "$(($REPLY * 1000000000))" )
+  pbu_extract_arg -l 'nanoseconds:' -- "$@" && values+=("$REPLY")
+  pbu_extract_arg -l 'microseconds:' -- "$@" && values+=( $(($REPLY * 1000)) )
+  pbu_extract_arg -l 'milliseconds:' -- "$@" && values+=( $(($REPLY * 1000000)) )
+  pbu_extract_arg -l 'seconds:' -- "$@" && values+=( "$(($REPLY * 1000000000))" )
   
   pbu_is_equal "${#values[@]}" "1" || pbu_error_echo "Only one should be passed out of --nanoseconds, --microseconds, --milliseconds or --seconds" || return 1
   
@@ -42,7 +42,7 @@ function date-to-epoch() {
   
   local input="$(date +%s%N)" # default is now
   
-  pbu_extract_arg '' 'date:' "$@" && input="$(date -d "$REPLY" +%s%N)"
+  pbu_extract_arg -l 'date:' -- "$@" && input="$(date -d "$REPLY" +%s%N)"
   
   local values=()
   
@@ -64,15 +64,15 @@ function pbu_date_add_sub() {
   pbu_is_equal "$op" "add" || pbu_is_equal "$op" "subtract" || pbu_error_echo "Invalid operation, supported operations are 'add' or 'subtract'" || return 1
 
   local base="$(date-to-epoch --out-nanoseconds)"
-  pbu_extract_arg '' 'date:' "$@" && base="$(date-to-epoch --date "$REPLY" --out-nanoseconds)"
+  pbu_extract_arg -l 'date:' -- "$@" && base="$(date-to-epoch --date "$REPLY" --out-nanoseconds)"
   local diff=0
-  pbu_extract_arg '' 'nanoseconds:' "$@" && diff=$(($diff + $REPLY))
-  pbu_extract_arg '' 'microseconds:' "$@" && diff=$(($diff + $REPLY * 1000))
-  pbu_extract_arg '' 'milliseconds:' "$@" && diff=$(($diff + $REPLY * 1000000))
-  pbu_extract_arg '' 'seconds:' "$@" && diff=$(($diff + $REPLY * 1000000000))
-  pbu_extract_arg '' 'minutes:' "$@" && diff=$(($diff + $REPLY * 1000000000 * 60))
-  pbu_extract_arg '' 'hours:' "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60))
-  pbu_extract_arg '' 'days:' "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60 * 24))
+  pbu_extract_arg -l 'nanoseconds:' -- "$@" && diff=$(($diff + $REPLY))
+  pbu_extract_arg -l 'microseconds:' -- "$@" && diff=$(($diff + $REPLY * 1000))
+  pbu_extract_arg -l 'milliseconds:' -- "$@" && diff=$(($diff + $REPLY * 1000000))
+  pbu_extract_arg -l 'seconds:' -- "$@" && diff=$(($diff + $REPLY * 1000000000))
+  pbu_extract_arg -l 'minutes:' -- "$@" && diff=$(($diff + $REPLY * 1000000000 * 60))
+  pbu_extract_arg -l 'hours:' -- "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60))
+  pbu_extract_arg -l 'days:' -- "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60 * 24))
   
   local newtime=""
   

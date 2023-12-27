@@ -1,6 +1,6 @@
 complete -W "--editor" tmp
 function tmp() {
-  pbu_extract_arg '' 'editor:' "$@" || REPLY="vim"
+  pbu_extract_arg -l 'editor:' -- "$@" || REPLY="vim"
   local editor="$REPLY"
   set -- "${REMAINING_ARGS[@]}"
 

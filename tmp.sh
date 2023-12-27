@@ -15,7 +15,6 @@ function tmp() {
   local path="/tmp/$path"
   if [ -f "$path" ]
   then
-
     pbu_eval_cmd "$editor" "$path"
     return 0
   fi

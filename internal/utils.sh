@@ -169,5 +169,5 @@ function pbu_string_join {
 }
 
 function pbu_print_array {
-  pbu_string_join "', '" "$@"
+  printf "['%s']" "$(pbu_string_join "', '" "$@")"
 }

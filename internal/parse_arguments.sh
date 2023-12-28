@@ -1,3 +1,4 @@
+complete -W "-s --short -l --long" pbu_extract_arg
 function pbu_extract_arg() {
   local internal_args=()
   while [ $# -gt 0 ]

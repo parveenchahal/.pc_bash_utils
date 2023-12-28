@@ -66,8 +66,7 @@ function ___pbu_extract_arg___() {
   [ "$short_key" == "" ] || [ "$long_key" == "" ] || [ "$short_is_switch_arg" == "$long_is_switch_arg" ] || pbu_error_echo "Short and long args should be of same type either switch or key/value." || return 1
 
   local is_switch_arg=0
-  [ "$short_is_switch_arg" == "1" ] && is_switch_arg=1
-  [ "$long_is_switch_arg" == "1" ] && is_switch_arg=1
+  [[ "$short_is_switch_arg" == "1" || "$long_is_switch_arg" == "1" ]] && is_switch_arg=1
 
   REMAINING_ARGS=()
 

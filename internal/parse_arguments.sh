@@ -35,6 +35,7 @@ function pbu_extract_arg() {
   ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
 }
 
+complete -W "-s --short -l --long" pbu_is_switch_arg_enabled
 function pbu_is_switch_arg_enabled() {
   pbu_extract_arg "$@" || return 1
   local value="$REPLY"

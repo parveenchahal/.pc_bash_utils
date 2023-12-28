@@ -3,7 +3,7 @@ function pbu_extract_arg() {
   local internal_args=()
   while [ $# -gt 0 ]
   do
-    if [ "$1" == "--" ]
+    if [[ "$1" == "--" || "$2" == "--" ]]
     then
       shift
       break

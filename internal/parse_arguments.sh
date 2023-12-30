@@ -1,35 +1,21 @@
 complete -W "-s --short -l --long -d --default-value" pbu_extract_arg
 function pbu_extract_arg() {
-  local internal_args=()
-  while [ $# -gt 0 ]
-  do
-    if [[ "$1" == "--" || "$2" == "--" ]]
-    then
-      shift
-      break
-    fi
-    case "$1" in
-      -s|--short|-l|--long|--default)
-          internal_args+=( "$1" ) ;
-          internal_args+=( "$2" ) ;
-          shift ;
-          ;;
-      *)
-          pbu_error_echo "Invalid option "$1". Expected options are -s/--short or -l/--long before double-hyphen(--)." ;
-          return $PBU_ERROR_USAGE ;
-          ;;
-    esac
-    shift
-  done
+
+  REMAINING_ARGS=( "$@" )
+  REPLY=()
+
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
+  local internal_args=( ${SPLITED_ARGS1[@]} )
+  local external_args=( ${SPLITED_ARGS2[@]} )
 
   ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
   local short_key="$REPLY"
   ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
   local long_key="$REPLY"
-
   ___pbu_extract_arg___ 'd:' 'default-value:' "${internal_args[@]}"
   local default_value="${REPLY[@]}"
-  ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
+
+  ___pbu_extract_arg___ "$short_key" "$long_key" "${external_args[@]}"
   local err=$?
 
   pbu_is_not_found_error "$err" || return $err
@@ -52,6 +38,32 @@ function pbu_is_switch_arg_enabled() {
   [ "$value" == "false" ] && return 1
   [ "$value" == "true" ] && return 0
   return 1
+}
+
+function ___pbu_split_args_by_double_hyphen___() {
+  SPLITED_ARGS1=()
+  SPLITED_ARGS2=()
+
+  local found_split=0
+
+  while [ $# -gt 0 ]
+  do
+    if [ "$1" == "--" ]
+    then
+      found_split=1
+      shift
+      break
+    fi
+    SPLITED_ARGS1+=( "$1" )
+    shift
+  done
+  if [ $found_split == 0 ]
+  then
+    SPLITED_ARGS1=()
+    SPLITED_ARGS2=()
+    return 1
+  fi
+  SPLITED_ARGS2=( ${@} )
 }
 
 function ___pbu_extract_arg___() {

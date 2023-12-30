@@ -1,4 +1,4 @@
-complete -W "-s --short -l --long" pbu_extract_arg
+complete -W "-s --short -l --long --default" pbu_extract_arg
 function pbu_extract_arg() {
   local internal_args=()
   while [ $# -gt 0 ]
@@ -9,19 +9,14 @@ function pbu_extract_arg() {
       break
     fi
     case "$1" in
-      -s|--short)
-          internal_args+=( "$1" ) ;
-          internal_args+=( "$2" ) ;
-          shift ;
-          ;;
-      -l|--long)
+      -s|--short|-l|--long|--default)
           internal_args+=( "$1" ) ;
           internal_args+=( "$2" ) ;
           shift ;
           ;;
       *)
           pbu_error_echo "Invalid option "$1". Expected options are -s/--short or -l/--long before double-hyphen(--)." ;
-          return 1 ;
+          return $PBU_ERROR_USAGE ;
           ;;
     esac
     shift
@@ -32,12 +27,27 @@ function pbu_extract_arg() {
   ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
   local long_key="$REPLY"
 
+  ___pbu_extract_arg___ '' 'default:' "${internal_args[@]}"
+  local default_value="${REPLY[@]}"
   ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
+  local err=$?
+
+  pbu_is_not_found_error "$err" || return $err
+  [ "${default_value[@]}" != "" ] || return $err
+
+  REPLY=( ${default_value[@]} )
+  return 0
 }
 
 complete -W "-s --short -l --long" pbu_is_switch_arg_enabled
 function pbu_is_switch_arg_enabled() {
-  pbu_extract_arg "$@" || return 1
+  pbu_extract_arg "$@"
+  local err=$?
+
+  pbu_is_not_found_error $err && return 1
+
+  pbu_is_success $err || return $err
+
   local value="$REPLY"
   [ "$value" == "false" ] && return 1
   [ "$value" == "true" ] && return 0
@@ -53,7 +63,7 @@ function ___pbu_extract_arg___() {
   REMAINING_ARGS=( "$@" )
   REPLY=()
 
-  [ "$short_key" != "" ] || [ "$long_key" != "" ] || pbu_error_echo "At least one of either short or long option is required" || return 1
+  [ "$short_key" != "" ] || [ "$long_key" != "" ] || pbu_error_echo "At least one of either short or long option is required" || return $PBU_ERROR_USAGE
 
   local short_is_switch_arg=0
   [ "$short_key" != "" ] && [[ ! "$short_key" =~ .*:$ ]] && short_is_switch_arg=1
@@ -63,7 +73,7 @@ function ___pbu_extract_arg___() {
   [ "$long_key" != "" ] && [[ ! "$long_key" =~ .*:$ ]] && long_is_switch_arg=1
   long_key=${long_key%:}
 
-  [ "$short_key" == "" ] || [ "$long_key" == "" ] || [ "$short_is_switch_arg" == "$long_is_switch_arg" ] || pbu_error_echo "Short and long args should be of same type either switch or key/value." || return 1
+  [ "$short_key" == "" ] || [ "$long_key" == "" ] || [ "$short_is_switch_arg" == "$long_is_switch_arg" ] || pbu_error_echo "Short and long args should be of same type either switch or key/value." || return $PBU_ERROR_USAGE
 
   local is_switch_arg=0
   [[ "$short_is_switch_arg" == "1" || "$long_is_switch_arg" == "1" ]] && is_switch_arg=1
@@ -88,13 +98,13 @@ function ___pbu_extract_arg___() {
       --$long_key=*)
           found=1 ;
           local val="${1#"--$long_key="}" ;
-          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for --$long_key. Expected true or false." || return 1 ;
+          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for --$long_key. Expected true or false." || return $PBU_ERROR_USAGE ;
           REPLY+=( "$val" )
           ;;
       -$short_key=*)
           found=1 ;
           local val="${1#"-$short_key="}" ;
-          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for -$short_key. Expected true or false." || return 1;
+          [ "$is_switch_arg" == "0" ] || [[ "$val" == "true" || "$val" == "false" ]] || pbu_error_echo "Invalid valid for -$short_key. Expected true or false." || return $PBU_ERROR_USAGE;
           REPLY+=( "$val" )
           ;;
       *)
@@ -106,7 +116,7 @@ function ___pbu_extract_arg___() {
   if [ "$found" == 0 ]
   then
     REPLY=()
-    return 1
+    return $PBU_ERROR_NOT_FOUND
   fi
   return 0
 }

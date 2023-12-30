@@ -30,7 +30,8 @@ function pbu_delete_arg() {
   pbu_extract_arg "$@"
   local err=$?
   REPLY=( ${REMAINING_ARGS[@]} )
-  return $err
+  pbu_is_not_found_error $err || return $err
+  return 0
 }
 
 complete -W "-s --short -l --long" pbu_is_switch_arg_enabled
@@ -54,9 +55,38 @@ function pbu_is_switch_arg_enabled() {
   return 1
 }
 
+complete -W "-s --short -l --long" pbu_atleast_one_arg_present
+function pbu_atleast_one_arg_present() {
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
+  local internal_args=( ${SPLITED_ARGS1[@]} )
+  local external_args=( ${SPLITED_ARGS2[@]} )
+  pbu_delete_arg -s d -l default-value -- ${internal_args[@]} || return $?
+  internal_args=( ${REPLY[@]} )
+
+  pbu_extract_arg -s 's:' -l 'short:' -- "${internal_args[@]}"
+  local err=$?
+  local short_args=(${REPLY[@]})
+  pbu_is_success $err || pbu_is_not_found_error $err || return $err
+
+  pbu_extract_arg -s 'l:' -l 'long:' -- "${internal_args[@]}"
+  local err=$?
+  local long_args=(${REPLY[@]})
+  pbu_is_success $err || pbu_is_not_found_error $err || return $err
+
+  for k in "${short_args[@]}"
+  do
+    pbu_extract_arg -s "$k" -- "${external_args[@]}"
+    err=$?
+    REPLY=()
+    pbu_is_success $err && return $PBU_SUCCESS
+    pbu_is_not_found_error $err || return $err
+  done
+  REPLY=()
+  return $PBU_ERROR
+}
 
 
-
+#============================================================================
 # Below functions should be used in this file only.
 
 function ___pbu_split_args_by_double_hyphen___() {

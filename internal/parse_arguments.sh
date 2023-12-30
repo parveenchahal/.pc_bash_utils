@@ -40,6 +40,14 @@ function pbu_is_switch_arg_enabled() {
   return 1
 }
 
+complete -W "-s --short -l --long" pbu_remove_arg
+function pbu_remove_arg() {
+  pbu_extract_arg "$@"
+  local err=$?
+  REPLY=( ${REMAINING_ARGS[@]} )
+  return $err
+}
+
 function ___pbu_split_args_by_double_hyphen___() {
   SPLITED_ARGS1=()
   SPLITED_ARGS2=()

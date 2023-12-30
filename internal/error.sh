@@ -12,11 +12,13 @@ function pbu_error_exit() {
 }
 
 function pbu_is_error() {
-  [ "$?" == "0" ] || return 0
+  local err="$?"
+  [ "$1" == "" ] || err="$1"
+  [ "$err" == "0" ] || return 0
   return 1
 }
 
 function pbu_is_success() {
-  [ "$?" == "0" ] || return 1
-  return 0
+  pbu_is_error "$@" || return 0
+  return 1
 }

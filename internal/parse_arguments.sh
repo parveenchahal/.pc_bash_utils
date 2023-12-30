@@ -1,4 +1,4 @@
-complete -W "-s --short -l --long --default" pbu_extract_arg
+complete -W "-s --short -l --long -d --default-value" pbu_extract_arg
 function pbu_extract_arg() {
   local internal_args=()
   while [ $# -gt 0 ]
@@ -27,7 +27,7 @@ function pbu_extract_arg() {
   ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
   local long_key="$REPLY"
 
-  ___pbu_extract_arg___ '' 'default:' "${internal_args[@]}"
+  ___pbu_extract_arg___ 'd:' 'default-value:' "${internal_args[@]}"
   local default_value="${REPLY[@]}"
   ___pbu_extract_arg___ "$short_key" "$long_key" "$@"
   local err=$?

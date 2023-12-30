@@ -37,34 +37,6 @@ function pbu_is_digits() {
    return 0
 }
 
-function pbu_error_exit() {
-  if [ ! -z "$1" ]
-  then
-    pbu_error_echo "$1"
-  fi
-  exit 1
-}
-
-function pbu_error_echo() {
-  echo -e "\e[01;31m${@}\e[0m"
-  return 1
-}
-
-function pbu_is_success() {
-  pbu_is_equal "0" "$?" || return 1
-  return 0
-}
-
-function pbu_is_error() {
-  pbu_is_equal "0" "$?" || return 0
-  return 1
-}
-
-function pbu_echo_error() {
-  pbu_error_echo "$@"
-  return $?
-}
-
 function pbu_read_input() {
   if [ ! -z "$1" ]
   then

@@ -85,32 +85,28 @@ function pbu_get_full_path() {
   local fullPath="$path"
   [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
   [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
-  REPLY="$fullPath"
+  printf "%s" "$fullPath"
 }
 
 function pbu_is_file_exist() {
-  pbu_get_full_path "$1"
-  local fullPath="$REPLY"
+  local fullPath="$(pbu_get_full_path "$1")"
   [ -f "$fullPath" ] || return 1
   return 0
 }
 
 function pbu_is_dir_exist() {
-  pbu_get_full_path "$1"
-  local fullPath="$REPLY"
+  local fullPath="$(pbu_get_full_path "$1")"
   [ -d "$fullPath" ] || return 1
   return 0
 }
 
 function pbu_create_dir_if_does_not_exist() {
-  pbu_get_full_path "$1"
-  local fullPath="$REPLY"
+  local fullPath="$(pbu_get_full_path "$1")"
   [ -d "$fullPath" ] || pbu_eval_cmd mkdir -p "$fullPath"
 }
 
 function pbu_create_file_if_does_not_exist() {
-  pbu_get_full_path "$1"
-  local fullPath="$REPLY"
+  local fullPath="$(pbu_get_full_path "$1")"
   [ -f "$fullPath" ] || pbu_eval_cmd touch "$fullPath"
 }
 

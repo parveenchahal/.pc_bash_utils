@@ -4,6 +4,8 @@ function pbu_extract_arg() {
   REMAINING_ARGS=( "$@" )
   REPLY=()
 
+  local SPLITED_ARGS1=()
+  local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
@@ -36,6 +38,8 @@ function pbu_delete_arg() {
 
 complete -W "-s --short -l --long" pbu_is_switch_arg_enabled
 function pbu_is_switch_arg_enabled() {
+  local SPLITED_ARGS1=()
+  local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
@@ -57,6 +61,8 @@ function pbu_is_switch_arg_enabled() {
 
 complete -W "-s --short -l --long" pbu_atleast_one_arg_present
 function pbu_atleast_one_arg_present() {
+  local SPLITED_ARGS1=()
+  local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
@@ -97,6 +103,8 @@ function pbu_atleast_one_arg_present() {
 
 complete -W "-s --short -l --long" pbu_all_args_present
 function pbu_all_args_present() {
+  local SPLITED_ARGS1=()
+  local SPLITED_ARGS2=()
     ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
@@ -138,8 +146,8 @@ function pbu_all_args_present() {
 # Below functions should be used in this file only.
 
 function ___pbu_split_args_by_double_hyphen___() {
-  SPLITED_ARGS1=()
-  SPLITED_ARGS2=()
+  local -n args1='SPLITED_ARGS1'
+  local -n args2='SPLITED_ARGS2'
 
   local found_split=0
 
@@ -151,16 +159,16 @@ function ___pbu_split_args_by_double_hyphen___() {
       shift
       break
     fi
-    SPLITED_ARGS1+=( "$1" )
+    args1+=( "$1" )
     shift
   done
   if [ $found_split == 0 ]
   then
-    SPLITED_ARGS1=()
-    SPLITED_ARGS2=()
+    args1=()
+    args2=()
     return 1
   fi
-  SPLITED_ARGS2=( ${@} )
+  args2=( ${@} )
 }
 
 function ___pbu_extract_arg___() {

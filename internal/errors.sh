@@ -1,7 +1,7 @@
-PBU_SUCCESS=0
-PBU_ERROR=1
-PBU_ERROR_USAGE=2
-PBU_ERROR_NOT_FOUND=40
+pbu.errors.SUCCESS=0
+pbu.errors.ERROR=1
+pbu.errors.ERROR_USAGE=2
+pbu.errors.ERROR_NOT_FOUND=40
 
 function pbu.errors.get_error_code() {
   local err="$?"
@@ -11,7 +11,7 @@ function pbu.errors.get_error_code() {
 
 function pbu.errors.echo() {
   echo -e "\e[01;31m${@}\e[0m"
-  return $PBU_ERROR
+  return $pbu.errors.ERROR
 }
 
 function pbu.errors.exit() {
@@ -25,17 +25,17 @@ function pbu.errors.exit() {
 
 function pbu.errors.is_error() {
   local err="$(pbu.errors.get_error_code "$@")"
-  [ "$err" != "$PBU_SUCCESS" ] || return $PBU_ERROR
-  return $PBU_SUCCESS
+  [ "$err" != "$pbu.errors.SUCCESS" ] || return $pbu.errors.ERROR
+  return $pbu.errors.SUCCESS
 }
 
-function pbu_is_success() {
-  pbu.errors.is_error "$@" || return $PBU_SUCCESS
-  return $PBU_ERROR
+function pbu.errors.is_success() {
+  pbu.errors.is_error "$@" || return $pbu.errors.SUCCESS
+  return $pbu.errors.ERROR
 }
 
 function pbu.errors.is_not_found_error() {
   local err="$(pbu.errors.get_error_code "$@")"
-  [ "$err" == "$PBU_ERROR_NOT_FOUND" ] || return $PBU_ERROR
-  return $PBU_SUCCESS
+  [ "$err" == "$pbu.errors.ERROR_NOT_FOUND" ] || return $pbu.errors.ERROR
+  return $pbu.errors.SUCCESS
 }

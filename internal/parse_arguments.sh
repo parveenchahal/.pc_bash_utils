@@ -40,11 +40,9 @@ function pbu_extract_arg() {
 
 complete -W "-s --short -l --long -r --remaining-args-var" pbu_delete_arg
 function pbu_delete_arg() {
-  local REPLY=()
-  ___pbu_extract_arg___ 'v:' 'values-var:' "$@" && local -n out_values="$REPLY" || local out_values
-  pbu_extract_arg "$@"
+  local random_var_name_delete_outvalue=""
+  pbu_extract_arg -v random_var_name_delete_outvalue "$@"
   local err=$?
-  out_values=()
   pbu_is_not_found_error $err || return $err
   return 0
 }
@@ -57,16 +55,17 @@ function pbu_is_switch_arg_enabled() {
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
 
-  pbu_delete_arg -s d -l default-value -- ${internal_args[@]}
-  internal_args=( ${REPLY[@]} )
+  local remaining_args=()
+  pbu_delete_arg -s d -l default-value -r remaining_args -- "${internal_args[@]}"
+  internal_args=( ${remaining_args[@]} )
   internal_args+=( -d false )
 
-  pbu_extract_arg "${internal_args[@]}" -- "${external_args[@]}"
+  local value=()
+  pbu_extract_arg -v value "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
 
   pbu_is_success $err || return $err
 
-  local value="$REPLY"
   [ "$value" == "false" ] && return 1
   [ "$value" == "true" ] && return 0
   return 1

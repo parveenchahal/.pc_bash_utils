@@ -38,11 +38,13 @@ function pbu_extract_arg() {
   return 0
 }
 
-complete -W "-s --short -l --long" pbu_delete_arg
+complete -W "-s --short -l --long -r --remaining-args-var" pbu_delete_arg
 function pbu_delete_arg() {
+  local REPLY=()
+  ___pbu_extract_arg___ 'v:' 'values-var:' "$@" && local -n out_values="$REPLY" || local out_values
   pbu_extract_arg "$@"
   local err=$?
-  REPLY=( ${REMAINING_ARGS[@]} )
+  out_values=()
   pbu_is_not_found_error $err || return $err
   return 0
 }

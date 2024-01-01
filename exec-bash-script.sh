@@ -7,7 +7,7 @@ function pbu_complete-fn-exec-bash-script(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.sh}")'" )
     done
-    values="$(pbu_string_join ' ' "${values[@]}")"
+    values="$(pbu.string.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --in-current-bash-session" -- "$2") )
@@ -43,7 +43,7 @@ function pbu_complete-fn-edit-bash-script(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.sh}")'" )
     done
-    values="$(pbu_string_join ' ' "${values[@]}")"
+    values="$(pbu.string.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --editor" -- "$2") )

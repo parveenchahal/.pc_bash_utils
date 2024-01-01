@@ -1,4 +1,4 @@
-function pbu_is_equal() {
+function pbu.string.is_equal() {
   local x="$1"
   shift
   for y in "$@"
@@ -11,7 +11,7 @@ function pbu_is_equal() {
   return 0
 }
 
-function pbu_is_not_equal() {
+function pbu.string.is_not_equal() {
   local size="${#@}"
   local lastIndex=`expr $size - 1`
   local values=( ${@} )
@@ -32,17 +32,17 @@ function pbu_is_not_equal() {
   return 0
 }
 
-function pbu_is_digits() {
+function pbu.string.only_digits() {
    [[ "$1" =~ ^[+-]?[0-9]+\.?[0-9]*$ ]] || return 1
    return 0
 }
 
-function pbu_is_empty() {
-  pbu_is_equal "" "$@" || return 1
+function pbu.string.is_empty() {
+  pbu.string.is_equal "" "$@" || return 1
   return 0
 }
 
-function pbu_is_not_empty() {
+function pbu.string.is_not_empty() {
   for x in "$@"
   do
     if [ "$x" != "" ]
@@ -53,7 +53,7 @@ function pbu_is_not_empty() {
   return 1
 }
 
-function pbu_string_join {
+function pbu.string.join {
   local d=${1-} f=${2-}
   if shift 2; then
     printf %s "$f" "${@/#/$d}"

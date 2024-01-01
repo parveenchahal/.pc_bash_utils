@@ -8,7 +8,7 @@ function pbu_read_input() {
 
 function pbu_confirm() {
   local msg="Confirm"
-  pbu_is_empty "$1" || msg="$1"
+  pbu.string.is_empty "$1" || msg="$1"
   while $true;
   do
     pbu_read_input "$msg (yes/no): "
@@ -26,7 +26,7 @@ function pbu_confirm() {
 
 function pbu_get_full_path() {
   local path="$1"
-  pbu_is_not_empty "$path" || pbu.errors.echo "path can not be empty" || return 1
+  pbu.string.is_not_empty "$path" || pbu.errors.echo "path can not be empty" || return 1
   local fullPath="$path"
   [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
   [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"

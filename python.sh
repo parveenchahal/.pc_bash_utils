@@ -17,7 +17,7 @@ function pbu_complete-fn-exec-py-script(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.py}")'" )
     done
-    values="$(pbu_string_join ' ' "${values[@]}")"
+    values="$(pbu.string.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name" -- "$2") )
@@ -43,7 +43,7 @@ function pbu_complete-fn-edit-py-script(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.py}")'" )
     done
-    values="$(pbu_string_join ' ' "${values[@]}")"
+    values="$(pbu.string.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --editor" -- "$2") )

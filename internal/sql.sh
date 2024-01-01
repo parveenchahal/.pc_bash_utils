@@ -23,7 +23,7 @@ EOF
     )
   done
   
-  pbu_is_empty "$selectFields" && selectFields='*'
+  pbu.string.is_empty "$selectFields" && selectFields='*'
   
   local where=""
   pbu.args.extract -l 'where:' -- "$@" || pbu.errors.echo "At least one where condition is required" || return 1

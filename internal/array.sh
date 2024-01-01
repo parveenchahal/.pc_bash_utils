@@ -1,4 +1,4 @@
-function pbu_print_array {
-  [ "$#" != "0" ] && printf "['%s']" "$(pbu_string_join "', '" "$@")" && return
+function pbu.array.print {
+  [ "$#" != "0" ] && printf "['%s']" "$(pbu.string.join "', '" "$@")" && return
   printf "[]"
 }

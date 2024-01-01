@@ -56,8 +56,8 @@ function date-to-epoch() {
   echo "$values"
 }
 
-complete -W "add subtract --date --nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days --out-utc" pbu_date_add_sub
-function pbu_date_add_sub() {
+complete -W "add subtract --date --nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days --out-utc" pbu.date.add_sub
+function pbu.date.add_sub() {
 
   local op="$1"
   shift
@@ -93,12 +93,12 @@ function pbu_date_add_sub() {
 
 complete -W "--date --nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days --out-utc" date-add
 function date-add() {
-  pbu_date_add_sub add "$@"
+  pbu.date.add_sub add "$@"
 }
 
 complete -W "--date --nanoseconds --microseconds --milliseconds --seconds --minutes --hours --days --out-utc" date-subtract
 function date-subtract() {
-  pbu_date_add_sub subtract "$@"
+  pbu.date.add_sub subtract "$@"
 }
 
 function date-utc-to-local() {

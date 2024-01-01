@@ -1,5 +1,5 @@
-function pbu_openssl_decode() {
-  pbu.args.extract -l 'type:' -- "$@" || pbu_echo_error "--type is required option" || return 1
+function pbu.openssl.decode() {
+  pbu.args.extract -l 'type:' -- "$@" || pbu.errors.echo "--type is required option" || return 1
   local type=$REPLY
 
   pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu.read_input "-f|--file (file path): "
@@ -13,12 +13,12 @@ function pbu_openssl_decode() {
 
 complete -d -f -W "-f --file --inform" openssl-decode-cert 
 function openssl-decode-cert() {
-  pbu_openssl_decode --type x509 "$@"
+  pbu.openssl.decode --type x509 "$@"
 }
 
 complete -d -f -W "-f --file --inform" openssl-decode-csr
 function openssl-decode-csr() {
-  pbu_openssl_decode --type req "$@"
+  pbu.openssl.decode --type req "$@"
 }
 
 complete -d -f -W "-f --file --inform --type" openssl-decode-key

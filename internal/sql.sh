@@ -1,15 +1,16 @@
 complete -W "--pre-define-base64 --limit --select --table --where" pbu.sql.filter_query_echo
 function pbu.sql.filter_query_echo() {
-  pbu.args.extract -l 'limit:' -- "$@" || REPLY="10"
-  local limit="$REPLY"
+  local limit=()
+  pbu.args.extract -l 'limit:' -o limit -- "$@" || limit="10"
   
-  pbu.args.extract -l 'table:' -- "$@" || pbu.errors.echo "--table is required arg" || return 1
-  local table="$REPLY"
+  local table=()
+  pbu.args.extract -l 'table:' -o table -- "$@" || pbu.errors.echo "--table is required arg" || return 1
 
+  local selects=()
+  pbu.args.extract -l 'select:' -o selects -- "$@"
 
   local selectFields=''
-  pbu.args.extract -l 'select:' -- "$@"
-  for s in "${REPLY[@]}"
+  for s in "${selects[@]}"
   do
     if [ "$selectFields" == '' ]
     then
@@ -24,10 +25,12 @@ EOF
   done
   
   pbu.string.is_empty "$selectFields" && selectFields='*'
-  
+
+  local wheres=()
+  pbu.args.extract -l 'where:' -o wheres -- "$@" || pbu.errors.echo "At least one where condition is required" || return 1
+
   local where=""
-  pbu.args.extract -l 'where:' -- "$@" || pbu.errors.echo "At least one where condition is required" || return 1
-  for w in "${REPLY[@]}"
+  for w in "${wheres[@]}"
   do
     if [ "$where" == "" ]
     then
@@ -43,8 +46,9 @@ EOF
 
   local query=''
 
-  pbu.args.extract -l 'pre-define-base64:' -- "$@" && query=$(cat<<EOF
-$(echo "$REPLY" | base64 -d)
+  local pre_defined_base64
+  pbu.args.extract -l 'pre-define-base64:' -o pre_defined_base64 -- "$@" && query=$(cat<<EOF
+$(echo "$pre_defined_base64" | base64 -d)
 
 --
 EOF

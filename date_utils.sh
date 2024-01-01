@@ -8,11 +8,13 @@ function date-from-epoch() {
   pbu.errors.echo "At least one of args --nanoseconds, --microseconds, --milliseconds or --seconds is required" || return 1
   
   local values=()
+
+  local value=()
   
-  pbu.args.extract -l 'nanoseconds:' -- "$@" && values+=("$REPLY")
-  pbu.args.extract -l 'microseconds:' -- "$@" && values+=( $(($REPLY * 1000)) )
-  pbu.args.extract -l 'milliseconds:' -- "$@" && values+=( $(($REPLY * 1000000)) )
-  pbu.args.extract -l 'seconds:' -- "$@" && values+=( "$(($REPLY * 1000000000))" )
+  pbu.args.extract -l 'nanoseconds:' -o value -- "$@" && values+=("$value")
+  pbu.args.extract -l 'microseconds:' -o value -- "$@" && values+=( $(($value * 1000)) )
+  pbu.args.extract -l 'milliseconds:' -o value -- "$@" && values+=( $(($value * 1000000)) )
+  pbu.args.extract -l 'seconds:' -o value -- "$@" && values+=( "$(($value * 1000000000))" )
   
   pbu.string.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --nanoseconds, --microseconds, --milliseconds or --seconds" || return 1
   
@@ -42,7 +44,8 @@ function date-to-epoch() {
   
   local input="$(date +%s%N)" # default is now
   
-  pbu.args.extract -l 'date:' -- "$@" && input="$(date -d "$REPLY" +%s%N)"
+  local date_str=()
+  pbu.args.extract -l 'date:' -o date_str -- "$@" && input="$(date -d "$date_str" +%s%N)"
   
   local values=()
   
@@ -66,13 +69,15 @@ function pbu.date.add_sub() {
   local base="$(date-to-epoch --out-nanoseconds)"
   pbu.args.extract -l 'date:' -- "$@" && base="$(date-to-epoch --date "$REPLY" --out-nanoseconds)"
   local diff=0
-  pbu.args.extract -l 'nanoseconds:' -- "$@" && diff=$(($diff + $REPLY))
-  pbu.args.extract -l 'microseconds:' -- "$@" && diff=$(($diff + $REPLY * 1000))
-  pbu.args.extract -l 'milliseconds:' -- "$@" && diff=$(($diff + $REPLY * 1000000))
-  pbu.args.extract -l 'seconds:' -- "$@" && diff=$(($diff + $REPLY * 1000000000))
-  pbu.args.extract -l 'minutes:' -- "$@" && diff=$(($diff + $REPLY * 1000000000 * 60))
-  pbu.args.extract -l 'hours:' -- "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60))
-  pbu.args.extract -l 'days:' -- "$@" && diff=$(($diff + $REPLY * 1000000000 * 60 * 60 * 24))
+
+  local value=()
+  pbu.args.extract -l 'nanoseconds:' -o value -- "$@" && diff=$(($diff + $value))
+  pbu.args.extract -l 'microseconds:' -o value -- "$@" && diff=$(($diff + $value * 1000))
+  pbu.args.extract -l 'milliseconds:' -o value -- "$@" && diff=$(($diff + $value * 1000000))
+  pbu.args.extract -l 'seconds:' -o value -- "$@" && diff=$(($diff + $value * 1000000000))
+  pbu.args.extract -l 'minutes:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60))
+  pbu.args.extract -l 'hours:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60 * 60))
+  pbu.args.extract -l 'days:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60 * 60 * 24))
   
   local newtime=""
   

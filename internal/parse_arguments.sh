@@ -1,4 +1,4 @@
-complete -W "-s --short -l --long -d --default-value -v --values-var -r --remaining-args-var" pbu_extract_arg
+complete -W "-s --short -l --long -d --default-value -o --out-var -r --remaining-args-var" pbu_extract_arg
 function pbu_extract_arg() {
 
   local SPLITED_ARGS1=()
@@ -10,7 +10,7 @@ function pbu_extract_arg() {
   local REPLY=()
   local REMAINING_ARGS=()
 
-  ___pbu_extract_arg___ 'v:' 'values-var:' "${internal_args[@]}" && local -n out_values="$REPLY" || local out_values
+  ___pbu_extract_arg___ 'o:' 'out-var:' "${internal_args[@]}" && local -n out_values="$REPLY" || local out_values
 
   ___pbu_extract_arg___ 'r:' 'remaining-args-var:' "${internal_args[@]}" && local -n out_remaining_args="$REPLY" || local out_remaining_args
 
@@ -41,7 +41,7 @@ function pbu_extract_arg() {
 complete -W "-s --short -l --long -r --remaining-args-var" pbu_delete_arg
 function pbu_delete_arg() {
   local random_var_name_delete_outvalue=""
-  pbu_extract_arg -v random_var_name_delete_outvalue "$@"
+  pbu_extract_arg -o random_var_name_delete_outvalue "$@"
   local err=$?
   pbu_is_not_found_error $err || return $err
   return 0
@@ -61,7 +61,7 @@ function pbu_is_switch_arg_enabled() {
   internal_args+=( -d false )
 
   local value=()
-  pbu_extract_arg -v value "${internal_args[@]}" -- "${external_args[@]}"
+  pbu_extract_arg -o value "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
 
   pbu_is_success $err || return $err
@@ -80,12 +80,12 @@ function pbu_atleast_one_arg_present() {
   local external_args=( ${SPLITED_ARGS2[@]} )
 
   local short_args=()
-  pbu_extract_arg -s 's:' -l 'short:' -v short_args -- "${internal_args[@]}"
+  pbu_extract_arg -s 's:' -l 'short:' -o short_args -- "${internal_args[@]}"
   local err=$?
   pbu_is_success $err || pbu_is_not_found_error $err || return $err
 
   local long_args=()
-  pbu_extract_arg -s 'l:' -l 'long:' -v long_args -- "${internal_args[@]}"
+  pbu_extract_arg -s 'l:' -l 'long:' -o long_args -- "${internal_args[@]}"
   local err=$?
   pbu_is_success $err || pbu_is_not_found_error $err || return $err
 
@@ -116,12 +116,12 @@ function pbu_all_args_present() {
   local external_args=( ${SPLITED_ARGS2[@]} )
 
   local short_args=()
-  pbu_extract_arg -s 's:' -l 'short:' -v short_args -- "${internal_args[@]}"
+  pbu_extract_arg -s 's:' -l 'short:' -o short_args -- "${internal_args[@]}"
   local err=$?
   pbu_is_success $err || pbu_is_not_found_error $err || return $err
 
   local long_args=()
-  pbu_extract_arg -s 'l:' -l 'long:' -v long_args -- "${internal_args[@]}"
+  pbu_extract_arg -s 'l:' -l 'long:' -o long_args -- "${internal_args[@]}"
   local err=$?
   pbu_is_success $err || pbu_is_not_found_error $err || return $err
 

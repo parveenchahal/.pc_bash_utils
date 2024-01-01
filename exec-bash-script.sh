@@ -16,18 +16,20 @@ function pbu_complete-fn-exec-bash-script(){
 
 complete -F pbu_complete-fn-exec-bash-script exec-bash-script
 function exec-bash-script() {
-  pbu.args.extract -l 'script-name:' -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
-  local name="$REPLY"
-  set -- "${REMAINING_ARGS[@]}"
+  local name=()
+  local remaining_args=()
+  pbu.args.extract -l 'script-name:' -o name -r remaining_args -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
+
+  set -- "${remaining_args[@]}"
 
   pbu.create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
   if pbu.args.is_switch_arg_enabled -l 'in-current-bash-session' -- "$@";
   then
-    set -- "${REMAINING_ARGS[@]}"
+    set -- "${remaining_args[@]}"
     pbu.eval.cmd "." "./$name.sh" "$@"
   else
-    set -- "${REMAINING_ARGS[@]}"
+    set -- "${remaining_args[@]}"
     bash "$name.sh" "$@"
   fi
   popd > /dev/null

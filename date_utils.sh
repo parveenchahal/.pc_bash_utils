@@ -67,7 +67,8 @@ function pbu.date.add_sub() {
   pbu.string.is_equal "$op" "add" || pbu.string.is_equal "$op" "subtract" || pbu.errors.echo "Invalid operation, supported operations are 'add' or 'subtract'" || return 1
 
   local base="$(date-to-epoch --out-nanoseconds)"
-  pbu.args.extract -l 'date:' -- "$@" && base="$(date-to-epoch --date "$REPLY" --out-nanoseconds)"
+  local date_str=()
+  pbu.args.extract -l 'date:' -o date_str -- "$@" && base="$(date-to-epoch --date "$date_str" --out-nanoseconds)"
   local diff=0
 
   local value=()

@@ -1,6 +1,6 @@
 complete -W "--editor" tmp
 function tmp() {
-  pbu_extract_arg -l 'editor:' -- "$@" || REPLY="vim"
+  pbu.args.extract -l 'editor:' -- "$@" || REPLY="vim"
   local editor="$REPLY"
   set -- "${REMAINING_ARGS[@]}"
 
@@ -15,7 +15,7 @@ function tmp() {
   local path="/tmp/$path"
   if [ -f "$path" ]
   then
-    pbu_eval_cmd "$editor" "$path"
+    pbu.eval.cmd "$editor" "$path"
     return 0
   fi
   
@@ -25,6 +25,6 @@ function tmp() {
     return 0
   fi
 
-  pbu_error_echo "Invalid path."
+  pbu.errors.echo "Invalid path."
   return 1
 }

@@ -1,7 +1,7 @@
 alias copy-from-tmux='tmux save-buffer - | xclip -i -sel clipboard'
 
 function pbu_copy_file_to_local_bin() {
-  pbu_is_file_exist "$1" || pbu_error_echo "file $1 does not exist" || return 1
+  pbu_is_file_exist "$1" || pbu.errors.echo "file $1 does not exist" || return 1
 
   local fullpath="$(pbu_get_full_path "$1")"
 

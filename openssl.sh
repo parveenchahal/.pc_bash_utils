@@ -1,14 +1,14 @@
 function pbu_openssl_decode() {
-  pbu_extract_arg -l 'type:' -- "$@" || pbu_echo_error "--type is required option" || return 1
+  pbu.args.extract -l 'type:' -- "$@" || pbu_echo_error "--type is required option" || return 1
   local type=$REPLY
 
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
-  pbu_extract_arg -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
+  pbu.args.extract -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
   
-  pbu_eval_cmd_with_echo openssl "$type" -inform "$inform" -in "$file" -text -noout
+  pbu.eval.cmd_with_echo openssl "$type" -inform "$inform" -in "$file" -text -noout
 }
 
 complete -d -f -W "-f --file --inform" openssl-decode-cert 
@@ -23,13 +23,13 @@ function openssl-decode-csr() {
 
 complete -d -f -W "-f --file --inform --type" openssl-decode-key
 function openssl-decode-key() {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
-  pbu_extract_arg -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
+  pbu.args.extract -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
   
-  pbu_extract_arg -l 'type:' -- "$@" || pbu_read_input "--type (rsa/ec): "
+  pbu.args.extract -l 'type:' -- "$@" || pbu_read_input "--type (rsa/ec): "
   local key_type=$REPLY
   
   echo "Is this public key: "
@@ -38,86 +38,86 @@ function openssl-decode-key() {
   
   if [ "$is_pub" == "0" ]
   then
-    pbu_eval_cmd_with_echo openssl "$key_type" -pubin -inform "$inform" -in "$file" -text -noout
+    pbu.eval.cmd_with_echo openssl "$key_type" -pubin -inform "$inform" -in "$file" -text -noout
   else [ "$is_pub" == "1" ]
-    pbu_eval_cmd_with_echo openssl "$key_type" -inform "$inform" -in "$file" -text -noout
+    pbu.eval.cmd_with_echo openssl "$key_type" -inform "$inform" -in "$file" -text -noout
   fi
 }
 
 complete -d -f -W "-f --file --inform" openssl-decode-asn1
 function openssl-decode-asn1() {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
-  pbu_extract_arg -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
+  pbu.args.extract -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
-  pbu_eval_cmd_with_echo openssl asn1parse -inform "$inform" -in "$file"
+  pbu.eval.cmd_with_echo openssl asn1parse -inform "$inform" -in "$file"
 }
 
 complete -d -f -W "-f --file --inform -o --outfile" openssl-tbs-extract
 function openssl-tbs-extract() {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   
-  pbu_extract_arg -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
+  pbu.args.extract -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
 
-  pbu_extract_arg -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  pbu_eval_cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse 4 -noout
+  pbu.eval.cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse 4 -noout
 }
 
 complete -d -f -W "-f --file --inform -o --outfile" openssl-signature-extract
 function openssl-signature-extract() {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   
-  pbu_extract_arg -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
+  pbu.args.extract -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
 
-  pbu_extract_arg -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
   local x=$(openssl asn1parse -inform $inform -in "$file" | tail -n 1 | cut -d ":" -f 1 | xargs)
   
-  pbu_eval_cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse "$x" -noout
+  pbu.eval.cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse "$x" -noout
 }
 
 complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-der-to-pem
 function openssl-x509-convert-der-to-pem () {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
-  pbu_extract_arg -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  pbu_eval_cmd_with_echo openssl x509 -inform der -in "$file" -outform pem -out "$outfile" -noout
+  pbu.eval.cmd_with_echo openssl x509 -inform der -in "$file" -outform pem -out "$outfile" -noout
 }
 
 complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-pem-to-der
 function openssl-x509-convert-pem-to-der () {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
 
-  pbu_extract_arg -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
   
-  pbu_eval_cmd_with_echo openssl x509 -inform pem -in "$file" -outform der -out $outfile -noout
+  pbu.eval.cmd_with_echo openssl x509 -inform pem -in "$file" -outform der -out $outfile -noout
 }
 
 complete -d -f -W "-f --file -o --outfile --inform --outform" openssl-publickey-extract
 function openssl-publickey-extract() {
-  pbu_extract_arg -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -- "$@" || pbu_read_input "-f|--file (file path): "
   local file=$REPLY
   
-  pbu_extract_arg -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
+  pbu.args.extract -l 'inform:' -- "$@" || pbu_read_input "--inform (der/pem): "
   local inform=$REPLY
 
-  pbu_extract_arg -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -- "$@" || pbu_read_input "-o|--outfile (file path): "
   local outfile=$REPLY
 
-  pbu_extract_arg -l 'outform:' -- "$@" || pbu_read_input "--outform (der/pem): "
+  pbu.args.extract -l 'outform:' -- "$@" || pbu_read_input "--outform (der/pem): "
   local outform=$REPLY
   
-  pbu_eval_cmd_with_echo openssl x509 -pubkey -inform "$inform" -in "$file" -outform "$outform" -out "$outfile" -noout
+  pbu.eval.cmd_with_echo openssl x509 -pubkey -inform "$inform" -in "$file" -outform "$outform" -out "$outfile" -noout
 }

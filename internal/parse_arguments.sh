@@ -31,7 +31,7 @@ function pbu.args.extract() {
   out_values=( ${REPLY[@]} )
   out_remaining_args=( ${REMAINING_ARGS[@]} )
 
-  pbu_is_not_found_error "$err" || return $err
+  pbu.errors.is_not_found_error "$err" || return $err
   [ "${default_value[@]}" != "" ] || return $err
 
   out_values=( ${default_value[@]} )
@@ -51,7 +51,7 @@ function pbu.args.delete() {
 
   pbu.args.extract -r $out_var_name "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
-  pbu_is_not_found_error $err || return $err
+  pbu.errors.is_not_found_error $err || return $err
   return 0
 }
 
@@ -90,19 +90,19 @@ function pbu.args.atleast_one_arg_present() {
   local short_args=()
   pbu.args.extract -s 's:' -l 'short:' -o short_args -- "${internal_args[@]}"
   local err=$?
-  pbu_is_success $err || pbu_is_not_found_error $err || return $err
+  pbu_is_success $err || pbu.errors.is_not_found_error $err || return $err
 
   local long_args=()
   pbu.args.extract -s 'l:' -l 'long:' -o long_args -- "${internal_args[@]}"
   local err=$?
-  pbu_is_success $err || pbu_is_not_found_error $err || return $err
+  pbu_is_success $err || pbu.errors.is_not_found_error $err || return $err
 
   for k in "${short_args[@]}"
   do
     pbu.args.extract -s "$k" -- "${external_args[@]}"
     err=$?
     pbu_is_success $err && return $PBU_SUCCESS
-    pbu_is_not_found_error $err || return $err
+    pbu.errors.is_not_found_error $err || return $err
   done
 
   for k in "${long_args[@]}"
@@ -110,7 +110,7 @@ function pbu.args.atleast_one_arg_present() {
     pbu.args.extract -l "$k" -- "${external_args[@]}"
     err=$?
     pbu_is_success $err && return $PBU_SUCCESS
-    pbu_is_not_found_error $err || return $err
+    pbu.errors.is_not_found_error $err || return $err
   done
   return $PBU_ERROR
 }
@@ -126,12 +126,12 @@ function pbu.args.all_args_present() {
   local short_args=()
   pbu.args.extract -s 's:' -l 'short:' -o short_args -- "${internal_args[@]}"
   local err=$?
-  pbu_is_success $err || pbu_is_not_found_error $err || return $err
+  pbu_is_success $err || pbu.errors.is_not_found_error $err || return $err
 
   local long_args=()
   pbu.args.extract -s 'l:' -l 'long:' -o long_args -- "${internal_args[@]}"
   local err=$?
-  pbu_is_success $err || pbu_is_not_found_error $err || return $err
+  pbu_is_success $err || pbu.errors.is_not_found_error $err || return $err
 
   for k in "${short_args[@]}"
   do
@@ -194,7 +194,7 @@ function ___pbu_extract_arg___() {
 
   [ "$short_key" != "" ] ||
   [ "$long_key" != "" ] ||
-  pbu_error_echo "At least one of either short or long option is required" || return $PBU_ERROR_USAGE
+  pbu.errors.echo "At least one of either short or long option is required" || return $PBU_ERROR_USAGE
 
   local short_is_switch_arg=0
   [ "$short_key" != "" ] && [[ ! "$short_key" =~ .*:$ ]] && short_is_switch_arg=1
@@ -207,7 +207,7 @@ function ___pbu_extract_arg___() {
   [ "$short_key" == "" ] ||
   [ "$long_key" == "" ] ||
   [ "$short_is_switch_arg" == "$long_is_switch_arg" ] ||
-  pbu_error_echo "Short and long args should be of same type either switch or key/value." || return $PBU_ERROR_USAGE
+  pbu.errors.echo "Short and long args should be of same type either switch or key/value." || return $PBU_ERROR_USAGE
 
   local is_switch_arg=0
   [[ "$short_is_switch_arg" == "1" || "$long_is_switch_arg" == "1" ]] && is_switch_arg=1
@@ -234,7 +234,7 @@ function ___pbu_extract_arg___() {
           local val="${1#"--$long_key="}" ;
           [ "$is_switch_arg" == "0" ] ||
           [[ "$val" == "true" || "$val" == "false" ]] ||
-          pbu_error_echo "Invalid valid for --$long_key. Expected true or false." ||
+          pbu.errors.echo "Invalid valid for --$long_key. Expected true or false." ||
           return $PBU_ERROR_USAGE ;
 
           reply+=( "$val" )
@@ -244,7 +244,7 @@ function ___pbu_extract_arg___() {
           local val="${1#"-$short_key="}" ;
           [ "$is_switch_arg" == "0" ] ||
           [[ "$val" == "true" || "$val" == "false" ]] ||
-          pbu_error_echo "Invalid valid for -$short_key. Expected true or false." ||
+          pbu.errors.echo "Invalid valid for -$short_key. Expected true or false." ||
           return $PBU_ERROR_USAGE;
 
           reply+=( "$val" )

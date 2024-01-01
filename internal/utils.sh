@@ -81,7 +81,7 @@ function pbu_confirm() {
 
 function pbu_get_full_path() {
   local path="$1"
-  pbu_is_not_empty "$path" || pbu_error_echo "path can not be empty" || return 1
+  pbu_is_not_empty "$path" || pbu.errors.echo "path can not be empty" || return 1
   local fullPath="$path"
   [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
   [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"
@@ -102,12 +102,12 @@ function pbu_is_dir_exist() {
 
 function pbu_create_dir_if_does_not_exist() {
   local fullPath="$(pbu_get_full_path "$1")"
-  [ -d "$fullPath" ] || pbu_eval_cmd mkdir -p "$fullPath"
+  [ -d "$fullPath" ] || pbu.eval.cmd mkdir -p "$fullPath"
 }
 
 function pbu_create_file_if_does_not_exist() {
   local fullPath="$(pbu_get_full_path "$1")"
-  [ -f "$fullPath" ] || pbu_eval_cmd touch "$fullPath"
+  [ -f "$fullPath" ] || pbu.eval.cmd touch "$fullPath"
 }
 
 function pbu_read_input_date() {

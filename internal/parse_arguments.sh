@@ -3,7 +3,7 @@ function pbu.args.extract() {
 
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
-  ___pbu_split_args_by_double_hyphen___ "$@" || return $pbu.errors.ERROR_USAGE
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
 
@@ -42,7 +42,7 @@ complete -W "-s --short -l --long -o --out-var" pbu.args.delete
 function pbu.args.delete() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
-  ___pbu_split_args_by_double_hyphen___ "$@" || return $pbu.errors.ERROR_USAGE
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
 
@@ -59,7 +59,7 @@ complete -W "-s --short -l --long" pbu.args.is_switch_arg_enabled
 function pbu.args.is_switch_arg_enabled() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
-  ___pbu_split_args_by_double_hyphen___ "$@" || return $pbu.errors.ERROR_USAGE
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
 
@@ -83,7 +83,7 @@ complete -W "-s --short -l --long" pbu.args.atleast_one_arg_present
 function pbu.args.atleast_one_arg_present() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
-  ___pbu_split_args_by_double_hyphen___ "$@" || return $pbu.errors.ERROR_USAGE
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
 
@@ -101,7 +101,7 @@ function pbu.args.atleast_one_arg_present() {
   do
     pbu.args.extract -s "$k" -- "${external_args[@]}"
     err=$?
-    pbu.errors.is_success $err && return $pbu.errors.SUCCESS
+    pbu.errors.is_success $err && return $PBU_SUCCESS
     pbu.errors.is_not_found_error $err || return $err
   done
 
@@ -109,17 +109,17 @@ function pbu.args.atleast_one_arg_present() {
   do
     pbu.args.extract -l "$k" -- "${external_args[@]}"
     err=$?
-    pbu.errors.is_success $err && return $pbu.errors.SUCCESS
+    pbu.errors.is_success $err && return $PBU_SUCCESS
     pbu.errors.is_not_found_error $err || return $err
   done
-  return $pbu.errors.ERROR
+  return $PBU_ERROR
 }
 
 complete -W "-s --short -l --long" pbu.args.all_args_present
 function pbu.args.all_args_present() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
-    ___pbu_split_args_by_double_hyphen___ "$@" || return $pbu.errors.ERROR_USAGE
+    ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
 
@@ -147,7 +147,7 @@ function pbu.args.all_args_present() {
     pbu.errors.is_success $err || return $err
   done
 
-  return $pbu.errors.SUCCESS
+  return $PBU_SUCCESS
 }
 
 
@@ -194,7 +194,7 @@ function ___pbu_extract_arg___() {
 
   [ "$short_key" != "" ] ||
   [ "$long_key" != "" ] ||
-  pbu.errors.echo "At least one of either short or long option is required" || return $pbu.errors.ERROR_USAGE
+  pbu.errors.echo "At least one of either short or long option is required" || return $PBU_ERROR_USAGE
 
   local short_is_switch_arg=0
   [ "$short_key" != "" ] && [[ ! "$short_key" =~ .*:$ ]] && short_is_switch_arg=1
@@ -207,7 +207,7 @@ function ___pbu_extract_arg___() {
   [ "$short_key" == "" ] ||
   [ "$long_key" == "" ] ||
   [ "$short_is_switch_arg" == "$long_is_switch_arg" ] ||
-  pbu.errors.echo "Short and long args should be of same type either switch or key/value." || return $pbu.errors.ERROR_USAGE
+  pbu.errors.echo "Short and long args should be of same type either switch or key/value." || return $PBU_ERROR_USAGE
 
   local is_switch_arg=0
   [[ "$short_is_switch_arg" == "1" || "$long_is_switch_arg" == "1" ]] && is_switch_arg=1
@@ -235,7 +235,7 @@ function ___pbu_extract_arg___() {
           [ "$is_switch_arg" == "0" ] ||
           [[ "$val" == "true" || "$val" == "false" ]] ||
           pbu.errors.echo "Invalid valid for --$long_key. Expected true or false." ||
-          return $pbu.errors.ERROR_USAGE ;
+          return $PBU_ERROR_USAGE ;
 
           reply+=( "$val" )
           ;;
@@ -245,7 +245,7 @@ function ___pbu_extract_arg___() {
           [ "$is_switch_arg" == "0" ] ||
           [[ "$val" == "true" || "$val" == "false" ]] ||
           pbu.errors.echo "Invalid valid for -$short_key. Expected true or false." ||
-          return $pbu.errors.ERROR_USAGE;
+          return $PBU_ERROR_USAGE;
 
           reply+=( "$val" )
           ;;
@@ -258,7 +258,7 @@ function ___pbu_extract_arg___() {
   if [ "$found" == 0 ]
   then
     reply=()
-    return $pbu.errors.ERROR_NOT_FOUND
+    return $PBU_ERROR_NOT_FOUND
   fi
   return 0
 }

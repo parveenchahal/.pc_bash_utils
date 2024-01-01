@@ -1,12 +1,25 @@
-alias pbu_py='python3'
-function pbu_is_py_installed() {
-  local out=$(pbu_py -c 'print("", end="")' 2>&1)
+alias pbu.py='python3'
+function pbu.py.is_installed() {
+  local out=$(pbu.py -c 'print("", end="")' 2>&1)
   [ "$out" == "" ] || return 1
   return 0
 }
 
-if pbu_is_py_installed;
+if pbu.py.is_installed;
 then
+
+function py-exec() {
+cmd=$(
+cat<<EOF
+$@
+EOF
+)
+pbu.py -c "$cmd"
+}
+
+function py-print() {
+  py-exec "print($@)"
+}
 
 function pbu_complete-fn-exec-py-script(){
   if [ "$3" == "--script-name" ]
@@ -30,7 +43,7 @@ function exec-py-script() {
   local name="$REPLY"
   pbu.create_dir_if_does_not_exist ~/.py-script
   pushd ~/.py-script > /dev/null
-  pbu_py "$name.py" "$@"
+  pbu.py "$name.py" "$@"
   popd > /dev/null
 }
 
@@ -59,19 +72,6 @@ function edit-py-script() {
   local editor="$REPLY"
   pbu.create_file_if_does_not_exist "$basePath/$name.py"
   pbu.eval.cmd "$editor" "$basePath/$name.py"
-}
-  
-function py-exec() {
-cmd=$(
-cat<<EOF
-$@
-EOF
-)
-pbu_py -c "$cmd"
-}
-
-function py-print() {
-  py-exec "print($@)"
 }
 
 fi

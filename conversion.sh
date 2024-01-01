@@ -20,7 +20,7 @@ function num-dec-to-oct() {
  
  alias hexdump-to-bin='xxd -r -p'
 
-if pbu_is_py_installed;
+if pbu.py.is_installed;
 then
 
 function num-oct-to-bin() {

@@ -20,7 +20,7 @@ function exec-bash-script() {
   local name="$REPLY"
   set -- "${REMAINING_ARGS[@]}"
 
-  pbu_create_dir_if_does_not_exist ~/.bash-script
+  pbu.create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
   if pbu.args.is_switch_arg_enabled -l 'in-current-bash-session' -- "$@";
   then
@@ -55,7 +55,7 @@ function edit-bash-script() {
   local basePath="$(realpath ~/.bash-script)"
   pbu.args.extract -l 'script-name:' -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
   local name="$REPLY"
-  pbu_create_dir_if_does_not_exist ~/.bash-script
+  pbu.create_dir_if_does_not_exist ~/.bash-script
   pbu.args.extract -l 'editor:' -- "$@" || REPLY=vim
   local editor="$REPLY"
   if [ ! -f "$basePath/$name.sh" ]

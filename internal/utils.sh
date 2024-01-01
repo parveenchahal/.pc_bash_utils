@@ -1,4 +1,4 @@
-function pbu_read_input() {
+function pbu.read_input() {
   if [ ! -z "$1" ]
   then
     echo -n $1
@@ -6,12 +6,12 @@ function pbu_read_input() {
   read
 }
 
-function pbu_confirm() {
+function pbu.confirm() {
   local msg="Confirm"
   pbu.string.is_empty "$1" || msg="$1"
   while $true;
   do
-    pbu_read_input "$msg (yes/no): "
+    pbu.read_input "$msg (yes/no): "
     result="${REPLY,,}"
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then
@@ -24,7 +24,7 @@ function pbu_confirm() {
   done
 }
 
-function pbu_get_full_path() {
+function pbu.get_full_path() {
   local path="$1"
   pbu.string.is_not_empty "$path" || pbu.errors.echo "path can not be empty" || return 1
   local fullPath="$path"
@@ -33,30 +33,30 @@ function pbu_get_full_path() {
   printf "%s" "$fullPath"
 }
 
-function pbu_is_file_exist() {
-  local fullPath="$(pbu_get_full_path "$1")"
+function pbu.is_file_exist() {
+  local fullPath="$(pbu.get_full_path "$1")"
   [ -f "$fullPath" ] || return 1
   return 0
 }
 
-function pbu_is_dir_exist() {
-  local fullPath="$(pbu_get_full_path "$1")"
+function pbu.is_dir_exist() {
+  local fullPath="$(pbu.get_full_path "$1")"
   [ -d "$fullPath" ] || return 1
   return 0
 }
 
-function pbu_create_dir_if_does_not_exist() {
-  local fullPath="$(pbu_get_full_path "$1")"
+function pbu.create_dir_if_does_not_exist() {
+  local fullPath="$(pbu.get_full_path "$1")"
   [ -d "$fullPath" ] || pbu.eval.cmd mkdir -p "$fullPath"
 }
 
-function pbu_create_file_if_does_not_exist() {
-  local fullPath="$(pbu_get_full_path "$1")"
+function pbu.create_file_if_does_not_exist() {
+  local fullPath="$(pbu.get_full_path "$1")"
   [ -f "$fullPath" ] || pbu.eval.cmd touch "$fullPath"
 }
 
-function pbu_read_input_date() {
-  pbu_read_input "Date in UTC (YYYY-MM-DD): "
+function pbu.read_input_date() {
+  pbu.read_input "Date in UTC (YYYY-MM-DD): "
   local date_str=$REPLY
   if [ -z "$date_str" ]
   then
@@ -64,7 +64,7 @@ function pbu_read_input_date() {
     REPLY=$date_str
     return 0
   fi
-  pbu_read_input "Time in UTC (HH:MM:SS): "
+  pbu.read_input "Time in UTC (HH:MM:SS): "
   local time_str=$REPLY
   if [ -z "$time_str" ]
   then

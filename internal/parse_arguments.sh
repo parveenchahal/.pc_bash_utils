@@ -38,10 +38,18 @@ function pbu_extract_arg() {
   return 0
 }
 
-complete -W "-s --short -l --long -r --remaining-args-var" pbu_delete_arg
+complete -W "-s --short -l --long -o --out-var" pbu_delete_arg
 function pbu_delete_arg() {
-  local random_var_name_delete_outvalue=""
-  pbu_extract_arg -o random_var_name_delete_outvalue "$@"
+  local SPLITED_ARGS1=()
+  local SPLITED_ARGS2=()
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
+  local internal_args=( ${SPLITED_ARGS1[@]} )
+  local external_args=( ${SPLITED_ARGS2[@]} )
+
+  local out_var_name=()
+  pbu_extract_arg -s 'o:' -l 'out-var:' -o out_var_name -- "${internal_args[@]}"
+
+  pbu_extract_arg -r $out_var_name "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
   pbu_is_not_found_error $err || return $err
   return 0

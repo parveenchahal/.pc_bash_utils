@@ -1,5 +1,5 @@
-complete -W "--pre-define-base64 --limit --select --table --where" pbu_sql_filter_query_echo
-function pbu_sql_filter_query_echo() {
+complete -W "--pre-define-base64 --limit --select --table --where" pbu.sql.filter_query_echo
+function pbu.sql.filter_query_echo() {
   pbu.args.extract -l 'limit:' -- "$@" || REPLY="10"
   local limit="$REPLY"
   

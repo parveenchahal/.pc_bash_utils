@@ -55,11 +55,15 @@ function pbu_complete-fn-edit-bash-script(){
 complete -F pbu_complete-fn-edit-bash-script edit-bash-script
 function edit-bash-script() {
   local basePath="$(realpath ~/.bash-script)"
-  pbu.args.extract -l 'script-name:' -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
-  local name="$REPLY"
+
+  local name=()
+  pbu.args.extract -l 'script-name:' -o name -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
+
   pbu.create_dir_if_does_not_exist ~/.bash-script
-  pbu.args.extract -l 'editor:' -- "$@" || REPLY=vim
-  local editor="$REPLY"
+
+  local editor=()
+  pbu.args.extract -l 'editor:' -o editor -- "$@" || editor="vim"
+
   if [ ! -f "$basePath/$name.sh" ]
   then
     pbu.eval.cmd touch "$basePath/$name.sh"

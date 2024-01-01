@@ -64,7 +64,7 @@ function pbu.args.is_switch_arg_enabled() {
   local external_args=( ${SPLITED_ARGS2[@]} )
 
   local remaining_args=()
-  pbu.args.delete -s d -l default-value -r remaining_args -- "${internal_args[@]}"
+  pbu.args.delete -s d -l default-value -o remaining_args -- "${internal_args[@]}"
   internal_args=( ${remaining_args[@]} )
   internal_args+=( -d false )
 

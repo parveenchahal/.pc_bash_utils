@@ -1,14 +1,23 @@
-complete -W "-s --short -l --long -d --default-value" pbu_extract_arg
+complete -W "-s --short -l --long -d --default-value -v --values-var -r --remaining-args-var" pbu_extract_arg
 function pbu_extract_arg() {
-
-  REMAINING_ARGS=( "$@" )
-  REPLY=()
 
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
   local internal_args=( ${SPLITED_ARGS1[@]} )
   local external_args=( ${SPLITED_ARGS2[@]} )
+
+  local REPLY=()
+  local REMAINING_ARGS=()
+
+  ___pbu_extract_arg___ 'v:' 'values-var:' "${internal_args[@]}" && local -n out_values="$REPLY" || local out_values
+
+  ___pbu_extract_arg___ 'r:' 'remaining-args-var:' "${internal_args[@]}" && local -n out_remaining_args="$REPLY" || local out_remaining_args
+
+  out_values=()
+  out_remaining_args=( "$@" )
+
+  REPLY=()
 
   ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
   local short_key="$REPLY"
@@ -19,11 +28,13 @@ function pbu_extract_arg() {
 
   ___pbu_extract_arg___ "$short_key" "$long_key" "${external_args[@]}"
   local err=$?
+  out_values=( ${REPLY[@]} )
+  out_remaining_args=( ${REMAINING_ARGS[@]} )
 
   pbu_is_not_found_error "$err" || return $err
   [ "${default_value[@]}" != "" ] || return $err
 
-  REPLY=( ${default_value[@]} )
+  out_values=( ${default_value[@]} )
   return 0
 }
 
@@ -177,8 +188,11 @@ function ___pbu_extract_arg___() {
   local long_key="$1"
   shift
 
-  REMAINING_ARGS=( "$@" )
-  REPLY=()
+  local -n remaining_args='REMAINING_ARGS'
+  local -n reply='REPLY'
+
+  remaining_args=( "$@" )
+  reply=()
 
   [ "$short_key" != "" ] ||
   [ "$long_key" != "" ] ||
@@ -200,7 +214,7 @@ function ___pbu_extract_arg___() {
   local is_switch_arg=0
   [[ "$short_is_switch_arg" == "1" || "$long_is_switch_arg" == "1" ]] && is_switch_arg=1
 
-  REMAINING_ARGS=()
+  remaining_args=()
 
   local found=0
   while [ "${#@}" != "0" ] ; do
@@ -212,10 +226,10 @@ function ___pbu_extract_arg___() {
     case "$1" in
       --$long_key|-$short_key)
           found=1 ;
-          [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && REPLY+=( "true" ) ;
-          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ "$2" =~ ^-.* ]] && REPLY+=( "" ) ;
-          [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && REPLY+=( "$2" ) && shift ;
-          [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && REPLY+=( "$2" ) && shift
+          [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && reply+=( "true" ) ;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ "$2" =~ ^-.* ]] && reply+=( "" ) ;
+          [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && reply+=( "$2" ) && shift ;
+          [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && reply+=( "$2" ) && shift
           ;;
       --$long_key=*)
           found=1 ;
@@ -225,7 +239,7 @@ function ___pbu_extract_arg___() {
           pbu_error_echo "Invalid valid for --$long_key. Expected true or false." ||
           return $PBU_ERROR_USAGE ;
 
-          REPLY+=( "$val" )
+          reply+=( "$val" )
           ;;
       -$short_key=*)
           found=1 ;
@@ -235,17 +249,17 @@ function ___pbu_extract_arg___() {
           pbu_error_echo "Invalid valid for -$short_key. Expected true or false." ||
           return $PBU_ERROR_USAGE;
 
-          REPLY+=( "$val" )
+          reply+=( "$val" )
           ;;
       *)
-          REMAINING_ARGS+=( "$1" );;
+          remaining_args+=( "$1" );;
     esac
     shift
   done
 
   if [ "$found" == 0 ]
   then
-    REPLY=()
+    reply=()
     return $PBU_ERROR_NOT_FOUND
   fi
   return 0

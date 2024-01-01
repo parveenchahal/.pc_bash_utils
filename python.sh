@@ -21,7 +21,7 @@ function py-print() {
   py-exec "print($@)"
 }
 
-function pbu_complete-fn-exec-py-script(){
+function ___pbu_complete-fn-exec-py-script___(){
   if [ "$3" == "--script-name" ]
   then
     local values=()
@@ -36,7 +36,7 @@ function pbu_complete-fn-exec-py-script(){
     COMPREPLY=( $(compgen -W "--script-name" -- "$2") )
   fi
 }
-complete -F pbu_complete-fn-exec-py-script exec-py-script
+complete -F ___pbu_complete-fn-exec-py-script___ exec-py-script
 function exec-py-script() {
   local name=()
   local remaining_args=()
@@ -49,7 +49,7 @@ function exec-py-script() {
   popd > /dev/null
 }
 
-function pbu_complete-fn-edit-py-script(){
+function ___pbu_complete-fn-edit-py-script___(){
   if [ "$3" == "--script-name" ]
   then
     local values=()
@@ -64,7 +64,7 @@ function pbu_complete-fn-edit-py-script(){
     COMPREPLY=( $(compgen -W "--script-name --editor" -- "$2") )
   fi
 }
-complete -F pbu_complete-fn-edit-py-script edit-py-script
+complete -F ___pbu_complete-fn-edit-py-script___ edit-py-script
 function edit-py-script() {
   local basePath="$(realpath ~/.py-script)"
   local name=()

@@ -1,4 +1,4 @@
-function pbu_complete-fn-exec-bash-script(){
+function ___pbu_complete-fn-exec-bash-script___(){
   if [ "$3" == "--script-name" ]
   then
     local values=()
@@ -14,7 +14,7 @@ function pbu_complete-fn-exec-bash-script(){
   fi
 }
 
-complete -F pbu_complete-fn-exec-bash-script exec-bash-script
+complete -F ___pbu_complete-fn-exec-bash-script___ exec-bash-script
 function exec-bash-script() {
   local name=()
   local remaining_args=()
@@ -36,7 +36,7 @@ function exec-bash-script() {
 }
 
 
-function pbu_complete-fn-edit-bash-script(){
+function ___pbu_complete-fn-edit-bash-script___(){
   if [ "$3" == "--script-name" ]
   then
     local values=()
@@ -52,7 +52,7 @@ function pbu_complete-fn-edit-bash-script(){
   fi
 }
 
-complete -F pbu_complete-fn-edit-bash-script edit-bash-script
+complete -F ___pbu_complete-fn-edit-bash-script___ edit-bash-script
 function edit-bash-script() {
   local basePath="$(realpath ~/.bash-script)"
 

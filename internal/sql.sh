@@ -1,4 +1,4 @@
-complete -W "--pre-define-base64 --limit --select --table --where" pbu.sql.filter_query_echo
+complete -W "--pre-define-base64 --limit --select --select-star --table --where" pbu.sql.filter_query_echo
 function pbu.sql.filter_query_echo() {
   local limit=()
   pbu.args.extract -l 'limit:' -o limit -d 10 -- "$@" || return
@@ -8,6 +8,8 @@ function pbu.sql.filter_query_echo() {
 
   local selects=()
   pbu.args.extract -l 'select:' -o selects -- "$@"
+
+  pbu.args.is_switch_arg_enabled -l 'select-star' -- "$@" && selects+=( '*' )
 
   local selectFields=''
   for s in "${selects[@]}"

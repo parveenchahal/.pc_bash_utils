@@ -67,6 +67,21 @@ function pbu.args.is_switch_arg_enabled() {
   internal_args=( "${remaining_args[@]}" )
   internal_args+=( -d false )
 
+  local short_args=()
+  pbu.args.extract -s "s:" -l "short:" -o short_args -- "${internal_args[@]}"
+
+  local long_args=()
+  pbu.args.extract -s "l:" -l "long:" -o long_args -- "${internal_args[@]}"
+
+  local all_args=()
+  all_args+=( "${short_args[@]}" )
+  all_args+=( "${long_args[@]}" )
+
+  for k in "${all_args[@]}"
+  do
+    [[ ! "$k" =~ .*:$ ]] || pbu.errors.echo "pbu.args.is_switch_arg_enabled can't take value args." || return $PBU_ERROR_USAGE
+  done
+
   local value=()
   pbu.args.extract -o value "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?

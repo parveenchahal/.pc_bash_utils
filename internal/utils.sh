@@ -11,7 +11,7 @@ function pbu.confirm() {
   pbu.string.is_empty "$1" || msg="$1"
   while $true;
   do
-    pbu.read_input "$msg (yes/no): "
+    pbu.read_input "$msg (yes/no): " || return
     result="${REPLY,,}"
     if [ "$result" == "y" ] || [ "$result" == "yes" ];
     then
@@ -57,7 +57,7 @@ function pbu.create_file_if_does_not_exist() {
 
 function pbu.read_input_date() {
   pbu.read_input "Date in UTC (YYYY-MM-DD): "
-  local date_str=$REPLY
+  local date_str="$REPLY"
   if [ -z "$date_str" ]
   then
     date_str=$(date +"%FT%T.0Z")
@@ -65,7 +65,7 @@ function pbu.read_input_date() {
     return 0
   fi
   pbu.read_input "Time in UTC (HH:MM:SS): "
-  local time_str=$REPLY
+  local time_str="$REPLY"
   if [ -z "$time_str" ]
   then
     time_str="00:00:00.0"

@@ -238,10 +238,12 @@ function ___pbu_extract_arg___() {
     case "$1" in
       --$long_key|-$short_key)
           found=1 ;
-          [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && reply+=( "true" ) ;
-          [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ "$2" =~ ^-.* ]] && reply+=( "" ) ;
-          [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && reply+=( "$2" ) && shift ;
-          [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && reply+=( "$2" ) && shift
+          [ "$is_switch_arg" == "1" ] && reply+=( "true" ) ;
+          [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && reply+=( "$2" ) && shift ;
+          # [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && reply+=( "true" ) ;
+          # [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ "$2" =~ ^-.* ]] && reply+=( "" ) ;
+          # [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && reply+=( "$2" ) && shift ;
+          # [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && reply+=( "$2" ) && shift
           ;;
       --$long_key=*)
           found=1 ;

@@ -1,9 +1,10 @@
 function pbu.read_input() {
   if [ ! -z "$1" ]
   then
-    echo -n $1
+    read -p "$1" || return
+  else
+    read || return
   fi
-  read
 }
 
 function pbu.confirm() {

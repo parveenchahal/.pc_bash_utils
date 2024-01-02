@@ -88,8 +88,8 @@ function pbu.args.is_switch_arg_enabled() {
 
   pbu.errors.is_success $err || return $err
 
-  [ "$value" == "false" ] && return 1
-  [ "$value" == "true" ] && return 0
+  [ "$____value____" == "false" ] && return 1
+  [ "$____value____" == "true" ] && return 0
   return 1
 }
 

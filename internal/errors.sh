@@ -10,8 +10,9 @@ function pbu.errors.get_error_code() {
 }
 
 function pbu.errors.echo() {
+  local err="$?"
   echo -e "\e[01;31m${@}\e[0m"
-  return $PBU_ERROR
+  return $err
 }
 
 function pbu.errors.exit() {

@@ -2,7 +2,7 @@ complete -W "--editor" tmp
 function tmp() {
   local editor=()
   local remaining_args=()
-  pbu.args.extract -l 'editor:' -o editor -r remaining_args -- "$@" || editor="vim"
+  pbu.args.extract -l 'editor:' -o editor -r remaining_args -d vim -- "$@" || return
 
   set -- "${remaining_args[@]}"
 

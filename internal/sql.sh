@@ -1,7 +1,7 @@
 complete -W "--pre-define-base64 --limit --select --table --where" pbu.sql.filter_query_echo
 function pbu.sql.filter_query_echo() {
   local limit=()
-  pbu.args.extract -l 'limit:' -o limit -- "$@" || limit="10"
+  pbu.args.extract -l 'limit:' -o limit -d 10 -- "$@" || return
   
   local table=()
   pbu.args.extract -l 'table:' -o table -- "$@" || pbu.errors.echo "--table is required arg" || return 1

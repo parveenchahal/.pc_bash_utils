@@ -71,7 +71,7 @@ function edit-py-script() {
   pbu.args.extract -l 'script-name:' -o name -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
   pbu.create_dir_if_does_not_exist ~/.py-script
   local editor=()
-  pbu.args.extract -l 'editor:' -o editor -- "$@" || editor="vim"
+  pbu.args.extract -l 'editor:' -o editor -d vim -- "$@" || return
   pbu.create_file_if_does_not_exist "$basePath/$name.py"
   pbu.eval.cmd "$editor" "$basePath/$name.py"
 }

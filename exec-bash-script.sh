@@ -62,7 +62,7 @@ function edit-bash-script() {
   pbu.create_dir_if_does_not_exist ~/.bash-script
 
   local editor=()
-  pbu.args.extract -l 'editor:' -o editor -- "$@" || editor="vim"
+  pbu.args.extract -l 'editor:' -o editor -d vim -- "$@" || return
 
   if [ ! -f "$basePath/$name.sh" ]
   then

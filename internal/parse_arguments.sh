@@ -54,7 +54,7 @@ function pbu.args.delete() {
   return 0
 }
 
-complete -W "-s --short -l --long" pbu.args.is_switch_arg_enabled
+complete -W "-s --short -l --long -r --remaining-args-var" pbu.args.is_switch_arg_enabled
 function pbu.args.is_switch_arg_enabled() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()

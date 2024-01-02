@@ -6,22 +6,23 @@ function pbu.eval.format_string() {
 }
 
 function pbu.eval.cmd() {
-  args=()
-  for x in "$@"
+  local ____args____=()
+  while [ "${#@}" -gt 0 ]
   do
-    args+=( "$(pbu.eval.format_string "$x")" )
+    ____args____+=( "$(pbu.eval.format_string "$1")" )
+    shift
   done
-  local t=()
-  set -- "${t[@]}"
-  eval "${args[@]}"
+  local ____t____=()
+  set -- "${____t____[@]}"
+  eval "${____args____[@]}"
 }
 
 function pbu.eval.cmd_with_echo() {
-  args=()
-  for x in "$@"
+  local ____args____=()
+  for ____x____ in "$@"
   do
-    args+=( "$(pbu.eval.format_string "$x")" )
+    ____args____+=( "$(pbu.eval.format_string "$____x____")" )
   done
-  echo "Executing command: ${args[@]}"
+  echo "Executing command: ${____args____[@]}"
   pbu.eval.cmd "$@"
 }

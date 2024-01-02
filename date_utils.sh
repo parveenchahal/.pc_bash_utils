@@ -1,10 +1,7 @@
 complete -W "--out-utc --nanoseconds --microseconds --milliseconds --seconds" date-from-epoch
 function date-from-epoch() {
 
-  pbu.args.extract -l 'nanoseconds:' -- "$@" ||
-  pbu.args.extract -l 'microseconds:' -- "$@" ||
-  pbu.args.extract -l 'milliseconds:' -- "$@" ||
-  pbu.args.extract -l 'seconds:' -- "$@" ||
+  pbu.args.atleast_one_arg_present -l 'nanoseconds:' -l 'microseconds:' -l 'milliseconds:' -l 'seconds:' -- "$@" ||
   pbu.errors.echo "At least one of args --nanoseconds, --microseconds, --milliseconds or --seconds is required" || return 1
   
   local values=()

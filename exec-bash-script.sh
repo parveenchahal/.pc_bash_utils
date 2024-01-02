@@ -24,7 +24,7 @@ function exec-bash-script() {
 
   pbu.create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
-  if pbu.args.is_switch_arg_enabled -l 'in-current-bash-session' -- "$@";
+  if pbu.args.is_switch_arg_enabled -l 'in-current-bash-session' -r remaining_args -- "$@";
   then
     set -- "${remaining_args[@]}"
     pbu.eval.cmd "." "./$name.sh" "$@"

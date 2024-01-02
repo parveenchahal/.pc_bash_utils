@@ -1,11 +1,10 @@
 complete -W "-s --short -l --long -d --default-value -o --out-var -r --remaining-args-var" pbu.args.extract
 function pbu.args.extract() {
-
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
-  local internal_args=( ${SPLITED_ARGS1[@]} )
-  local external_args=( ${SPLITED_ARGS2[@]} )
+  local internal_args=( "${SPLITED_ARGS1[@]}" )
+  local external_args=( "${SPLITED_ARGS2[@]}" )
 
   local REPLY=()
   local REMAINING_ARGS=()
@@ -28,13 +27,13 @@ function pbu.args.extract() {
 
   ___pbu_extract_arg___ "$short_key" "$long_key" "${external_args[@]}"
   local err=$?
-  out_values=( ${REPLY[@]} )
-  out_remaining_args=( ${REMAINING_ARGS[@]} )
+  out_values=( "${REPLY[@]}" )
+  out_remaining_args=( "${REMAINING_ARGS[@]}" )
 
   pbu.errors.is_not_found_error "$err" || return $err
   [ "${default_value[@]}" != "" ] || return $err
 
-  out_values=( ${default_value[@]} )
+  out_values=( "${default_value[@]}" )
   return 0
 }
 
@@ -43,8 +42,8 @@ function pbu.args.delete() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
-  local internal_args=( ${SPLITED_ARGS1[@]} )
-  local external_args=( ${SPLITED_ARGS2[@]} )
+  local internal_args=( "${SPLITED_ARGS1[@]}" )
+  local external_args=( "${SPLITED_ARGS2[@]}" )
 
   local out_var_name=()
   pbu.args.extract -s 'o:' -l 'out-var:' -o out_var_name -- "${internal_args[@]}"
@@ -60,12 +59,12 @@ function pbu.args.is_switch_arg_enabled() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
-  local internal_args=( ${SPLITED_ARGS1[@]} )
-  local external_args=( ${SPLITED_ARGS2[@]} )
+  local internal_args=( "${SPLITED_ARGS1[@]}" )
+  local external_args=( "${SPLITED_ARGS2[@]}" )
 
   local remaining_args=()
   pbu.args.delete -s d -l default-value -o remaining_args -- "${internal_args[@]}"
-  internal_args=( ${remaining_args[@]} )
+  internal_args=( "${remaining_args[@]}" )
   internal_args+=( -d false )
 
   local value=()
@@ -84,8 +83,8 @@ function pbu.args.atleast_one_arg_present() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
   ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
-  local internal_args=( ${SPLITED_ARGS1[@]} )
-  local external_args=( ${SPLITED_ARGS2[@]} )
+  local internal_args=( "${SPLITED_ARGS1[@]}" )
+  local external_args=( "${SPLITED_ARGS2[@]}" )
 
   local short_args=()
   pbu.args.extract -s 's:' -l 'short:' -o short_args -- "${internal_args[@]}"
@@ -120,8 +119,8 @@ function pbu.args.all_args_present() {
   local SPLITED_ARGS1=()
   local SPLITED_ARGS2=()
     ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
-  local internal_args=( ${SPLITED_ARGS1[@]} )
-  local external_args=( ${SPLITED_ARGS2[@]} )
+  local internal_args=( "${SPLITED_ARGS1[@]}" )
+  local external_args=( "${SPLITED_ARGS2[@]}" )
 
   local short_args=()
   pbu.args.extract -s 's:' -l 'short:' -o short_args -- "${internal_args[@]}"
@@ -177,7 +176,7 @@ function ___pbu_split_args_by_double_hyphen___() {
     args2=()
     return 1
   fi
-  args2=( ${@} )
+  args2=( "${@}" )
 }
 
 function ___pbu_extract_arg___() {
@@ -198,11 +197,11 @@ function ___pbu_extract_arg___() {
 
   local short_is_switch_arg=0
   [ "$short_key" != "" ] && [[ ! "$short_key" =~ .*:$ ]] && short_is_switch_arg=1
-  short_key=${short_key%:}
+  short_key="${short_key%:}"
 
   local long_is_switch_arg=0
   [ "$long_key" != "" ] && [[ ! "$long_key" =~ .*:$ ]] && long_is_switch_arg=1
-  long_key=${long_key%:}
+  long_key="${long_key%:}"
 
   [ "$short_key" == "" ] ||
   [ "$long_key" == "" ] ||

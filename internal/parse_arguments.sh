@@ -6,29 +6,29 @@ function pbu.args.extract() {
   local internal_args=( "${SPLITED_ARGS1[@]}" )
   local external_args=( "${SPLITED_ARGS2[@]}" )
 
-  local REPLY=()
-  local REMAINING_ARGS=()
+  local _____REPLY_____=()
+  local _____REMAINING_ARGS_____=()
 
-  ___pbu_extract_arg___ 'o:' 'out-var:' "${internal_args[@]}" && local -n out_values="$REPLY" || local out_values
+  ___pbu_extract_arg___ 'o:' 'out-var:' "${internal_args[@]}" && local -n out_values="$_____REPLY_____" || local out_values
 
-  ___pbu_extract_arg___ 'r:' 'remaining-args-var:' "${internal_args[@]}" && local -n out_remaining_args="$REPLY" || local out_remaining_args
+  ___pbu_extract_arg___ 'r:' 'remaining-args-var:' "${internal_args[@]}" && local -n out_remaining_args="$_____REPLY_____" || local out_remaining_args
 
   out_values=()
   out_remaining_args=( "$@" )
 
-  REPLY=()
+  _____REPLY_____=()
 
   ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
-  local short_key="$REPLY"
+  local short_key="$_____REPLY_____"
   ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
-  local long_key="$REPLY"
+  local long_key="$_____REPLY_____"
   ___pbu_extract_arg___ 'd:' 'default-value:' "${internal_args[@]}"
-  local default_value=( "${REPLY[@]}" )
+  local default_value=( "${_____REPLY_____[@]}" )
 
   ___pbu_extract_arg___ "$short_key" "$long_key" "${external_args[@]}"
   local err=$?
-  out_values=( "${REPLY[@]}" )
-  out_remaining_args=( "${REMAINING_ARGS[@]}" )
+  out_values=( "${_____REPLY_____[@]}" )
+  out_remaining_args=( "${_____REMAINING_ARGS_____[@]}" )
 
   pbu.errors.is_not_found_error "$err" || return $err
   [ "${#default_value[@]}" != "0" ] || return $err
@@ -45,10 +45,10 @@ function pbu.args.delete() {
   local internal_args=( "${SPLITED_ARGS1[@]}" )
   local external_args=( "${SPLITED_ARGS2[@]}" )
 
-  local out_var_name=()
-  pbu.args.extract -s 'o:' -l 'out-var:' -o out_var_name -- "${internal_args[@]}"
+  local ____out_var_name____=()
+  pbu.args.extract -s 'o:' -l 'out-var:' -o ____out_var_name____ -- "${internal_args[@]}"
 
-  pbu.args.extract -r $out_var_name "${internal_args[@]}" -- "${external_args[@]}"
+  pbu.args.extract -r $____out_var_name____ "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
   pbu.errors.is_not_found_error $err || return $err
   return 0
@@ -62,28 +62,28 @@ function pbu.args.is_switch_arg_enabled() {
   local internal_args=( "${SPLITED_ARGS1[@]}" )
   local external_args=( "${SPLITED_ARGS2[@]}" )
 
-  local remaining_args=()
-  pbu.args.delete -s d -l default-value -o remaining_args -- "${internal_args[@]}"
-  internal_args=( "${remaining_args[@]}" )
+  local ____remaining_args____=()
+  pbu.args.delete -s d -l default-value -o ____remaining_args____ -- "${internal_args[@]}"
+  internal_args=( "${____remaining_args____[@]}" )
   internal_args+=( -d false )
 
-  local short_args=()
-  pbu.args.extract -s "s:" -l "short:" -o short_args -- "${internal_args[@]}"
+  local ____short_args____=()
+  pbu.args.extract -s "s:" -l "short:" -o ____short_args____ -- "${internal_args[@]}"
 
-  local long_args=()
-  pbu.args.extract -s "l:" -l "long:" -o long_args -- "${internal_args[@]}"
+  local ____long_args____=()
+  pbu.args.extract -s "l:" -l "long:" -o ____long_args____ -- "${internal_args[@]}"
 
   local all_args=()
-  all_args+=( "${short_args[@]}" )
-  all_args+=( "${long_args[@]}" )
+  all_args+=( "${____short_args____[@]}" )
+  all_args+=( "${____long_args____[@]}" )
 
   for k in "${all_args[@]}"
   do
     [[ ! "$k" =~ .*:$ ]] || pbu.errors.echo "pbu.args.is_switch_arg_enabled can't take value args." || return $PBU_ERROR_USAGE
   done
 
-  local value=()
-  pbu.args.extract -o value "${internal_args[@]}" -- "${external_args[@]}"
+  local ____value____=()
+  pbu.args.extract -o ____value____ "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
 
   pbu.errors.is_success $err || return $err
@@ -200,8 +200,8 @@ function ___pbu_extract_arg___() {
   local long_key="$1"
   shift
 
-  local -n remaining_args='REMAINING_ARGS'
-  local -n reply='REPLY'
+  local -n remaining_args='_____REMAINING_ARGS_____'
+  local -n reply='_____REPLY_____'
 
   remaining_args=( "$@" )
   reply=()

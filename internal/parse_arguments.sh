@@ -23,7 +23,7 @@ function pbu.args.extract() {
   ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
   local long_key="$REPLY"
   ___pbu_extract_arg___ 'd:' 'default-value:' "${internal_args[@]}"
-  local default_value="${REPLY[@]}"
+  local default_value=( "${REPLY[@]}" )
 
   ___pbu_extract_arg___ "$short_key" "$long_key" "${external_args[@]}"
   local err=$?
@@ -31,7 +31,7 @@ function pbu.args.extract() {
   out_remaining_args=( "${REMAINING_ARGS[@]}" )
 
   pbu.errors.is_not_found_error "$err" || return $err
-  [ "${default_value[@]}" != "" ] || return $err
+  [ "${#default_value[@]}" != "0" ] || return $err
 
   out_values=( "${default_value[@]}" )
   return 0

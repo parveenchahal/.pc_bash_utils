@@ -13,6 +13,7 @@ function pbu.copy.file_to_local_bin() {
 function stash-files() {
   local op="$1"
   shift
+  local x
   if [ "$op" == "stash" ]
   then
     echo "stashing files $@"

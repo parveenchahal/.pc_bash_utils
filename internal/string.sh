@@ -1,5 +1,6 @@
 function pbu.string.is_equal() {
   local x="$1"
+  local y
   shift
   for y in "$@"
   do
@@ -43,6 +44,7 @@ function pbu.string.is_empty() {
 }
 
 function pbu.string.is_not_empty() {
+  local x
   for x in "$@"
   do
     if [ "$x" != "" ]

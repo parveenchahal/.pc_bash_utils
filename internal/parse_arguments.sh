@@ -77,6 +77,7 @@ function pbu.args.is_switch_arg_enabled() {
   all_args+=( "${____short_args____[@]}" )
   all_args+=( "${____long_args____[@]}" )
 
+  local k
   for k in "${all_args[@]}"
   do
     [[ ! "$k" =~ .*:$ ]] || pbu.errors.echo "pbu.args.is_switch_arg_enabled can't take value args." || return $PBU_ERROR_USAGE
@@ -111,6 +112,7 @@ function pbu.args.atleast_one_arg_present() {
   local err=$?
   pbu.errors.is_success $err || pbu.errors.is_not_found_error $err || return $err
 
+  local k
   for k in "${short_args[@]}"
   do
     pbu.args.extract -s "$k" -- "${external_args[@]}"
@@ -147,6 +149,7 @@ function pbu.args.all_args_present() {
   local err=$?
   pbu.errors.is_success $err || pbu.errors.is_not_found_error $err || return $err
 
+  local k
   for k in "${short_args[@]}"
   do
     pbu.args.extract -s "$k" -- "${external_args[@]}"

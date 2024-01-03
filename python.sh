@@ -24,6 +24,7 @@ function py-print() {
 function ___pbu_complete-fn-exec-py-script___(){
   if [ "$3" == "--script-name" ]
   then
+    local file
     local values=()
     for file in ~/.py-script/*.py
     do
@@ -52,6 +53,7 @@ function exec-py-script() {
 function ___pbu_complete-fn-edit-py-script___(){
   if [ "$3" == "--script-name" ]
   then
+    local file
     local values=()
     for file in ~/.py-script/*.py
     do

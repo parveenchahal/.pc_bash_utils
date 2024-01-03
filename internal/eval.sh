@@ -19,6 +19,7 @@ function pbu.eval.cmd() {
 
 function pbu.eval.cmd_with_echo() {
   local ____args____=()
+  local ____x____
   for ____x____ in "$@"
   do
     ____args____+=( "$(pbu.eval.format_string "$____x____")" )

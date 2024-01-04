@@ -13,7 +13,7 @@ from functools import reduce
 from itertools import repeat
 prob = (1 - reduce(mul, (x / y for x, y in zip(range($n - $k + 1, $n + 1), repeat($n))), 1))
 print('Probability: {0:0.10f}'.format(prob))
-print('{Percentage: 0:0.10f}%'.format(prob * 100))
+print('Percentage: {0:0.10f}%'.format(prob * 100))
   "
 }
 

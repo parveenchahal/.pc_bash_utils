@@ -6,8 +6,6 @@ function num-dec-to-hex() {
   printf "%x\n" "$1"
 }
 
-
-
 function num-oct-to-dec() {
   printf "%d\n" "0$1"
 }
@@ -51,3 +49,7 @@ print(''.join(h))
 }
 
 fi
+
+function char-to-ascii() {
+  printf "%d\n" "'$1'"
+}

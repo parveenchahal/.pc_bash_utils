@@ -60,3 +60,7 @@ fi
 function char-to-ascii() {
   printf "%d\n" "'$1'"
 }
+
+function ascii-to-char() {
+  printf "\x$(printf %x "$1")"
+}

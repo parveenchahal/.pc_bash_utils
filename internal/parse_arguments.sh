@@ -19,13 +19,17 @@ function pbu.args.extract() {
   _____REPLY_____=()
 
   ___pbu_extract_arg___ 's:' 'short:' "${internal_args[@]}"
-  local short_key="$_____REPLY_____"
+  local short_keys=( "${_____REPLY_____[@]}" )
+  [ ${#short_keys[@]} -lt 2 ] || pbu.errors.echo "pbu.args.extract can not take multiple short args" || return $PBU_ERROR_USAGE
+
   ___pbu_extract_arg___ 'l:' 'long:' "${internal_args[@]}"
-  local long_key="$_____REPLY_____"
+  local long_keys=( "${_____REPLY_____[@]}" )
+  [ ${#long_keys[@]} -lt 2 ] || pbu.errors.echo "pbu.args.extract can not take multiple long args" || return $PBU_ERROR_USAGE
+
   ___pbu_extract_arg___ 'd:' 'default-value:' "${internal_args[@]}"
   local default_value=( "${_____REPLY_____[@]}" )
 
-  ___pbu_extract_arg___ "$short_key" "$long_key" "${external_args[@]}"
+  ___pbu_extract_arg___ "$short_keys" "$long_keys" "${external_args[@]}"
   local err=$?
   out_values=( "${_____REPLY_____[@]}" )
   out_remaining_args=( "${_____REMAINING_ARGS_____[@]}" )

@@ -51,6 +51,9 @@ function pbu.args.delete() {
 
   local pbu_args_delete_out_values_var_name=()
   pbu.args.extract -s 'o:' -l 'out-values-var:' -o pbu_args_delete_out_values_var_name -- "${internal_args[@]}"
+  local err=$?
+  pbu.errors.is_not_found_error $err && pbu.errors.echo "-o/--out-values-var is required arg"
+  pbu.errors.is_error $err && return $err
 
   pbu.args.extract -r $pbu_args_delete_out_values_var_name "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?

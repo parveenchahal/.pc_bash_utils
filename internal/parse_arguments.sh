@@ -62,20 +62,20 @@ function pbu.args.is_switch_arg_enabled() {
   local internal_args=( "${_____SPLITED_ARGS1_____[@]}" )
   local external_args=( "${_____SPLITED_ARGS2_____[@]}" )
 
-  local ____remaining_args____=()
-  pbu.args.delete -s d -l default-value -o ____remaining_args____ -- "${internal_args[@]}"
-  internal_args=( "${____remaining_args____[@]}" )
+  local pbu_args_is_switch_arg_enabled_remaining_args=()
+  pbu.args.delete -s d -l default-value -o pbu_args_is_switch_arg_enabled_remaining_args -- "${internal_args[@]}"
+  internal_args=( "${pbu_args_is_switch_arg_enabled_remaining_args[@]}" )
   internal_args+=( -d false )
 
-  local ____short_args____=()
-  pbu.args.extract -s "s:" -l "short:" -o ____short_args____ -- "${internal_args[@]}"
+  local pbu_args_is_switch_arg_enabled_short_args=()
+  pbu.args.extract -s "s:" -l "short:" -o pbu_args_is_switch_arg_enabled_short_args -- "${internal_args[@]}"
 
-  local ____long_args____=()
-  pbu.args.extract -s "l:" -l "long:" -o ____long_args____ -- "${internal_args[@]}"
+  local pbu_args_is_switch_arg_enabled_long_args=()
+  pbu.args.extract -s "l:" -l "long:" -o pbu_args_is_switch_arg_enabled_long_args -- "${internal_args[@]}"
 
   local all_args=()
-  all_args+=( "${____short_args____[@]}" )
-  all_args+=( "${____long_args____[@]}" )
+  all_args+=( "${pbu_args_is_switch_arg_enabled_short_args[@]}" )
+  all_args+=( "${pbu_args_is_switch_arg_enabled_long_args[@]}" )
 
   local k
   for k in "${all_args[@]}"
@@ -83,14 +83,14 @@ function pbu.args.is_switch_arg_enabled() {
     [[ ! "$k" =~ .*:$ ]] || pbu.errors.echo "pbu.args.is_switch_arg_enabled can't take value args." || return $PBU_ERROR_USAGE
   done
 
-  local ____value____=()
-  pbu.args.extract -o ____value____ "${internal_args[@]}" -- "${external_args[@]}"
+  local pbu_args_is_switch_arg_enabled_value=()
+  pbu.args.extract -o pbu_args_is_switch_arg_enabled_value "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
 
   pbu.errors.is_success $err || return $err
 
-  [ "$____value____" == "false" ] && return 1
-  [ "$____value____" == "true" ] && return 0
+  [ "$pbu_args_is_switch_arg_enabled_value" == "false" ] && return 1
+  [ "$pbu_args_is_switch_arg_enabled_value" == "true" ] && return 0
   return 1
 }
 

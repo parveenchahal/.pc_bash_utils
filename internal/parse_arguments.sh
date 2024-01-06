@@ -45,10 +45,10 @@ function pbu.args.delete() {
   local internal_args=( "${_____SPLITED_ARGS1_____[@]}" )
   local external_args=( "${_____SPLITED_ARGS2_____[@]}" )
 
-  local ____out_values_var_name____=()
-  pbu.args.extract -s 'o:' -l 'out-values-var:' -o ____out_values_var_name____ -- "${internal_args[@]}"
+  local pbu_args_delete_out_values_var_name=()
+  pbu.args.extract -s 'o:' -l 'out-values-var:' -o pbu_args_delete_out_values_var_name -- "${internal_args[@]}"
 
-  pbu.args.extract -r $____out_values_var_name____ "${internal_args[@]}" -- "${external_args[@]}"
+  pbu.args.extract -r $pbu_args_delete_out_values_var_name "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
   pbu.errors.is_not_found_error $err || return $err
   return 0

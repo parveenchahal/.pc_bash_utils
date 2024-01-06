@@ -102,9 +102,9 @@ function pbu.args.any_switch_arg_enabled() {
   local internal_args=( "${_____SPLITED_ARGS1_____[@]}" )
   local external_args=( "${_____SPLITED_ARGS2_____[@]}" )
 
-  local ____remaining_args____=()
-  pbu.args.delete -s d -l default-value -o ____remaining_args____ -- "${internal_args[@]}"
-  internal_args=( "${____remaining_args____[@]}" )
+  local pbu_args_any_switch_arg_enabled_remaining_args=()
+  pbu.args.delete -s d -l default-value -o pbu_args_any_switch_arg_enabled_remaining_args -- "${internal_args[@]}"
+  internal_args=( "${pbu_args_any_switch_arg_enabled_remaining_args[@]}" )
   internal_args+=( -d false )
   
   # declaring to avoid modifying variable from parent function.

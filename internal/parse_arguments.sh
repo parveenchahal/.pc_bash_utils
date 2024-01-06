@@ -1,4 +1,4 @@
-complete -W "-s --short -l --long -d --default-value -o --out-var -r --remaining-args-var" pbu.args.extract
+complete -W "-s --short -l --long -d --default-value -o --out-values-var -r --remaining-args-var" pbu.args.extract
 function pbu.args.extract() {
   local _____SPLITED_ARGS1_____=()
   local _____SPLITED_ARGS2_____=()
@@ -9,7 +9,7 @@ function pbu.args.extract() {
   local _____REPLY_____=()
   local _____REMAINING_ARGS_____=()
 
-  ___pbu_extract_arg___ 'o:' 'out-var:' "${internal_args[@]}" && local -n out_values="$_____REPLY_____" || local out_values
+  ___pbu_extract_arg___ 'o:' 'out-values-var:' "${internal_args[@]}" && local -n out_values="$_____REPLY_____" || local out_values
 
   ___pbu_extract_arg___ 'r:' 'remaining-args-var:' "${internal_args[@]}" && local -n out_remaining_args="$_____REPLY_____" || local out_remaining_args
 
@@ -37,7 +37,7 @@ function pbu.args.extract() {
   return 0
 }
 
-complete -W "-s --short -l --long -o --out-var" pbu.args.delete
+complete -W "-s --short -l --long -o --out-values-var" pbu.args.delete
 function pbu.args.delete() {
   local _____SPLITED_ARGS1_____=()
   local _____SPLITED_ARGS2_____=()
@@ -45,10 +45,10 @@ function pbu.args.delete() {
   local internal_args=( "${_____SPLITED_ARGS1_____[@]}" )
   local external_args=( "${_____SPLITED_ARGS2_____[@]}" )
 
-  local ____out_var_name____=()
-  pbu.args.extract -s 'o:' -l 'out-var:' -o ____out_var_name____ -- "${internal_args[@]}"
+  local ____out_values_var_name____=()
+  pbu.args.extract -s 'o:' -l 'out-values-var:' -o ____out_values_var_name____ -- "${internal_args[@]}"
 
-  pbu.args.extract -r $____out_var_name____ "${internal_args[@]}" -- "${external_args[@]}"
+  pbu.args.extract -r $____out_values_var_name____ "${internal_args[@]}" -- "${external_args[@]}"
   local err=$?
   pbu.errors.is_not_found_error $err || return $err
   return 0

@@ -94,6 +94,41 @@ function pbu.args.is_switch_arg_enabled() {
   return 1
 }
 
+complete -W "-s --short -l --long " pbu.args.any_switch_arg_enabled
+function pbu.args.any_switch_arg_enabled() {
+  local _____SPLITED_ARGS1_____=()
+  local _____SPLITED_ARGS2_____=()
+  ___pbu_split_args_by_double_hyphen___ "$@" || return $PBU_ERROR_USAGE
+  local internal_args=( "${_____SPLITED_ARGS1_____[@]}" )
+  local external_args=( "${_____SPLITED_ARGS2_____[@]}" )
+
+  local ____remaining_args____=()
+  pbu.args.delete -s d -l default-value -o ____remaining_args____ -- "${internal_args[@]}"
+  internal_args=( "${____remaining_args____[@]}" )
+  internal_args+=( -d false )
+  
+  # declaring to avoid modifying variable from parent function.
+  local remaining_args=()
+
+  local pbu_args_any_switch_arg_enabled_short_args=()
+  pbu.args.extract -s "s:" -l "short:" -o pbu_args_any_switch_arg_enabled_short_args -- "${internal_args[@]}"
+
+  local pbu_args_any_switch_arg_enabled_long_args=()
+  pbu.args.extract -s "l:" -l "long:" -o pbu_args_any_switch_arg_enabled_long_args -- "${internal_args[@]}"
+
+  local k
+  for k in "${pbu_args_any_switch_arg_enabled_short_args[@]}"
+  do
+    pbu.args.is_switch_arg_enabled -s "$k" -- "${external_args[@]}" && return 0
+  done
+  
+  for k in "${pbu_args_any_switch_arg_enabled_long_args[@]}"
+  do
+    pbu.args.is_switch_arg_enabled -l "$k" -- "${external_args[@]}" && return 0
+  done
+  return 1
+}
+
 complete -W "-s --short -l --long" pbu.args.atleast_one_arg_present
 function pbu.args.atleast_one_arg_present() {
   local _____SPLITED_ARGS1_____=()

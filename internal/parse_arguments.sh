@@ -285,10 +285,6 @@ function ___pbu_extract_arg___() {
           found=1 ;
           [ "$is_switch_arg" == "1" ] && reply+=( "true" ) ;
           [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && reply+=( "$2" ) && shift ;
-          # [ "$is_switch_arg" == "1" ] && [[ "$2" != "true" && "$2" != "false" ]] && reply+=( "true" ) ;
-          # [ "$2" != "" ] && [ "$is_switch_arg" == "0" ] && [[ "$2" =~ ^-.* ]] && reply+=( "" ) ;
-          # [ "$2" != "" ] && [ "$is_switch_arg" == "1" ] && [[ "$2" == "true" || "$2" == "false" ]] && reply+=( "$2" ) && shift ;
-          # [ "$is_switch_arg" == "0" ] && [[ ! "$2" =~ ^-.* ]] && reply+=( "$2" ) && shift
           ;;
       --$long_key=*)
           found=1 ;
@@ -298,7 +294,7 @@ function ___pbu_extract_arg___() {
           pbu.errors.echo "Invalid valid for --$long_key. Expected true or false." ||
           return $PBU_ERROR_USAGE ;
 
-          reply+=( "$val" )
+          reply+=( "$val" ) ;
           ;;
       -$short_key=*)
           found=1 ;
@@ -308,7 +304,7 @@ function ___pbu_extract_arg___() {
           pbu.errors.echo "Invalid valid for -$short_key. Expected true or false." ||
           return $PBU_ERROR_USAGE;
 
-          reply+=( "$val" )
+          reply+=( "$val" ) ;
           ;;
       *)
           remaining_args+=( "$1" );;

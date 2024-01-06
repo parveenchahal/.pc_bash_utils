@@ -14,7 +14,7 @@ function pbu.args.extract() {
   ___pbu_extract_arg___ 'r:' 'remaining-args-var:' "${internal_args[@]}" && local -n out_remaining_args="$_____REPLY_____" || local out_remaining_args
 
   out_values=()
-  out_remaining_args=( "$@" )
+  out_remaining_args=( "${external_args[@]}" )
 
   _____REPLY_____=()
 

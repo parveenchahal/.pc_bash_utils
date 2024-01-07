@@ -18,7 +18,7 @@ function date-from-epoch() {
   local nanoseconds="$values"
 
   local tz='local'
-  pbu.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc' || pbu.errors.is_not_found_error || return
+  pbu.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
   
   local seconds=$(($nanoseconds / 1000000000))
   local rem=$(($nanoseconds % 1000000000))

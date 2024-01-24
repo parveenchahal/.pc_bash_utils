@@ -3,7 +3,7 @@ function pbu.openssl.decode() {
   pbu.args.extract -l 'type:' -o type -- "$@" || pbu.errors.echo "--type is required option" || return 1
 
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local inform=()
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input "--inform (der/pem): "
@@ -29,7 +29,7 @@ function openssl-decode-crl() {
 complete -d -f -W "-f --file --inform --type" openssl-decode-key
 function openssl-decode-key() {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local inform=()
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input "--inform (der/pem): "
@@ -52,7 +52,7 @@ function openssl-decode-key() {
 complete -d -f -W "-f --file --inform" openssl-decode-asn1
 function openssl-decode-asn1() {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local inform=()
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input "--inform (der/pem): "
@@ -63,7 +63,7 @@ function openssl-decode-asn1() {
 complete -d -f -W "-f --file --inform -o --outfile" openssl-tbs-extract
 function openssl-tbs-extract() {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
   
   local inform=()
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input "--inform (der/pem): "
@@ -77,7 +77,7 @@ function openssl-tbs-extract() {
 complete -d -f -W "-f --file --inform -o --outfile" openssl-signature-extract
 function openssl-signature-extract() {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
   
   local inform=()
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input "--inform (der/pem): "
@@ -93,7 +93,7 @@ function openssl-signature-extract() {
 complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-der-to-pem
 function openssl-x509-convert-der-to-pem () {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local outfile=()
   pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input "-o|--outfile (file path): "
@@ -104,7 +104,7 @@ function openssl-x509-convert-der-to-pem () {
 complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-pem-to-der
 function openssl-x509-convert-pem-to-der () {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local outfile=()
   pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input "-o|--outfile (file path): "
@@ -115,7 +115,7 @@ function openssl-x509-convert-pem-to-der () {
 complete -d -f -W "-f --file -o --outfile --inform --outform" openssl-publickey-extract
 function openssl-publickey-extract() {
   local file=()
-  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input "-f|--file (file path): "
+  pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local inform=()
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input "--inform (der/pem): "

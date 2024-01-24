@@ -35,7 +35,7 @@ function openssl-decode-key() {
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input -o inform "--inform (der/pem): "
   
   local key_type=()
-  pbu.args.extract -l 'type:' -o key_type -- "$@" || pbu.read_input "--type (rsa/ec): "
+  pbu.args.extract -l 'type:' -o key_type -- "$@" || pbu.read_input -o key_type "--type (rsa/ec): "
   
   echo "Is this public key: "
   pbu.confirm

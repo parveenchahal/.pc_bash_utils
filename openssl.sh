@@ -23,7 +23,7 @@ function openssl-decode-csr() {
 
 complete -d -f -W "-f --file" openssl-decode-crl
 function openssl-decode-crl() {
-  pbu.openssl.decode --type crl -inform der "$@"
+  pbu.openssl.decode --type crl --inform der "$@"
 }
 
 complete -d -f -W "-f --file --inform --type" openssl-decode-key

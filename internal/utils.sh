@@ -2,8 +2,9 @@ function pbu.read_input() {
   local pbu_read_input_out_var=()
   local pbu_read_input_remaing_args=()
   pbu.args.extract -s o: -l out-var: -o pbu_read_input_out_var -r pbu_read_input_remaing_args -- "$@"
+  pbu.string.is_not_empty "$pbu_read_input_out_var" && local -n result="$pbu_read_input_out_var" || local result=()
   set -- "${pbu_read_input_remaing_args[@]}"
-  local -n result="$pbu_read_input_out_var"
+  
   result=""
   if [ ! -z "$1" ]
   then

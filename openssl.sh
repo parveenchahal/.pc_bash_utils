@@ -96,7 +96,7 @@ function openssl-x509-convert-der-to-pem () {
   pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local outfile=()
-  pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input -o outfile "-o|--outfile (file path): "
   
   pbu.eval.cmd_with_echo openssl x509 -inform der -in "$file" -out "$outfile"
 }
@@ -107,7 +107,7 @@ function openssl-x509-convert-pem-to-der () {
   pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
   local outfile=()
-  pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input -o outfile "-o|--outfile (file path): "
   
   pbu.eval.cmd_with_echo openssl x509 -inform pem -in "$file" -outform der -out $outfile
 }

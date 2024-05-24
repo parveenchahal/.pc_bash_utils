@@ -90,8 +90,8 @@ function openssl-signature-extract() {
   pbu.eval.cmd_with_echo openssl asn1parse -inform "$inform" -in "$file" -out "$outfile" -strparse "$x" -noout
 }
 
-complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-der-to-pem
-function openssl-x509-convert-der-to-pem () {
+complete -d -f -W "-f --file -o --outfile" openssl-convert-x509-der-to-pem
+function openssl-convert-x509-der-to-pem() {
   local file=()
   pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 
@@ -101,8 +101,8 @@ function openssl-x509-convert-der-to-pem () {
   pbu.eval.cmd_with_echo openssl x509 -inform der -in "$file" -out "$outfile"
 }
 
-complete -d -f -W "-f --file -o --outfile" openssl-x509-convert-pem-to-der
-function openssl-x509-convert-pem-to-der () {
+complete -d -f -W "-f --file -o --outfile" openssl-convert-x509-pem-to-der
+function openssl-convert-x509-pem-to-der() {
   local file=()
   pbu.args.extract -s 'f:' -l 'file:' -o file -- "$@" || pbu.read_input -o file "-f|--file (file path): "
 

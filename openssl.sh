@@ -121,10 +121,10 @@ function openssl-publickey-extract() {
   pbu.args.extract -l 'inform:' -o inform -- "$@" || pbu.read_input -o inform "--inform (der/pem): "
 
   local outfile=()
-  pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input "-o|--outfile (file path): "
+  pbu.args.extract -s 'o:' -l 'outfile:' -o outfile -- "$@" || pbu.read_input -o outfile "-o|--outfile (file path): "
 
   local outform=()
-  pbu.args.extract -l 'outform:' -o outform -- "$@" || pbu.read_input "--outform (der/pem): "
+  pbu.args.extract -l 'outform:' -o outform -- "$@" || pbu.read_input -o outform "--outform (der/pem): "
   
   pbu.eval.cmd_with_echo openssl x509 -pubkey -inform "$inform" -in "$file" -outform "$outform" -out "$outfile" -noout
 }

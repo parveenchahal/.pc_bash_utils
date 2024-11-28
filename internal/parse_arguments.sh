@@ -5,7 +5,13 @@ then
   wget -q -O - https://raw.githubusercontent.com/parveenchahal/pbash-args/refs/heads/main/install.sh | sudo bash
 fi
 
-source /usr/bin/pbash-args.sh
+alias pbu.args.extract=
+alias pbu.args.extract=pbash.args.extract
+alias pbu.args.delete=pbash.args.delete
+alias pbu.args.is_switch_arg_enabled=pbash.args.is_switch_arg_enabled
+alias pbu.args.any_switch_arg_enabled=pbash.args.any_switch_arg_enabled
+alias pbu.args.atleast_one_arg_present=pbash.args.atleast_one_arg_present
+alias pbu.args.all_args_present=pbash.args.all_args_present
 
 # complete -W "-s --short -l --long -d --default-value -o --out-values-var -r --remaining-args-var" pbu.args.extract
 # function pbu.args.extract() {

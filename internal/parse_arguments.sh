@@ -7,7 +7,6 @@ fi
 
 source /usr/bin/pbash-args.sh || pbu.errors.echo "pbash-args.sh is not installed, pc_bash_utils can not be used."
 
-alias pbu.args.extract=
 alias pbu.args.extract=pbash.args.extract
 alias pbu.args.delete=pbash.args.delete
 alias pbu.args.is_switch_arg_enabled=pbash.args.is_switch_arg_enabled

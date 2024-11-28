@@ -1,9 +1,11 @@
-[[ -f /usr/bin/pbash-args.sh ]] && source /usr/bin/pbash-args.sh
+[[ -f /usr/bin/pbash-args.sh ]]
 if [ ! "$?" == "0" ]
 then
   echo 'Installing pbash-args.sh...'
   wget -q -O - https://raw.githubusercontent.com/parveenchahal/pbash-args/refs/heads/main/install.sh | sudo bash
 fi
+
+source /usr/bin/pbash-args.sh || pbu.errors.echo "pbash-args.sh is not installed, pc_bash_utils can not be used."
 
 alias pbu.args.extract=
 alias pbu.args.extract=pbash.args.extract

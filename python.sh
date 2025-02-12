@@ -1,4 +1,7 @@
 alias pbu.py='python3'
+
+alias py-json-tool='pbu.py -m json.tool'
+
 function pbu.py.is_installed() {
   local out=$(pbu.py -c 'print("", end="")' 2>&1)
   [ "$out" == "" ] || return 1

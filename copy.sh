@@ -1,4 +1,4 @@
-alias copy-from-tmux='tmux save-buffer - | xclip -i -sel clipboard'
+alias copy-from-tmux='tmux save-buffer - | xclip -i -selection clipboard'
 
 function copy-to-clipboard() {
   echo -n "$1" | xclip -selection clipboard

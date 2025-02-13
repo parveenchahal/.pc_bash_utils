@@ -27,3 +27,14 @@ function pbu.eval.cmd_with_echo() {
   echo "Executing command: ${____args____[@]}"
   pbu.eval.cmd "$@"
 }
+
+function pbu.eval.cmd_with_confirmation() {
+  local ____args____=()
+  local ____x____
+  for ____x____ in "$@"
+  do
+    ____args____+=( "$(pbu.eval.format_string "$____x____")" )
+  done
+  pbu.confirm "Executing command: ${____args____[@]}" || return 1
+  pbu.eval.cmd "$@"
+}

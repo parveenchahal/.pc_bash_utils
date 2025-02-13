@@ -1,5 +1,6 @@
 source ~/.pc_bash_utils/internal/init.sh
 
+source ~/.pc_bash_utils/eval.sh
 source ~/.pc_bash_utils/default-options-for-commands.sh
 source ~/.pc_bash_utils/python.sh
 source ~/.pc_bash_utils/cd.sh

@@ -36,6 +36,6 @@ function pbu.eval.cmd_with_confirmation() {
     ____args____+=( "$(pbu.eval.format_string "$____x____")" )
   done
   echo "Executing command: ${____args____[@]}"
-  pbu.confirm || return 1
+  pbu.confirm "Confirm command" || return 1
   pbu.eval.cmd "$@"
 }

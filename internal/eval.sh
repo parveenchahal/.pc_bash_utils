@@ -5,6 +5,16 @@ function pbu.eval.format_string() {
   echo "$1"
 }
 
+function pbu.eval.printcmd() {
+  local ____args____=()
+  local ____x____
+  for ____x____ in "$@"
+  do
+    ____args____+=( "$(pbu.eval.format_string "$____x____")" )
+  done
+  echo -n "${____args____[@]}"
+}
+
 function pbu.eval.cmd() {
   local ____args____=()
   while [ "${#@}" -gt 0 ]

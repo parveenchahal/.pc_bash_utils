@@ -8,7 +8,7 @@ source ~/.pc_bash_utils/tmp.sh
 source ~/.pc_bash_utils/kubectl.sh
 source ~/.pc_bash_utils/git.sh
 source ~/.pc_bash_utils/openssl.sh
-source ~/.pc_bash_utils/open.sh
+source ~/.pc_bash_utils/pmux.sh
 source ~/.pc_bash_utils/date_utils.sh
 source ~/.pc_bash_utils/copy.sh
 source ~/.pc_bash_utils/docker.sh

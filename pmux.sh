@@ -1,11 +1,11 @@
-function pmux() {
+function ptmux() {
   tmux attach -t pc || tmux new -s pc
   return $?
 }
 
-alias open-tmux='pmux'
+alias open-tmux='ptmux'
 
-function pmux-nw() {
+function ptmux-nw() {
   local s=$(pbu.array.size "$@")
   if [ ! "$s" == "0" ]
   then

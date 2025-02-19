@@ -12,7 +12,7 @@ function pbu.eval.printcmd() {
   do
     ____args____+=( "$(pbu.eval.format_string "$____x____")" )
   done
-  echo -n "${____args____[@]}"
+  echo "${____args____[@]}"
 }
 
 function pbu.eval.cmd() {

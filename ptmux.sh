@@ -1,9 +1,9 @@
+alias open-tmux='ptmux'
+
 function ptmux() {
   tmux attach -t pc || tmux new -s pc
   return $?
 }
-
-alias open-tmux='ptmux'
 
 function ptmux-nw() {
   local s=$(pbu.array.size "$@")

@@ -10,10 +10,10 @@ function ptmux-nw() {
   if [ ! "$s" == "0" ]
   then
     local filename=$(sha256sum <(echo -n "$(date)") | awk '{print $1}')
-    cp ~/.bashrc /tmp/tmux-$filename
-    pbu.eval.printcmd "$@" >> /tmp/tmux-$filename
-    tmux new-window -t pc bash --rcfile /tmp/tmux-$filename
-    rm /tmp/tmux-$filename
+    cp ~/.bashrc /tmp/ptmux-$filename
+    pbu.eval.printcmd "$@" >> /tmp/ptmux-$filename
+    tmux new-window -t pc bash --rcfile /tmp/ptmux-$filename
+    rm /tmp/ptmux-$filename
   else
     tmux new-window -t pc
   fi

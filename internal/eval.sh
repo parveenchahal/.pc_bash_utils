@@ -1,7 +1,8 @@
 function pbu.eval.format_string() {
-  [[ "${#1}" -gt 20 ]]  && echo "\"$1\"" && return 0
+  #[[ "${#1}" -gt 20 ]]  && echo "\"$1\"" && return 0
   [[ "$1" == *\ * ]]  && echo "\"$1\"" && return 0
   [[ "$1" == *\&* ]]  && echo "\"$1\"" && return 0
+  [[ "$1" == *\"* ]]  && echo "\"$1\"" && return 0
   echo "$1"
 }
 

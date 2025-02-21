@@ -18,13 +18,13 @@ complete -F ___pbu_complete-fn-exec-bash-script___ exec-bash-script
 function exec-bash-script() {
   local name=()
   local remaining_args=()
-  pbu.args.extract -l 'script-name:' -o name -r remaining_args -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
+  pbash.args.extract -l 'script-name:' -o name -r remaining_args -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
 
   set -- "${remaining_args[@]}"
 
   pbu.create_dir_if_does_not_exist ~/.bash-script
   pushd ~/.bash-script > /dev/null
-  if pbu.args.is_switch_arg_enabled -l 'in-current-bash-session' -r remaining_args -- "$@";
+  if pbash.args.is_switch_arg_enabled -l 'in-current-bash-session' -r remaining_args -- "$@";
   then
     set -- "${remaining_args[@]}"
     pbu.eval.cmd "." "./$name.sh" "$@"
@@ -57,12 +57,12 @@ function edit-bash-script() {
   local basePath="$(realpath ~/.bash-script)"
 
   local name=()
-  pbu.args.extract -l 'script-name:' -o name -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
+  pbash.args.extract -l 'script-name:' -o name -- "$@" || pbu.errors.echo "--script-name is required argument." || return 1
 
   pbu.create_dir_if_does_not_exist ~/.bash-script
 
   local editor=()
-  pbu.args.extract -l 'editor:' -o editor -d vim -- "$@" || return
+  pbash.args.extract -l 'editor:' -o editor -d vim -- "$@" || return
 
   if [ ! -f "$basePath/$name.sh" ]
   then

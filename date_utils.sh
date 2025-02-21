@@ -1,24 +1,24 @@
 complete -W "--out-utc --nanoseconds --microseconds --milliseconds --seconds" date-from-epoch
 function date-from-epoch() {
 
-  pbu.args.atleast_one_arg_present -l 'nanoseconds:' -l 'microseconds:' -l 'milliseconds:' -l 'seconds:' -- "$@" ||
+  pbash.args.atleast_one_arg_present -l 'nanoseconds:' -l 'microseconds:' -l 'milliseconds:' -l 'seconds:' -- "$@" ||
   pbu.errors.echo "At least one of args --nanoseconds, --microseconds, --milliseconds or --seconds is required" || return 1
   
   local values=()
 
   local value=()
   
-  pbu.args.extract -l 'nanoseconds:' -o value -- "$@" && values+=("$value")
-  pbu.args.extract -l 'microseconds:' -o value -- "$@" && values+=( $(($value * 1000)) )
-  pbu.args.extract -l 'milliseconds:' -o value -- "$@" && values+=( $(($value * 1000000)) )
-  pbu.args.extract -l 'seconds:' -o value -- "$@" && values+=( "$(($value * 1000000000))" )
+  pbash.args.extract -l 'nanoseconds:' -o value -- "$@" && values+=("$value")
+  pbash.args.extract -l 'microseconds:' -o value -- "$@" && values+=( $(($value * 1000)) )
+  pbash.args.extract -l 'milliseconds:' -o value -- "$@" && values+=( $(($value * 1000000)) )
+  pbash.args.extract -l 'seconds:' -o value -- "$@" && values+=( "$(($value * 1000000000))" )
   
   pbu.string.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --nanoseconds, --microseconds, --milliseconds or --seconds" || return 1
   
   local nanoseconds="$values"
 
   local tz='local'
-  pbu.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
+  pbash.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
   
   local seconds=$(($nanoseconds / 1000000000))
   local rem=$(($nanoseconds % 1000000000))
@@ -33,23 +33,23 @@ function date-from-epoch() {
 
 complete -W "--date --out-nanoseconds --out-microseconds --out-milliseconds --out-seconds" date-to-epoch
 function date-to-epoch() {
-  pbu.args.is_switch_arg_enabled -l 'out-nanoseconds' -- "$@" ||
-  pbu.args.is_switch_arg_enabled -l 'out-microseconds' -- "$@" ||
-  pbu.args.is_switch_arg_enabled -l 'out-milliseconds' -- "$@" ||
-  pbu.args.is_switch_arg_enabled -l 'out-seconds' -- "$@" ||
+  pbash.args.is_switch_arg_enabled -l 'out-nanoseconds' -- "$@" ||
+  pbash.args.is_switch_arg_enabled -l 'out-microseconds' -- "$@" ||
+  pbash.args.is_switch_arg_enabled -l 'out-milliseconds' -- "$@" ||
+  pbash.args.is_switch_arg_enabled -l 'out-seconds' -- "$@" ||
   pbu.errors.echo "At least one of args --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds is required" || return 1
   
   local input="$(date +%s%N)" # default is now
   
   local date_str=()
-  pbu.args.extract -l 'date:' -o date_str -- "$@" && input="$(date -d "$date_str" +%s%N)"
+  pbash.args.extract -l 'date:' -o date_str -- "$@" && input="$(date -d "$date_str" +%s%N)"
   
   local values=()
   
-  pbu.args.is_switch_arg_enabled -l 'out-nanoseconds' -- "$@" && values+=("$input")
-  pbu.args.is_switch_arg_enabled -l 'out-microseconds' -- "$@" && values+=( $(($input / 1000)) )
-  pbu.args.is_switch_arg_enabled -l 'out-milliseconds' -- "$@" && values+=( $(($input / 1000000)) )
-  pbu.args.is_switch_arg_enabled -l 'out-seconds' -- "$@" && values+=( "$(($input / 1000000000))" )
+  pbash.args.is_switch_arg_enabled -l 'out-nanoseconds' -- "$@" && values+=("$input")
+  pbash.args.is_switch_arg_enabled -l 'out-microseconds' -- "$@" && values+=( $(($input / 1000)) )
+  pbash.args.is_switch_arg_enabled -l 'out-milliseconds' -- "$@" && values+=( $(($input / 1000000)) )
+  pbash.args.is_switch_arg_enabled -l 'out-seconds' -- "$@" && values+=( "$(($input / 1000000000))" )
   
   pbu.string.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds" || return 1
   
@@ -65,17 +65,17 @@ function pbu.date.add_sub() {
 
   local base="$(date-to-epoch --out-nanoseconds)"
   local date_str=()
-  pbu.args.extract -l 'date:' -o date_str -- "$@" && base="$(date-to-epoch --date "$date_str" --out-nanoseconds)"
+  pbash.args.extract -l 'date:' -o date_str -- "$@" && base="$(date-to-epoch --date "$date_str" --out-nanoseconds)"
   local diff=0
 
   local value=()
-  pbu.args.extract -l 'nanoseconds:' -o value -- "$@" && diff=$(($diff + $value))
-  pbu.args.extract -l 'microseconds:' -o value -- "$@" && diff=$(($diff + $value * 1000))
-  pbu.args.extract -l 'milliseconds:' -o value -- "$@" && diff=$(($diff + $value * 1000000))
-  pbu.args.extract -l 'seconds:' -o value -- "$@" && diff=$(($diff + $value * 1000000000))
-  pbu.args.extract -l 'minutes:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60))
-  pbu.args.extract -l 'hours:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60 * 60))
-  pbu.args.extract -l 'days:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60 * 60 * 24))
+  pbash.args.extract -l 'nanoseconds:' -o value -- "$@" && diff=$(($diff + $value))
+  pbash.args.extract -l 'microseconds:' -o value -- "$@" && diff=$(($diff + $value * 1000))
+  pbash.args.extract -l 'milliseconds:' -o value -- "$@" && diff=$(($diff + $value * 1000000))
+  pbash.args.extract -l 'seconds:' -o value -- "$@" && diff=$(($diff + $value * 1000000000))
+  pbash.args.extract -l 'minutes:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60))
+  pbash.args.extract -l 'hours:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60 * 60))
+  pbash.args.extract -l 'days:' -o value -- "$@" && diff=$(($diff + $value * 1000000000 * 60 * 60 * 24))
   
   local newtime=""
   
@@ -83,7 +83,7 @@ function pbu.date.add_sub() {
   pbu.string.is_equal "$op" "subtract" && newtime=$(($base - $diff))
   
   local tz='local'
-  pbu.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
+  pbash.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'
   
   
   if [ "$tz" == "utc" ]

@@ -2,17 +2,11 @@
 if [ ! "$?" == "0" ]
 then
   echo 'Installing pbash-args.sh...'
+  echo 'It requires sudo access.'
   wget -q -O - https://pbash.pcapis.com/args/install.sh | sudo bash
 fi
 
 source /usr/bin/pbash-args.sh || pbu.errors.echo "pbash-args.sh is not installed, pc_bash_utils can not be used."
-
-alias pbu.args.extract=pbash.args.extract
-alias pbu.args.delete=pbash.args.delete
-alias pbu.args.is_switch_arg_enabled=pbash.args.is_switch_arg_enabled
-alias pbu.args.any_switch_arg_enabled=pbash.args.any_switch_arg_enabled
-alias pbu.args.atleast_one_arg_present=pbash.args.atleast_one_arg_present
-alias pbu.args.all_args_present=pbash.args.all_args_present
 
 # complete -W "-s --short -l --long -d --default-value -o --out-values-var -r --remaining-args-var" pbu.args.extract
 # function pbu.args.extract() {

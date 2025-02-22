@@ -8,7 +8,7 @@ then
   echo 0 > ~/.pc_bash_utils/.updatepending
 fi
 
-hours2past="$(date -d "-1 day" +"%s")"
+hours2past="$(pbu.date -d "-1 day" +"%s")"
 lastupdatecheck=$(cat ~/.pc_bash_utils/.lastupdatecheck)
 if [ "$lastupdatecheck" != "disabled" ]
 then

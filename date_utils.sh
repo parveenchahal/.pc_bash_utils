@@ -1,3 +1,9 @@
+alias pbu.date='date'
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  alias pbu.date='gdate'
+fi
+
 complete -W "--out-utc --nanoseconds --microseconds --milliseconds --seconds" date-from-epoch
 function date-from-epoch() {
 

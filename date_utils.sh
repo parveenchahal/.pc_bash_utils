@@ -39,10 +39,10 @@ function date-to-epoch() {
   pbash.args.is_switch_arg_enabled -l 'out-seconds' -- "$@" ||
   pbu.errors.echo "At least one of args --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds is required" || return 1
   
-  local input="$(date +%s%N)" # default is now
+  local input="$(pbu.date +%s%N)" # default is now
   
   local date_str=()
-  pbash.args.extract -l 'date:' -o date_str -- "$@" && input="$(date -d "$date_str" +%s%N)"
+  pbash.args.extract -l 'date:' -o date_str -- "$@" && input="$(pbu.date -d "$date_str" +%s%N)"
   
   local values=()
   
@@ -105,11 +105,11 @@ function date-subtract() {
 }
 
 function date-utc-to-local() {
-  pbu.date -d "$(date -u -d "$1")"
+  pbu.date -d "$(pbu.date -u -d "$1")"
 }
 
 function date-local-to-utc() {
-  pbu.date -u -d "$(date -d "$1")"
+  pbu.date -u -d "$(pbu.date -d "$1")"
 }
 
 function start-utc-clock() {

@@ -1,3 +1,4 @@
+. ~/.pc_bash_utils/internal/date.sh
 . ~/.pc_bash_utils/internal/update_management.sh
 
 source ~/.pc_bash_utils/internal/errors.sh

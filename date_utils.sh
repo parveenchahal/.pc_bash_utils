@@ -34,7 +34,7 @@ function date-from-epoch() {
   then
     pbu.date -u -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}Z"
   else
-    date -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}%:z"
+    pbu.date -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}%:z"
   fi
 }
 
@@ -112,7 +112,7 @@ function date-subtract() {
 }
 
 function date-utc-to-local() {
-  date -d "$(date -u -d "$1")"
+  pbu.date -d "$(date -u -d "$1")"
 }
 
 function date-local-to-utc() {

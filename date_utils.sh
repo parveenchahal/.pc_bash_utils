@@ -32,7 +32,7 @@ function date-from-epoch() {
   
   if [ "$tz" == "utc" ]
   then
-    date -u -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}Z"
+    pbu.date -u -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}Z"
   else
     date -d @$seconds +"%Y-%m-%dT%H:%M:%S.${rem}%:z"
   fi
@@ -116,9 +116,9 @@ function date-utc-to-local() {
 }
 
 function date-local-to-utc() {
-  date -u -d "$(date -d "$1")"
+  pbu.date -u -d "$(date -d "$1")"
 }
 
 function start-utc-clock() {
-  watch -t -n 1 date -u
+  watch -t -n 1 pbu.date -u
 }

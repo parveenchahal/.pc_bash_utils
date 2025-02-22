@@ -113,5 +113,7 @@ function date-local-to-utc() {
 }
 
 function start-utc-clock() {
-  watch -t -n 1 pbu.date -u
+  local datecmd='date'
+  [[ "$OSTYPE" == "darwin"* ]] && datecmd='gdate'
+  watch -t -n 1 $datecmd -u
 }

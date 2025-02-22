@@ -5,6 +5,11 @@ function ptmux() {
   return $?
 }
 
+function ptmux-exit() {
+  tmux attach -t pc || tmux new -s pc
+  exit $?
+}
+
 function ptmux-nw() {
   local s=$(pbu.array.size "$@")
   if [ ! "$s" == "0" ]

@@ -15,3 +15,4 @@ source ~/.pc_bash_utils/docker.sh
 source ~/.pc_bash_utils/exec-bash-script.sh
 source ~/.pc_bash_utils/conversion.sh
 source ~/.pc_bash_utils/general_problems.sh
+source ~/.pc_bash_utils/configs/init.sh

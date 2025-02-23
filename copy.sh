@@ -1,6 +1,7 @@
 alias copy-from-tmux='tmux save-buffer - | xclip -i -selection clipboard'
 
 function copy-to-clipboard() {
+  pbu.is_macos && { echo -n "$1" | pbcopy; return 0 }
   echo -n "$1" | xclip -selection clipboard
 }
 

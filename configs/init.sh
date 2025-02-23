@@ -3,7 +3,7 @@ function pbu.force-update-config-files() {
   
   local tmux='.tmux.conf'
   [[ "$OSTYPE" == "darwin"* ]] && tmux='.tmux-macos.conf'
-  cp ~/.pc_bash_utils/configs/$x ~/.tmux.conf
+  cp ~/.pc_bash_utils/configs/$tmux ~/.tmux.conf
   
   declare -a config_list=(".vimrc")
   for x in "${config_list[@]}"

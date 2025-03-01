@@ -1,4 +1,4 @@
-function pbu.force-update-config-files() {
+function pbu.configs.force-update-config-files() {
   update-pc-bash-utils
   
   local tmux_conf='.tmux.conf'

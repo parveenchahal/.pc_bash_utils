@@ -17,3 +17,4 @@ source ~/.pc_bash_utils/conversion.sh
 source ~/.pc_bash_utils/general_problems.sh
 source ~/.pc_bash_utils/configs/init.sh
 source ~/.pc_bash_utils/utils.sh
+source ~/.pc_bash_utils/ssh.sh

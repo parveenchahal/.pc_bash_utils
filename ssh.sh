@@ -1,4 +1,4 @@
-complete -W "-u --user -h --host -e --exit-master-connection -t --tmux" pssh
+complete -W "-u --user -h --host -e --exit-master-connection -t --tmux -p" pssh
 function pssh() {
   local args=( "$@" )
   local emc='false'

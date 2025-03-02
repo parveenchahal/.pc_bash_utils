@@ -12,10 +12,15 @@ function vars.create() {
   done
 }
 
+
 function vars.print() {
   local var
+  local l=0
   for var in ${___VARS_INTERNAL___[@]}; do
-    echo "${var}: '${!var}'"
+    l=$(pbu.numbers.max $l "$(pbu.string.length "$var")")
+  done
+  for var in ${___VARS_INTERNAL___[@]}; do
+    printf "%-${l}s : '%-0s'\n" "${var}" "${!var}"
   done
 }
 

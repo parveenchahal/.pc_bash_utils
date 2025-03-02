@@ -6,7 +6,6 @@ function vars.create() {
     echo $var
   done | sort | xargs)
   for var in ${___VARS_INTERNAL___[@]}; do
-    echo "Creating function set_${var,,}"
     eval "function set_${var,,}() {
       echo \"Setting ${var} to '\$1'\"
       eval ${var}=\"\$1\"

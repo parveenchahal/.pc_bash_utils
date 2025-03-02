@@ -19,7 +19,7 @@ pbu.numbers.max() {
   local m=$(getconf INT_MIN)
   for x in "$@"
   do
-    pbu.string.is_number $x || pbu.errors.echo "Input should be only numbers" || return 1
+    pbu.numbers.is_number $x || pbu.errors.echo "Input should be only numbers" || return 1
     [ $x -gt $m ] && m=$x
   done
   echo "$m"

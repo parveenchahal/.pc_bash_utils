@@ -9,3 +9,4 @@ source ~/.pc_bash_utils/internal/string.sh
 source ~/.pc_bash_utils/internal/array.sh
 source ~/.pc_bash_utils/internal/utils.sh
 source ~/.pc_bash_utils/internal/sql.sh
+source ~/.pc_bash_utils/internal/numbers.sh

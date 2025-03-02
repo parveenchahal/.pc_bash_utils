@@ -38,7 +38,7 @@ function pbu.string.is_not_equal() {
 }
 
 function pbu.string.only_digits() {
-   [[ "$1" =~ ^[+-]?[0-9]+\.?[0-9]*$ ]] || return 1
+   [[ "$1" =~ ^[0-9]*$ ]] || return 1
    return 0
 }
 

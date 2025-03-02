@@ -1,3 +1,7 @@
+function pbu.string.length() {
+  echo ${#1}
+}
+
 function pbu.string.is_equal() {
   local x="$1"
   local y

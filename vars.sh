@@ -2,9 +2,7 @@ ___VARS_INTERNAL___=""
 
 function vars.create() {
   local var
-  ___VARS_INTERNAL___=$(for var in "$@"; do
-    echo $var
-  done | sort | xargs)
+  ___VARS_INTERNAL___=$(for var in "$@"; do echo $var; done | sort | xargs)
   for var in ${___VARS_INTERNAL___[@]}; do
     eval "function set_${var,,}() {
       echo \"Setting ${var} to '\$1'\"

@@ -16,9 +16,8 @@ function vars.create() {
 
 function vars.print() {
   local var
-  echo "Vars set:"
   for var in ${___VARS_INTERNAL___[@]}; do
-    echo "  ${var}: '${!var}'"
+    echo "${var}: '${!var}'"
   done
 }
 

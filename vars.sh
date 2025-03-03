@@ -6,7 +6,7 @@ function vars.create() {
   local vars
   local args=()
   local prefix=''
-  pbash.args.extract -l prefix: -o prefix -r args -- "$@" || prefix="set_"
+  pbash.args.extract -l prefix: -o prefix -r args -- "$@" || pbu.errors.echo "--prefix is required." || return 1
   pbash.args.extract -l var: -o vars -- "${args[@]}"
   ___VARS_INTERNAL___=$(for var in "${vars[@]}"; do echo $var; done | sort | xargs)
 

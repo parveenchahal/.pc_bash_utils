@@ -1,17 +1,23 @@
-___VARS_INTERNAL___=""
+___VARS_INTERNAL___=()
 
+complete -W "--prefix --var" vars.create
 function vars.create() {
   local var
-  ___VARS_INTERNAL___=$(for var in "$@"; do echo $var; done | sort | xargs)
+  local vars
+  local args=()
+  local prefix=''
+  pbash.args.extract -l prefix: -o prefix -r args -- "$@" || prefix="set_"
+  pbash.args.extract -l var: -o vars -- "${args[@]}"
+  ___VARS_INTERNAL___=$(for var in "${vars[@]}"; do echo $var; done | sort | xargs)
+
   for var in ${___VARS_INTERNAL___[@]}; do
-    eval "function set_${var}() {
+    eval "function ${prefix}${var}() {
       echo \"Setting ${var} to '\$1'\"
       eval ${var}=\"\$1\"
       eval ${var}=\"\$1\"
     }"
   done
 }
-
 
 function vars.print() {
   local var

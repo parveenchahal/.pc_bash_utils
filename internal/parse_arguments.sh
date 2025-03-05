@@ -17,3 +17,5 @@ function ___pbu_check_and_install() {
     source /usr/local/bin/pbash-args.sh || pbu.errors.echo "pbash-args.sh is not installed, pc_bash_utils can not be used."
   fi
 }
+
+___pbu_check_and_install

@@ -1,4 +1,4 @@
-if [ ! -f /usr/local/bin/pbash-args.sh ]
+if [ ! -f /usr/local/bin/pbash-args.sh ] && [ ! -f $HOME/.local/bin/pbash-args.sh ]
 then
   echo 'Installing pbash-args.sh...'
   echo 'It requires sudo access.'

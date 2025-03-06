@@ -25,5 +25,5 @@ function pssh() {
   local tmux_cmd=()
   pbash.args.is_switch_arg_enabled -s t -l tmux -r args -- "${args[@]}" && tmux_cmd+=( -t bash -i -c 'ptmux' )
   
-  pbu.eval.cmd_with_echo ssh "$u@$h" "${ssh_args[@]}" "${args[@]}" "${tmux_cmd[@]}"
+  pbu.eval.cmd_with_echo ssh "${ssh_args[@]}" "${args[@]}" "${tmux_cmd[@]}"
 }

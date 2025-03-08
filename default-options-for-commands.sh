@@ -1,1 +1,1 @@
-alias less="/usr/bin/less -I"
+alias less="/usr/bin/less -I -M"

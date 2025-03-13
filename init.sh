@@ -22,5 +22,5 @@ then
   source ~/.pc_bash_utils/ssh.sh
   source ~/.pc_bash_utils/vars.sh
 else
-  echo "pc_bash_utils requires bash version at 5 or greater'
+  echo "pc_bash_utils requires bash version at 5 or greater"
 fi

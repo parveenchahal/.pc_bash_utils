@@ -1,10 +1,13 @@
-complete -W "-u --user -h --host -e --exit-master-connection -p --x11 --verbose" pssh
+complete -W "--escape_args -u --user -h --host -e --exit-master-connection -p --x11 --verbose" pssh
 function pssh() {
   local args=( "$@" )
 
   local verbose="false"
   pbash.args.is_switch_arg_enabled -l verbose -r args -- "${args[@]}" && verbose="true"
-  
+
+  local escape_args="false"
+  pbash.args.is_switch_arg_enabled -l escape_args -r args -- "${args[@]}" && escape_args="true"
+
   local ssh_args=()
 
   local u=""
@@ -26,14 +29,17 @@ function pssh() {
   
   pbash.args.is_switch_arg_enabled -s e -l exit-master-connection -r args -- "${args[@]}" && ssh_args+=( -O exit )
   pbash.args.is_switch_arg_enabled -l x11 -r args -- "${args[@]}" && ssh_args+=( -o "ForwardAgent yes" -Y -C )
-  local escape_args=()
-  local x
-  for x in "${args[@]}"; do
-    escape_args+=( "$(pbu.string.escape_string "$x")" )
-  done
+  if [ "$escape_args" == "true" ]; then
+    local escape_args=()
+    local x
+    for x in "${args[@]}"; do
+        escape_args+=( "$(pbu.string.escape_string "$x")" )
+    done
+    args=( "${escape_args[@]}" )
+  fi
   if [ "$verbose" == "true" ]; then
-    pbu.eval.cmd_with_echo ssh "${ssh_args[@]}" "${escape_args[@]}"
+    pbu.eval.cmd_with_echo ssh "${ssh_args[@]}" "${args[@]}"
   else
-    pbu.eval.cmd ssh "${ssh_args[@]}" "${escape_args[@]}"
+    pbu.eval.cmd ssh "${ssh_args[@]}" "${args[@]}"
   fi
 }

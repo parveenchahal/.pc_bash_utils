@@ -1,6 +1,6 @@
-. ~/.pc_bash_utils/internal/checks.sh
-. ~/.pc_bash_utils/internal/date.sh
-. ~/.pc_bash_utils/internal/update_management.sh
+source ~/.pc_bash_utils/internal/checks.sh
+source ~/.pc_bash_utils/internal/date.sh
+source ~/.pc_bash_utils/internal/update_management.sh
 
 source ~/.pc_bash_utils/internal/errors.sh
 source ~/.pc_bash_utils/internal/parse_arguments.sh

@@ -26,9 +26,14 @@ function pssh() {
   
   pbash.args.is_switch_arg_enabled -s e -l exit-master-connection -r args -- "${args[@]}" && ssh_args+=( -O exit )
   pbash.args.is_switch_arg_enabled -l x11 -r args -- "${args[@]}" && ssh_args+=( -o "ForwardAgent yes" -Y -C )
+  local escape_args=()
+  local x
+  for x in "${args[@]}"; do
+    escape_args+=( "$(pbu.string.escape_string "$x")" )
+  done
   if [ "$verbose" == "true" ]; then
-    pbu.eval.cmd_with_echo ssh "${ssh_args[@]}" "${args[@]}"
+    pbu.eval.cmd_with_echo ssh "${ssh_args[@]}" "${escape_args[@]}"
   else
-    pbu.eval.cmd ssh "${ssh_args[@]}" "${args[@]}"
+    pbu.eval.cmd ssh "${ssh_args[@]}" "${escape_args[@]}"
   fi
 }

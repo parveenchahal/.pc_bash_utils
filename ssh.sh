@@ -31,5 +31,4 @@ function pssh() {
   else
     pbu.eval.cmd ssh "${ssh_args[@]}" "${args[@]}"
   fi
-  
 }

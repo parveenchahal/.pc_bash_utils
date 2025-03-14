@@ -65,3 +65,37 @@ function pbu.string.join {
     printf %s "$f" "${@/#/$d}"
   fi
 }
+
+function pbu.string.escape_string() {
+  local str="$1"
+  local chr
+  local res=""
+  local i
+  for (( i=0; i<${#str}; i++ )); do
+    chr="${str:$i:1}"
+    if [[ "$chr" == *\ * ]] ||
+      #[[ "${#1}" -gt 20 ]] ||
+      [[ "$chr" == *\$* ]] ||
+      [[ "$chr" == *\`* ]] ||
+      [[ "$chr" == *\\* ]] ||
+      [[ "$chr" == *\&* ]] ||
+      [[ "$chr" == *\'* ]] ||
+      [[ "$chr" == *\"* ]] ||
+      [[ "$chr" == *\!* ]] ||
+      [[ "$chr" == *\#* ]] ||
+      [[ "$chr" == *\(* ]] ||
+      [[ "$chr" == *\)* ]] ||
+      [[ "$chr" == *\{* ]] ||
+      [[ "$chr" == *\}* ]] ||
+      [[ "$chr" == *\[* ]] ||
+      [[ "$chr" == *\]* ]] ||
+      [[ "$chr" == *\** ]] ||
+      [[ "$chr" == *\?* ]]
+    then
+      res+="\\$chr"
+    else
+      res+="$chr"
+    fi
+  done
+  printf "%s" "$res"  
+}

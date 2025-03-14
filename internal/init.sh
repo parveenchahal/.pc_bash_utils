@@ -1,5 +1,5 @@
 function pbu.export_path() {
-  [[ ":$PATH:" == *":$1:"* ]] || { [ -d "$1" ] && export PATH="$1"; }
+  [[ ":$PATH:" == *":$1:"* ]] || { [ -d "$1" ] && export PATH="$PATH:$1"; }
 }
 
 pbu.export_path "$HOME/.local/bin"

@@ -1,5 +1,6 @@
 function pbu.date() {
-  if [[ "$OSTYPE" == "darwin"* ]]
+  pbu.is_macos
+  if [ "$?" == "0" ]
   then
     gdate "$@"
     return $?

@@ -83,3 +83,8 @@ function pbu.read_input_date() {
   REPLY="${date_str}T${time_str}.0Z"
   return 0
 }
+
+function pbu.is_in_path() {
+  [[ ":$PATH:" == *":$1:"* ]] || return 1
+  return 0
+}

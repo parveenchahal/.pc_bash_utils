@@ -1,3 +1,12 @@
+function pbu.export_path() {
+  [[ ":$PATH:" == *":$1:"* ]] || { [ -d "$1" ] && export PATH="$1"; }
+}
+
+pbu.export_path "$HOME/.local/bin"
+pbu.export_path "/usr/local/bin"
+pbu.export_path "/opt/homebrew/bin"
+
+
 source ~/.pc_bash_utils/internal/checks.sh
 source ~/.pc_bash_utils/internal/date.sh
 source ~/.pc_bash_utils/internal/update_management.sh

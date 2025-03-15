@@ -2,6 +2,6 @@
 
 source $HOME/.pc_bash_utils/internal/errors/pbu.errors.codes
 
-err="$(pbu.errors.get_error_code "$@")"
+err="$1"
 [ "$err" == "$PBU_ERROR_NOT_FOUND" ] || exit $PBU_ERROR
 exit $PBU_SUCCESS

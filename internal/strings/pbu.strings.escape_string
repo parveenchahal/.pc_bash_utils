@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 str="$1"
-chr
 res=""
 for (( i=0; i<${#str}; i++ )); do
   chr="${str:$i:1}"

@@ -19,7 +19,7 @@ if [[ "$arg" == *\ * ]] ||
     [[ "$arg" == *\** ]] ||
     [[ "$arg" == *\?* ]]
 then
-    echo -n "\"$(pbu.strings.escape_string "$arg")\""
+    echo -n "'$(pbu.strings.escape_string "$arg")'"
     exit 0
 fi
 echo -n "$arg"

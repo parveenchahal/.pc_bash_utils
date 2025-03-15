@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+err="$?"
+[ "$1" == "" ] || err="$1"
+printf "%s" "$err"

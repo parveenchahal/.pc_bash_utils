@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source $HOME/.pc_bash_utils/internal/errors/pbu.errors.codes
+
+pbu.errors.is_error "$@" || exit $PBU_SUCCESS
+exit $PBU_ERROR

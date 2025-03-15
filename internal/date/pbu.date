@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+pbu.is_macos
+if [ "$?" == "0" ]
+then
+  gdate "$@"
+  exit $?
+fi
+date "$@"
+exit $?

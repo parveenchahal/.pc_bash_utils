@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+[ "$#" != "0" ] && printf "['%s']" "$(pbu.strings.join "', '" "$@")" && exit 0
+printf "[]"

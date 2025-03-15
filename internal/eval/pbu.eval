@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+____args____=()
+while [ "${#@}" -gt 0 ]
+do
+  ____args____+=( "$(pbu.eval.format_string "$1")" )
+  shift
+done
+____t____=()
+set -- "${____t____[@]}"
+eval "${____args____[@]}"

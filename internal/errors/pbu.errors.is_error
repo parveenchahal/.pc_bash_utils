@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source $HOME/.pc_bash_utils/internal/errors/pbu.errors.codes
+
+err="$(pbu.errors.get_error_code "$@")"
+[ "$err" != "$PBU_SUCCESS" ] || exit $PBU_ERROR
+exit $PBU_SUCCESS

@@ -7,7 +7,7 @@ function ___pbu_complete-fn-exec-bash-script___(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.sh}")'" )
     done
-    values="$(pbu.string.join ' ' "${values[@]}")"
+    values="$(pbu.strings.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --in-current-bash-session" -- "$2") )
@@ -27,7 +27,7 @@ function exec-bash-script() {
   if pbash.args.is_switch_arg_enabled -l 'in-current-bash-session' -r remaining_args -- "$@";
   then
     set -- "${remaining_args[@]}"
-    pbu.eval.cmd "." "./$name.sh" "$@"
+    pbu.eval "." "./$name.sh" "$@"
   else
     set -- "${remaining_args[@]}"
     bash "$name.sh" "$@"
@@ -45,7 +45,7 @@ function ___pbu_complete-fn-edit-bash-script___(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.sh}")'" )
     done
-    values="$(pbu.string.join ' ' "${values[@]}")"
+    values="$(pbu.strings.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --editor" -- "$2") )
@@ -66,8 +66,8 @@ function edit-bash-script() {
 
   if [ ! -f "$basePath/$name.sh" ]
   then
-    pbu.eval.cmd touch "$basePath/$name.sh"
-    pbu.eval.cmd chmod +x "$basePath/$name.sh"
+    pbu.eval touch "$basePath/$name.sh"
+    pbu.eval chmod +x "$basePath/$name.sh"
   fi
-  pbu.eval.cmd "$editor" "$basePath/$name.sh"
+  pbu.eval "$editor" "$basePath/$name.sh"
 }

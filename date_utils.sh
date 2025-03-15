@@ -13,7 +13,7 @@ function date-from-epoch() {
   pbash.args.extract -l 'milliseconds:' -o value -- "$@" && values+=( $(($value * 1000000)) )
   pbash.args.extract -l 'seconds:' -o value -- "$@" && values+=( "$(($value * 1000000000))" )
   
-  pbu.string.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --nanoseconds, --microseconds, --milliseconds or --seconds" || return 1
+  pbu.strings.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --nanoseconds, --microseconds, --milliseconds or --seconds" || return 1
   
   local nanoseconds="$values"
 
@@ -51,7 +51,7 @@ function date-to-epoch() {
   pbash.args.is_switch_arg_enabled -l 'out-milliseconds' -- "$@" && values+=( $(($input / 1000000)) )
   pbash.args.is_switch_arg_enabled -l 'out-seconds' -- "$@" && values+=( "$(($input / 1000000000))" )
   
-  pbu.string.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds" || return 1
+  pbu.strings.is_equal "${#values[@]}" "1" || pbu.errors.echo "Only one should be passed out of --out-nanoseconds, --out-microseconds, --out-milliseconds or --out-seconds" || return 1
   
   echo "$values"
 }
@@ -61,7 +61,7 @@ function pbu.date.add_sub() {
 
   local op="$1"
   shift
-  pbu.string.is_equal "$op" "add" || pbu.string.is_equal "$op" "subtract" || pbu.errors.echo "Invalid operation, supported operations are 'add' or 'subtract'" || return 1
+  pbu.strings.is_equal "$op" "add" || pbu.strings.is_equal "$op" "subtract" || pbu.errors.echo "Invalid operation, supported operations are 'add' or 'subtract'" || return 1
 
   local base="$(date-to-epoch --out-nanoseconds)"
   local date_str=()
@@ -79,8 +79,8 @@ function pbu.date.add_sub() {
   
   local newtime=""
   
-  pbu.string.is_equal "$op" "add" && newtime=$(($base + $diff))
-  pbu.string.is_equal "$op" "subtract" && newtime=$(($base - $diff))
+  pbu.strings.is_equal "$op" "add" && newtime=$(($base + $diff))
+  pbu.strings.is_equal "$op" "subtract" && newtime=$(($base - $diff))
   
   local tz='local'
   pbash.args.is_switch_arg_enabled -l 'out-utc' -- "$@" && tz='utc'

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 path="$1"
-pbu.string.is_not_empty "$path" || pbu.errors.echo "path can not be empty" || exit 1
+pbu.strings.is_not_empty "$path" || pbu.errors.echo "path can not be empty" || exit 1
 fullPath="$path"
 [ "${path:0:1}" == "/" ] || fullPath="$(realpath .)/$path"
 [ "${path:0:2}" == "~/" ] && fullPath="$(realpath ~)/${path:2}"

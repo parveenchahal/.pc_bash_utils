@@ -11,7 +11,7 @@ function ptmux-exit() {
 }
 
 function ptmux-nw() {
-  local s=$(pbu.array.size "$@")
+  local s=$(pbu.arrays.size "$@")
   if [ ! "$s" == "0" ]
   then
     local filename=$(sha256sum <(echo -n "$(date)") | awk '{print $1}')

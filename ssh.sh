@@ -33,13 +33,13 @@ function pssh() {
     local escape_args=()
     local x
     for x in "${args[@]}"; do
-        escape_args+=( "$(pbu.string.escape_string "$x")" )
+        escape_args+=( "$(pbu.strings.escape_string "$x")" )
     done
     args=( "${escape_args[@]}" )
   fi
   if [ "$verbose" == "true" ]; then
-    pbu.eval.cmd_with_echo ssh "${ssh_args[@]}" "${args[@]}"
+    pbu.eval.with_echo ssh "${ssh_args[@]}" "${args[@]}"
   else
-    pbu.eval.cmd ssh "${ssh_args[@]}" "${args[@]}"
+    pbu.eval ssh "${ssh_args[@]}" "${args[@]}"
   fi
 }

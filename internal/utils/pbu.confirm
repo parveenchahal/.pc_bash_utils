@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 msg="Confirm"
-pbu.string.is_empty "$1" || msg="$1"
+pbu.strings.is_empty "$1" || msg="$1"
 while $true;
 do
   pbu.read_input "$msg (yes/no): " || exit

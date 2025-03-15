@@ -1,1 +1,1 @@
-alias evalc='pbu.eval.cmd_with_confirmation'
+alias evalc='pbu.eval.with_confirmation'

@@ -49,7 +49,7 @@ print(''.join(h))
 }
 
 function num-bin-to-dec() {
-  local b="$(pbu.string.join '' "$@")"
+  local b="$(pbu.strings.join '' "$@")"
   py-exec "
 b = '$b'
 print(int(b, base=2))

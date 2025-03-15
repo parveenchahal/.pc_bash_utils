@@ -23,7 +23,7 @@ function vars.print() {
   local var
   local l=0
   for var in ${___VARS_INTERNAL___[@]}; do
-    l=$(pbu.numbers.max $l "$(pbu.string.length "$var")")
+    l=$(pbu.numbers.max $l "$(pbu.strings.length "$var")")
   done
   for var in ${___VARS_INTERNAL___[@]}; do
     printf "%-${l}s : '%-0s'\n" "${var}" "${!var}"

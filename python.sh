@@ -34,7 +34,7 @@ function ___pbu_complete-fn-exec-py-script___(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.py}")'" )
     done
-    values="$(pbu.string.join ' ' "${values[@]}")"
+    values="$(pbu.strings.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name" -- "$2") )
@@ -63,7 +63,7 @@ function ___pbu_complete-fn-edit-py-script___(){
       local name="$(basename "$file")"
       values+=( "'$(printf %q "${name%.py}")'" )
     done
-    values="$(pbu.string.join ' ' "${values[@]}")"
+    values="$(pbu.strings.join ' ' "${values[@]}")"
     COMPREPLY=( $(compgen -W "$values" -- "$2") )
   else
     COMPREPLY=( $(compgen -W "--script-name --editor" -- "$2") )
@@ -78,7 +78,7 @@ function edit-py-script() {
   local editor=()
   pbu.args.extract -l 'editor:' -o editor -d vim -- "$@" || return
   pbu.create_file_if_does_not_exist "$basePath/$name.py"
-  pbu.eval.cmd "$editor" "$basePath/$name.py"
+  pbu.eval "$editor" "$basePath/$name.py"
 }
 
 fi

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 size="${#@}"
-local lastIndex=`expr $size - 1`
-local values=( ${@} )
-local i=0
+lastIndex=`expr $size - 1`
+values=( ${@} )
+i=0
 while [ $i -lt $lastIndex ]
 do
   j=`expr $i + 1`
@@ -11,7 +11,7 @@ do
   do
     if [ "${values[$i]}" == "${values[$j]}" ]
     then
-      return 1
+      exit 1
     fi
     j=`expr $j + 1`
   done

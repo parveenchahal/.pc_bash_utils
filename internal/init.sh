@@ -1,9 +1,22 @@
-function pbu.export_path() {
-  [[ ":$PATH:" == *":$1:"* ]] || { [ -d "$1" ] && export PATH="$PATH:$1"; }
+function pbu.is_in_path() {
+  [[ ":$PATH:" == *":$1:"* ]] || return 1
+  return 0
 }
 
-function __pbu.export_path_and_make_executable() {
-  pbu.export_path "$1"
+function pbu.export_path() {
+  pbu.is_in_path "$1" || { [ -d "$1" ] && export PATH="$PATH:$1"; }
+}
+
+pbu.export_path "$HOME/.local/bin"
+pbu.export_path "/usr/local/bin"
+pbu.export_path "/opt/homebrew/bin"
+
+# Prepare installation path
+__pbu_installation_path="$HOME/.pc_bash_utils/bin"
+[ -d "$__pbu_installation_path" ] || mkdir "$__pbu_installation_path"
+pbu.export_path "$__pbu_installation_path"
+
+function __pbu_install() {
   local f
   for f in "$1"/*
   do
@@ -13,34 +26,34 @@ function __pbu.export_path_and_make_executable() {
     then
       if [[ ! "$bn" =~ ^_.* ]] && [ ! "$bn" == "init.sh" ] && [ ! "$bn" == "init" ]
       then
-        #echo "Making "$(realpath "$f")" as executable"
-        chmod +x "$(realpath "$f")"
-      else
-        chmod -x "$(realpath "$f")"
-        #echo "Ignoring $f"
+        cp "$(realpath "$f")" "$__pbu_installation_path/"
+        chmod +x "$__pbu_installation_path/$bn"
       fi
+      chmod -x "$(realpath "$f")"
     fi
   done
 }
 
-pbu.export_path "$HOME/.local/bin"
-pbu.export_path "/usr/local/bin"
-pbu.export_path "/opt/homebrew/bin"
 
 
-source ~/.pc_bash_utils/internal/errors/pbu.errors.codes
-source ~/.pc_bash_utils/internal/parse_arguments/init.sh
 
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/arrays"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/checks"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/date"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/errors"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/eval"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/numbers"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/parse_arguments"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/sql"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/strings"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/update_management"
-__pbu.export_path_and_make_executable "$HOME/.pc_bash_utils/internal/utils"
+source "$HOME/.pc_bash_utils/internal/errors/pbu.errors.codes"
+source "$HOME/.pc_bash_utils/internal/parse_arguments/init.sh"
 
-source ~/.pc_bash_utils/internal/update_management/init.sh
+__pbu_install "$HOME/.pc_bash_utils/internal/arrays"
+__pbu_install "$HOME/.pc_bash_utils/internal/checks"
+__pbu_install "$HOME/.pc_bash_utils/internal/date"
+__pbu_install "$HOME/.pc_bash_utils/internal/errors"
+__pbu_install "$HOME/.pc_bash_utils/internal/eval"
+__pbu_install "$HOME/.pc_bash_utils/internal/numbers"
+__pbu_install "$HOME/.pc_bash_utils/internal/parse_arguments"
+__pbu_install "$HOME/.pc_bash_utils/internal/sql"
+__pbu_install "$HOME/.pc_bash_utils/internal/strings"
+__pbu_install "$HOME/.pc_bash_utils/internal/update_management"
+__pbu_install "$HOME/.pc_bash_utils/internal/utils"
+__pbu_install "$HOME/.pc_bash_utils/internal/input"
+
+__pbu_install "$HOME/.pc_bash_utils/internal/input"
+
+source "$HOME/.pc_bash_utils/internal/input/pbu.read_input.sh"
+source "$HOME/.pc_bash_utils/internal/update_management/init.sh"

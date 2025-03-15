@@ -6,4 +6,4 @@ do
   pbu.numbers.is_number $x || { pbu.errors.echo "Input should be only numbers"; exit 1; }
   [ $x -lt $m ] && m=$x
 done
-echo "$m"
+echo -n "$m"

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source pbu.read_input.sh
+
 ____args____=()
 for ____x____ in "$@"
 do

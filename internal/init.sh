@@ -9,13 +9,16 @@ function __pbu.export_path_and_make_executable() {
   do
     local bn="$(basename "$f")"
     # echo "$bn : $f"
-    if [ -f "$(realpath "$f")" ] && [[ ! "$bn" =~ ^_.* ]] && [ ! "$bn" == "init.sh" ] && [ ! "$bn" == "init" ]
+    if [ -f "$(realpath "$f")" ]
     then
-      #echo "Making "$(realpath "$f")" as executable"
-      chmod +x "$(realpath "$f")"
-    else
-      chmod -x "$(realpath "$f")"
-      #echo "Ignoring $f"
+      if [[ ! "$bn" =~ ^_.* ]] && [ ! "$bn" == "init.sh" ] && [ ! "$bn" == "init" ]
+      then
+        #echo "Making "$(realpath "$f")" as executable"
+        chmod +x "$(realpath "$f")"
+      else
+        chmod -x "$(realpath "$f")"
+        #echo "Ignoring $f"
+      fi
     fi
   done
 }

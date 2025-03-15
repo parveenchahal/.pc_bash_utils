@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+msg="Confirm"
+pbu.string.is_empty "$1" || msg="$1"
+while $true;
+do
+  pbu.read_input "$msg (yes/no): " || exit
+  result="${REPLY,,}"
+  if [ "$result" == "y" ] || [ "$result" == "yes" ];
+  then
+    exit 0
+  fi
+  if [ "$result" == "n" ] || [ "$result" == "no" ];
+  then
+    exit 1
+  fi
+done

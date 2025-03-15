@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+m=$(getconf INT_MAX)
+for x in "$@"
+do
+  pbu.numbers.is_number $x || pbu.errors.exit "Input should be only numbers"
+  [ $x -lt $m ] && m=$x
+done
+echo "$m"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+fullPath="$(pbu.get_full_path "$1")"
+[ -d "$fullPath" ] || exit 1
+exit 0

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+size="${#@}"
+local lastIndex=`expr $size - 1`
+local values=( ${@} )
+local i=0
+while [ $i -lt $lastIndex ]
+do
+  j=`expr $i + 1`
+  while [ $j -le $lastIndex ]
+  do
+    if [ "${values[$i]}" == "${values[$j]}" ]
+    then
+      return 1
+    fi
+    j=`expr $j + 1`
+  done
+  i=`expr $i + 1`
+done
+exit 0

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+for x in "$@"
+do
+  if [ "$x" != "" ]
+  then
+    exit 0
+  fi
+done
+exit 1

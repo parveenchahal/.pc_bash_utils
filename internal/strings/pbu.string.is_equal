@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+x="$1"
+shift
+for y in "$@"
+do
+  if [ "$x" != "$y" ]
+  then
+    exit 1
+  fi
+done
+exit 0

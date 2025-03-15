@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-err="$?"
-if [ ! -z "$1" ]
-then
-  pbu.errors.echo "$1"
-fi
-exit "$err"

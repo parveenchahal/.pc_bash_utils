@@ -21,7 +21,6 @@ function __pbu_install() {
   for f in "$1"/*
   do
     local bn="$(basename "$f")"
-    # echo "$bn : $f"
     if [ -f "$(realpath "$f")" ]
     then
       if [[ ! "$bn" =~ ^_.* ]] && [ ! "$bn" == "init.sh" ] && [ ! "$bn" == "init" ]
@@ -35,25 +34,22 @@ function __pbu_install() {
 }
 
 
-
-
-source "$HOME/.pc_bash_utils/internal/errors/pbu.errors.codes"
-source "$HOME/.pc_bash_utils/internal/parse_arguments/init.sh"
-
 __pbu_install "$HOME/.pc_bash_utils/internal/arrays"
 __pbu_install "$HOME/.pc_bash_utils/internal/checks"
 __pbu_install "$HOME/.pc_bash_utils/internal/date"
 __pbu_install "$HOME/.pc_bash_utils/internal/errors"
 __pbu_install "$HOME/.pc_bash_utils/internal/eval"
+__pbu_install "$HOME/.pc_bash_utils/internal/input"
 __pbu_install "$HOME/.pc_bash_utils/internal/numbers"
 __pbu_install "$HOME/.pc_bash_utils/internal/parse_arguments"
+__pbu_install "$HOME/.pc_bash_utils/internal/python"
 __pbu_install "$HOME/.pc_bash_utils/internal/sql"
 __pbu_install "$HOME/.pc_bash_utils/internal/strings"
 __pbu_install "$HOME/.pc_bash_utils/internal/update_management"
 __pbu_install "$HOME/.pc_bash_utils/internal/utils"
-__pbu_install "$HOME/.pc_bash_utils/internal/input"
 
-__pbu_install "$HOME/.pc_bash_utils/internal/input"
 
+source "$HOME/.pc_bash_utils/internal/errors/pbu.errors.codes"
+source "$HOME/.pc_bash_utils/internal/parse_arguments/init.sh"
 source "$HOME/.pc_bash_utils/internal/input/pbu.read_input.sh"
 source "$HOME/.pc_bash_utils/internal/update_management/init.sh"

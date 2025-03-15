@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+op="$1"
+shift
+if [ "$op" == "stash" ]
+then
+  echo "stashing files $@"
+  for x in "$@"
+  do
+    if [ ! -f "$x" ]
+    then
+      echo "Error: file $x does not exist."
+      exit 1
+    fi
+    mkdir -p "/tmp/stash-files/$(dirname "$x")"
+    cp "$x" "/tmp/stash-files/$x"
+  done
+  exit 0
+elif [ "$op" == "apply" ]
+then
+  echo "applying files $@"
+  for x in "$@"
+  do
+    if [ ! -f "/tmp/stash-files/$x" ]
+    then
+      echo "Error: file $x does not exist in stash."
+      exit 1
+    fi
+    cp "/tmp/stash-files/$x" "$x"
+  done
+  exit 0
+fi
+echo "Invalid operation, specify either stash or apply."
+exit 1

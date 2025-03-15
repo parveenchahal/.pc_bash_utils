@@ -1,28 +1,7 @@
-alias pbu.py='python3'
-
 alias py-json-tool='pbu.py -m json.tool'
-
-function pbu.py.is_installed() {
-  local out=$(pbu.py -c 'print("", end="")' 2>&1)
-  [ "$out" == "" ] || return 1
-  return 0
-}
 
 if pbu.py.is_installed;
 then
-
-function py-exec() {
-cmd=$(
-cat<<EOF
-$@
-EOF
-)
-pbu.py -c "$cmd"
-}
-
-function py-print() {
-  py-exec "print($@)"
-}
 
 function ___pbu_complete-fn-exec-py-script___(){
   if [ "$3" == "--script-name" ]

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+cmd=$(
+cat<<EOF
+$@
+EOF
+)
+pbu.py -c "$cmd"

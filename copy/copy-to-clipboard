@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+data="$1"
+[ -z "$data" ] && data="$(cat)"
+pbu.is_macos
+if [ $? == 0 ]
+then
+  echo -n "$data" | pbcopy
+  exist $?
+fi
+echo -n "$data" | xclip -selection clipboard

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+pbu.eval.with_confirmation "$@"

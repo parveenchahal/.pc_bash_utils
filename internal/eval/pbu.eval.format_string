@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+function escape() {
+  arg="$1"
+  local len=$(pbu.strings.length "$arg")
+  local res
+  local i
+  for (( i=0; i<len; i++ )); do
+    chr="${arg:i:1}"
+    if [[ "$chr" == '"' ]]
+    then
+      res+="\\\\$chr"
+    else
+      res+="$chr"
+    fi
+  done
+  printf "$res"
+}
+
 arg="$1"
 if [[ "$arg" == *\ * ]] ||
     [[ "$arg" == *\$* ]] ||
@@ -19,7 +36,8 @@ if [[ "$arg" == *\ * ]] ||
     [[ "$arg" == *\** ]] ||
     [[ "$arg" == *\?* ]]
 then
-    echo -n "'$arg'"
+    escape_arg="$(escape "$arg")"
+    echo -n '"'$escape_arg'"'
     exit 0
 fi
 echo -n "$arg"

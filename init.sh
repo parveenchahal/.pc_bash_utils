@@ -1,11 +1,18 @@
+function __pbu_update_triggered() {
+  [ "$___PBU_UPDATE_TRIGGERED" == "true" ] || return 1
+  return 0
+}
+
 if [[ "${BASH_VERSINFO[0]}" -ge 5 ]]
 then
   source "$HOME/.pc_bash_utils/internal/init.sh"
   # Any new source or __pbu_install can be added below
 
-  __pbu_install "$HOME/.pc_bash_utils/eval"
-  __pbu_install "$HOME/.pc_bash_utils/ptmux"
-  __pbu_install "$HOME/.pc_bash_utils/copy"
+  __pbu_update_triggered && {
+    __pbu_install "$HOME/.pc_bash_utils/eval"
+    __pbu_install "$HOME/.pc_bash_utils/ptmux"
+    __pbu_install "$HOME/.pc_bash_utils/copy"
+  }
   
   source "$HOME/.pc_bash_utils/pssh/init.sh"
   source "$HOME/.pc_bash_utils/default-options-for-commands.sh"
@@ -26,3 +33,5 @@ then
 else
   echo "pc_bash_utils requires bash version at 5 or greater"
 fi
+
+___PBU_UPDATE_TRIGGERED=false

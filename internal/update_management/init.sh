@@ -33,4 +33,4 @@ then
   fi
 fi
 
-alias update-pc-bash-utils='pushd ~/.pc_bash_utils > /dev/null && git pull && popd > /dev/null && echo "0" > ~/.pc_bash_utils/.updatepending && {  rm -r ~/.pc_bash_utils/bin > /dev/null; source ~/.pc_bash_utils/init.sh; }'
+alias update-pc-bash-utils='export ___PBU_UPDATE_TRIGGERED=true && pushd ~/.pc_bash_utils > /dev/null && git pull && popd > /dev/null && echo "0" > ~/.pc_bash_utils/.updatepending && {  rm -r ~/.pc_bash_utils/bin > /dev/null; source ~/.pc_bash_utils/init.sh; }'

@@ -35,8 +35,11 @@ function __pbu_install() {
 # Prepare installation path
 __pbu_installation_path="$HOME/.pc_bash_utils/bin"
 [ ! -d "$__pbu_installation_path" ] && {
-   mkdir "$__pbu_installation_path"
+  mkdir "$__pbu_installation_path"
+  export ___PBU_UPDATE_TRIGGERED=true
+}
 
+__pbu_update_triggered && {
   __pbu_install "$HOME/.pc_bash_utils/internal/arrays"
   __pbu_install "$HOME/.pc_bash_utils/internal/checks"
   __pbu_install "$HOME/.pc_bash_utils/internal/date"

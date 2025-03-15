@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo -n "\"$1\""
+shift
+for x in "$@"
+do
+  echo -n " "
+  echo -n "\"$x\""
+done

@@ -1,3 +1,7 @@
+function reload-bashrc() {
+  source ~/.bashrc
+}
+
 function __pbu_update_triggered() {
   [ "$___PBU_UPDATE_TRIGGERED" == "true" ] || return 1
   return 0

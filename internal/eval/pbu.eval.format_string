@@ -34,10 +34,11 @@ if [[ "$arg" == *\ * ]] ||
     [[ "$arg" == *\[* ]] ||
     [[ "$arg" == *\]* ]] ||
     [[ "$arg" == *\** ]] ||
+    [[ "$arg" == *\%* ]] ||
     [[ "$arg" == *\?* ]]
 then
-    escape_arg="$(escape "$arg")"
-    echo -n '"'$escape_arg'"'
+    # escape_arg="$(escape "$arg")"
+    echo -n "'$arg'"
     exit 0
 fi
 echo -n "$arg"

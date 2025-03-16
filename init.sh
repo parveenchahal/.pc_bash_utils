@@ -25,8 +25,8 @@ function __pbu_install() {
   if [ -f "$1" ]
   then
     local bn="$(basename "$1")"
-    cp "$(realpath "$1")" "$___PBU_INSTALLTION_PATH___/"
-    chmod +x "$___PBU_INSTALLTION_PATH___/$bn"
+    cp "$(realpath "$1")" "$(pbu_bin_path)/"
+    chmod +x "$(pbu_bin_path)/$bn"
     return 0
   fi
   local f
@@ -37,8 +37,8 @@ function __pbu_install() {
     then
       if [[ ! "$bn" =~ ^_.* ]] && [ ! "$bn" == "init.sh" ] && [ ! "$bn" == "init" ]
       then
-        cp "$(realpath "$f")" "$___PBU_INSTALLTION_PATH___/"
-        chmod +x "$___PBU_INSTALLTION_PATH___/$bn"
+        cp "$(realpath "$f")" "$(pbu_bin_path)/"
+        chmod +x "$(pbu_bin_path)/$bn"
       fi
       chmod -x "$(realpath "$f")"
     fi
@@ -48,11 +48,11 @@ function __pbu_install() {
 pbu.export_path "$HOME/.local/bin"
 pbu.export_path "/usr/local/bin"
 pbu.export_path "/opt/homebrew/bin"
+pbu.export_path "$(pbu_bin_path)"
 
 # Prepare installation path
-export ___PBU_INSTALLTION_PATH___="$(pbu_bin_path)"
-[ ! -d "$___PBU_INSTALLTION_PATH___" ] && {
-  mkdir "$___PBU_INSTALLTION_PATH___"
+[ ! -d "$(pbu_bin_path)" ] && {
+  mkdir "$(pbu_bin_path)"
   export ___PBU_UPDATE_TRIGGERED___=true
 }
 

@@ -6,6 +6,6 @@ pbu.is_macos
 if [ $? == 0 ]
 then
   echo -n "$data" | pbcopy
-  exist $?
+  exit $?
 fi
 echo -n "$data" | xclip -selection clipboard

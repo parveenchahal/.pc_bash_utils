@@ -22,6 +22,13 @@ function pbu.force_export_path() {
 }
 
 function __pbu_install() {
+  if [ -f "$1" ]
+  then
+    local bn="$(basename "$1")"
+    cp "$(realpath "$1")" "$___PBU_INSTALLTION_PATH___/"
+    chmod +x "$___PBU_INSTALLTION_PATH___/$bn"
+    return 0
+  fi
   local f
   for f in "$1"/*
   do

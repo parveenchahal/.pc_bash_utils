@@ -1,39 +1,54 @@
-___VARS_INTERNAL___=()
+#!/usr/bin/env bash
 
-complete -W "--prefix --var" vars.create
+complete -W "--set_prefix --get_prefix --var" vars.create
 function vars.create() {
+  [ -d "$(pbu_data_path)" ] || mkdir "$(pbu_data_path)"
   local var
-  local vars
+  local vars=()
   local args=()
-  local prefix=''
-  pbash.args.extract -l prefix: -o prefix -r args -- "$@" || pbu.errors.echo "--prefix is required." || return 1
-  pbash.args.extract -l var: -o vars -- "${args[@]}"
-  ___VARS_INTERNAL___=$(for var in "${vars[@]}"; do echo $var; done | sort | xargs)
+  local set_prefix=''
+  local get_prefix=''
 
-  for var in ${___VARS_INTERNAL___[@]}; do
-    eval "function ${prefix}${var}() {
-      echo \"Setting ${var} to '\$1'\"
-      eval ${var}=\"\$1\"
-      eval ${var}=\"\$1\"
-    }"
+  pbash.args.extract -l set_prefix: -o set_prefix -r args -- "$@" || { pbu.errors.echo "--set_prefix is required."; return 1; }
+  pbash.args.extract -l get_prefix: -o get_prefix -r args -- "$@" || { pbu.errors.echo "--get_prefix is required." ; return 1; }
+  pbash.args.extract -l var: -o vars -- "${args[@]}" || { pbu.errors.echo "--var is required." ; return 1; }
+
+  for var in ${vars[@]}; do
+    local var_setter="${set_prefix}${var}"
+    local var_getter="${get_prefix}${var}"
+    echo "#!/usr/bin/env bash" > "/tmp/$var_setter"
+    echo "echo "\$1" > $(pbu_data_path)/vars.${var}" >> "/tmp/$var_setter"
+    echo "echo \'\$1\' is set in ${var}. Use \'$var_getter\' command to get the value." >> "/tmp/$var_setter"
+    __pbu_install "/tmp/$var_setter"
+
+    echo "#!/usr/bin/env bash" > "/tmp/$var_getter"
+    echo "cat $(pbu_data_path)/vars.${var}" >> "/tmp/$var_getter"
+    __pbu_install "/tmp/$var_getter"
   done
 }
 
 function vars.print() {
-  local var
+  local var_path
   local l=0
-  for var in ${___VARS_INTERNAL___[@]}; do
+  for var_path in $( ls "$(pbu_data_path)/vars."* 2> /dev/null ); do
+    local bn="$(basename "$var_path")"
+    local var="${bn#vars\.}"
     l=$(pbu.numbers.max $l "$(pbu.strings.length "$var")")
   done
-  for var in ${___VARS_INTERNAL___[@]}; do
-    printf "%-${l}s : '%-0s'\n" "${var}" "${!var}"
+  for var_path in $( ls "$(pbu_data_path)/vars."* 2> /dev/null | sort ); do
+    local bn="$(basename "$var_path")"
+    local var="${bn#vars\.}"
+    printf "%-${l}s : '%-0s'\n" "${var}" "$(cat "$var_path")"
   done
 }
 
 function vars.reset() {
-  local var
-  echo "Reseting vars"
-  for var in ${___VARS_INTERNAL___[@]}; do
-    eval ${var}=""
+  local var_path
+  local l=0
+  for var_path in $( ls "$(pbu_data_path)/vars."* 2> /dev/null ); do
+    local bn="$(basename "$var_path")"
+    local var="${bn#vars\.}"
+    echo "Unsetting var $var"
+    rm -f "$var_path"
   done
 }

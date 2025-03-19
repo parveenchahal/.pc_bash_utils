@@ -16,8 +16,6 @@ function vars.create() {
   for var in ${vars[@]}; do
     local var_setter="${set_prefix}${var}"
     local var_getter="${get_prefix}${var}"
-    [ -f "$(pbu_bin_path)/$var_setter" ] && [ -f "$(pbu_bin_path)/$var_getter" ] && continue
-    echo "Creating var '$var'"
     echo "#!/usr/bin/env bash" > "/tmp/$var_setter"
     echo "echo "\$1" > $(pbu_data_path)/vars.${var}" >> "/tmp/$var_setter"
     echo "echo \'\$1\' is set in ${var}. Use \'$var_getter\' command to get the value." >> "/tmp/$var_setter"

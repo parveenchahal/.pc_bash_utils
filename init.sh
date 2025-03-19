@@ -4,6 +4,10 @@ function pbu_bin_path() {
   echo -n "$HOME/.pc_bash_utils/bin"
 }
 
+function pbu_data_path() {
+  echo -n "$HOME/.pc_bash_utils/data"
+}
+
 function reload-bashrc() {
   source ~/.bashrc
 }

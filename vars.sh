@@ -24,7 +24,7 @@ function vars.create() {
     __pbu_install "/tmp/$var_setter"
 
     echo "#!/usr/bin/env bash" > "/tmp/$var_getter"
-    echo "cat $(pbu_data_path)/vars.${var}" >> "/tmp/$var_getter"
+    echo "[ -f '$(pbu_data_path)/vars.${var}' ] && cat '$(pbu_data_path)/vars.${var}'" >> "/tmp/$var_getter"
     __pbu_install "/tmp/$var_getter"
   done
 }

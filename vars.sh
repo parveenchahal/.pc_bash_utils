@@ -74,3 +74,12 @@ function vars.delete() {
     [ -f "$(pbu_data_path)/vars.$var" ] && { echo "Deleting '$(pbu_data_path)/vars.$var'"; rm -f "$(pbu_data_path)/vars.$var"; }
   done
 }
+
+function vars.source_in_bash() {
+  local var_path
+  for var_path in $( ls "$(pbu_data_path)/vars."* 2> /dev/null ); do
+    local bn="$(basename "$var_path")"
+    local var="${bn#vars\.}"
+    export "$var"="$(cat "$var_path")"
+  done
+}

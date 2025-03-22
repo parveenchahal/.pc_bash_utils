@@ -69,5 +69,5 @@ function edit-bash-script() {
     pbu.eval -- touch "$basePath/$name.sh"
     pbu.eval -- chmod +x "$basePath/$name.sh"
   fi
-  pbu.eval "$editor" "$basePath/$name.sh"
+  pbu.eval -- "$editor" "$basePath/$name.sh"
 }

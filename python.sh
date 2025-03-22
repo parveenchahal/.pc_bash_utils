@@ -57,7 +57,7 @@ function edit-py-script() {
   local editor=()
   pbu.args.extract -l 'editor:' -o editor -d vim -- "$@" || return
   pbu.create_file_if_does_not_exist "$basePath/$name.py"
-  pbu.eval "$editor" "$basePath/$name.py"
+  pbu.eval -- "$editor" "$basePath/$name.py"
 }
 
 fi

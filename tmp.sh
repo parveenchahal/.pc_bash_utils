@@ -17,7 +17,7 @@ function tmp() {
   local path="/tmp/$path"
   if [ -f "$path" ]
   then
-    pbu.eval "$editor" "$path" || return
+    pbu.eval -- "$editor" "$path" || return
     return 0
   fi
   

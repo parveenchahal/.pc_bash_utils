@@ -11,7 +11,7 @@ pbash.args.extract -l confirm_cmd -o confirm_cmd -d false -- "${internal_args[@]
 s=$(pbu.arrays.size "${external_args[@]}")
 if [ ! "$s" == "0" ]
 then
-  [ "$confirm_cmd" == "true" ] && { echo "Executing command: $(pbu.eval.printcmd "${external_args[@]}")"; pbu.confirm || exit 1; }
+  [ "$confirm_cmd" == "true" ] && { echo "Executing command: $(pbu.eval.printcmd "${external_args[@]}")"; pbu.confirm "Confirm command" || exit 1; }
   filename=$(sha256sum <(echo -n "$(date)") | awk '{print $1}')
   cp ~/.bashrc /tmp/ptmux-$filename
   pbu.eval.printcmd "${external_args[@]}" >> /tmp/ptmux-$filename

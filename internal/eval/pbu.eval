@@ -11,10 +11,16 @@ pbash.args.extract -s v -l verbose -o verbose -d 'false' -- "${internal_args[@]}
 pbash.args.extract -s c -l confirmation -o confirmation -d 'false' -- "${internal_args[@]}"
 
 ____args____=()
-for ____x____ in "${external_args[@]}"
-do
-  ____args____+=( "$(pbu.eval.format_string "$____x____")" )
-done
+
+if [ "$(pbu.arrays.size "${external_args[@]}")" == "1" ]
+then
+  ____args____+=( "${external_args[@]}" )
+else
+  for ____x____ in "${external_args[@]}"
+  do
+    ____args____+=( "$(pbu.eval.format_string "$____x____")" )
+  done
+fi
 
 [[ "$verbose" == "true" || "$confirmation" == "true" ]] && echo "Executing command: ${____args____[@]}"
 

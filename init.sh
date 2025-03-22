@@ -68,6 +68,8 @@ function __pbu_update_triggered() {
 source "$HOME/.pc_bash_utils/internal/init.sh"
 # Any new source or __pbu_install can be added below
 
+source "$HOME/.pc_bash_utils/ptmux/_complete.sh"
+
 __pbu_update_triggered && {
   __pbu_install "$HOME/.pc_bash_utils/eval"
   __pbu_install "$HOME/.pc_bash_utils/ptmux"

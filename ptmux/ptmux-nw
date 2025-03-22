@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
-source pbash-args.sh
+source pbu.read_input.sh
 
 pbash.args.split_with_double_hyphen --args1 internal_args --args2 external_args -- "$@"
 
 args=( new-window )
 
 pbash.args.extract -s n: -l name: -o name -- "${internal_args[@]}" && args+=( -n "$name" )
+pbash.args.extract -l confirm_cmd -o confirm_cmd -d false -- "${internal_args[@]}"
 
 s=$(pbu.arrays.size "${external_args[@]}")
 if [ ! "$s" == "0" ]
 then
+  [ "$confirm_cmd" == "true" ] && { echo "Executing command: $(pbu.eval.printcmd "${external_args[@]}")"; pbu.confirm || exit 1; }
   filename=$(sha256sum <(echo -n "$(date)") | awk '{print $1}')
   cp ~/.bashrc /tmp/ptmux-$filename
   pbu.eval.printcmd "${external_args[@]}" >> /tmp/ptmux-$filename

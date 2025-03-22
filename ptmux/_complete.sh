@@ -1,1 +1,1 @@
-complete -W "-n --name" ptmux-nw
+complete -W "-n --name --confirm_cmd" ptmux-nw

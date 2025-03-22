@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
+source pbash-args.sh
 
-s=$(pbu.arrays.size "$@")
+pbash.args.split_with_double_hyphen --args1 internal_args --args2 external_args -- "$@"
+
+args=( new-window )
+
+pbash.args.extract -s n: -l name: -o name -- "${internal_args[@]}" && args+=( -n "$name" )
+
+s=$(pbu.arrays.size "${external_args[@]}")
 if [ ! "$s" == "0" ]
 then
   filename=$(sha256sum <(echo -n "$(date)") | awk '{print $1}')
   cp ~/.bashrc /tmp/ptmux-$filename
-  pbu.eval.printcmd "$@" >> /tmp/ptmux-$filename
+  pbu.eval.printcmd "${external_args[@]}" >> /tmp/ptmux-$filename
   echo "rm /tmp/ptmux-$filename" >> /tmp/ptmux-$filename
-  tmux new-window -t pc bash --rcfile /tmp/ptmux-$filename
+  tmux "${args[@]}" -t pc bash --rcfile /tmp/ptmux-$filename
 else
-  tmux new-window -t pc
+  tmux "${args[@]}" -t pc
 fi

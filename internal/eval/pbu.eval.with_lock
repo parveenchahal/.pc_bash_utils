@@ -15,4 +15,5 @@ pbash.args.extract -l lock_id: -o lock_id -- "${internal_args[@]}" || { pbu.erro
 pbash.args.extract -l timeout: -o timeout -- "${internal_args[@]}" && args+=( --timeout "$timeout" )
 
 args+=( "/tmp/pbu.eval.with_lock/$lock_id" )
-flock "${args[@]}" pbu.eval.with_echo "${external_args[@]}"
+
+flock "${args[@]}" pbu.eval -v -- "${external_args[@]}"

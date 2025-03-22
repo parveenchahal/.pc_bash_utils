@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
 
+source pbu.read_input.sh
+
+internal_args=()
+external_args=()
+
+pbash.args.split_with_double_hyphen --args1 internal_args --args2 external_args -- "$@"
+
+pbash.args.extract -s v -l verbose -o verbose -d 'false' -- "${internal_args[@]}"
+pbash.args.extract -s c -l confirmation -o confirmation -d 'false' -- "${internal_args[@]}"
+
 ____args____=()
-while [ "${#@}" -gt 0 ]
+for ____x____ in "${external_args[@]}"
 do
-  ____args____+=( "$(pbu.eval.format_string "$1")" )
-  shift
+  ____args____+=( "$(pbu.eval.format_string "$____x____")" )
 done
+
+[[ "$verbose" == "true" || "$confirmation" == "true" ]] && echo "Executing command: ${____args____[@]}"
+
+[ "$confirmation" == "true" ] && pbu.confirm "Confirm command" || exit 1
 
 eval "${____args____[@]}"

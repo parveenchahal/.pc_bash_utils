@@ -1,12 +1,3 @@
 #!/usr/bin/env bash
 
-source pbu.read_input.sh
-
-____args____=()
-for ____x____ in "$@"
-do
-  ____args____+=( "$(pbu.eval.format_string "$____x____")" )
-done
-echo "Executing command: ${____args____[@]}"
-pbu.confirm "Confirm command" || exit 1
-pbu.eval "$@"
+pbu.eval -v -- "$@"

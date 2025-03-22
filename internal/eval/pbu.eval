@@ -18,6 +18,6 @@ done
 
 [[ "$verbose" == "true" || "$confirmation" == "true" ]] && echo "Executing command: ${____args____[@]}"
 
-[ "$confirmation" == "true" ] && pbu.confirm "Confirm command" || exit 1
+[ "$confirmation" == "true" ] && { pbu.confirm "Confirm command" || exit 1; }
 
 eval "${____args____[@]}"

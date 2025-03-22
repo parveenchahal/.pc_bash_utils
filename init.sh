@@ -39,7 +39,7 @@ function __load_all_complete_commands() {
   done
 }
 
-function __pbu_install() {
+function pbu_install() {
   if [ -f "$1" ]
   then
     local bn="$(basename "$1")"
@@ -80,15 +80,15 @@ function __pbu_update_triggered() {
 }
 
 source "$HOME/.pc_bash_utils/internal/init.sh"
-# Any new source or __pbu_install can be added below
+# Any new source or pbu_install can be added below
 
 __load_all_complete_commands "$HOME/.pc_bash_utils"
 
 __pbu_update_triggered && {
-  __pbu_install "$HOME/.pc_bash_utils/copy"
-  __pbu_install "$HOME/.pc_bash_utils/eval"
-  __pbu_install "$HOME/.pc_bash_utils/pssh"
-  __pbu_install "$HOME/.pc_bash_utils/ptmux"
+  pbu_install "$HOME/.pc_bash_utils/copy"
+  pbu_install "$HOME/.pc_bash_utils/eval"
+  pbu_install "$HOME/.pc_bash_utils/pssh"
+  pbu_install "$HOME/.pc_bash_utils/ptmux"
 }
 
 source "$HOME/.pc_bash_utils/default-options-for-commands.sh"

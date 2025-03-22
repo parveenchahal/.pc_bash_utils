@@ -19,11 +19,11 @@ function vars.create() {
     echo "#!/usr/bin/env bash" > "/tmp/$var_setter"
     echo "echo "\$1" > $(pbu_data_path)/vars.${var}" >> "/tmp/$var_setter"
     echo "echo \'\$1\' is set in ${var}. Use \'$var_getter\' command to get the value." >> "/tmp/$var_setter"
-    __pbu_install "/tmp/$var_setter"
+    pbu_install "/tmp/$var_setter"
 
     echo "#!/usr/bin/env bash" > "/tmp/$var_getter"
     echo "[ -f '$(pbu_data_path)/vars.${var}' ] && cat '$(pbu_data_path)/vars.${var}'" >> "/tmp/$var_getter"
-    __pbu_install "/tmp/$var_getter"
+    pbu_install "/tmp/$var_getter"
   done
 }
 

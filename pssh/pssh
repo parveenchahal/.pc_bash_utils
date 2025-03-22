@@ -31,5 +31,5 @@ pbash.args.is_switch_arg_enabled -l x11 -r args -- "${args[@]}" && ssh_args+=( -
 if [ "$verbose" == "true" ]; then
   pbu.eval -v -- ssh "${ssh_args[@]}" "${args[@]}"
 else
-  pbu.eval ssh "${ssh_args[@]}" "${args[@]}"
+  pbu.eval -- ssh "${ssh_args[@]}" "${args[@]}"
 fi

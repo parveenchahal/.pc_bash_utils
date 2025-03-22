@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 fullPath="$(pbu.get_full_path "$1")"
-[ -d "$fullPath" ] || pbu.eval mkdir -p "$fullPath"
+[ -d "$fullPath" ] || pbu.eval -- mkdir -p "$fullPath"

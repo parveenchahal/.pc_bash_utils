@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-pbu.eval -v -- "$@"

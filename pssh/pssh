@@ -29,7 +29,7 @@ ssh_args+=( "$uh" )
 pbash.args.is_switch_arg_enabled -s e -l exit-master-connection -r args -- "${args[@]}" && ssh_args+=( -O exit )
 pbash.args.is_switch_arg_enabled -l x11 -r args -- "${args[@]}" && ssh_args+=( -o "ForwardAgent yes" -Y -C )
 if [ "$verbose" == "true" ]; then
-  pbu.eval.with_echo ssh "${ssh_args[@]}" "${args[@]}"
+  pbu.eval -v -- ssh "${ssh_args[@]}" "${args[@]}"
 else
   pbu.eval ssh "${ssh_args[@]}" "${args[@]}"
 fi

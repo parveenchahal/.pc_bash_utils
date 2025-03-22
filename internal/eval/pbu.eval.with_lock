@@ -12,13 +12,18 @@ pbash.args.split_with_double_hyphen --args1 internal_args --args2 external_args 
 args=()
 
 pbash.args.extract -l lock_id: -o lock_id -- "${internal_args[@]}" || { pbu.errors.echo "--lock_id is required"; exit 1; }
-pbash.args.extract -l timeout: -o timeout -- "${internal_args[@]}" && args+=( --timeout "$timeout" )
+pbash.args.extract -l timeout: -o timeout -- "${internal_args[@]}" || timeout="$(getconf INT_MAX)"
+
+pbu.is_macos && args+=( -t "$timeout" ) || args+=( --timeout "$timeout" )
 
 args+=( "/tmp/pbu.eval.with_lock/$lock_id" )
 
+cmd='flock'
+pbu.is_macos && cmd=lockf
+
 if [ "$(pbu.arrays.size "${external_args[@]}")" == "1" ]
 then
-  flock "${args[@]}" -c "pbu.eval -v -- ${external_args[@]}"
+  $cmd "${args[@]}" -c "pbu.eval -v -- ${external_args[@]}"
 else
-  flock "${args[@]}" pbu.eval -v -- "${external_args[@]}"
+  $cmd "${args[@]}" pbu.eval -v -- "${external_args[@]}"
 fi

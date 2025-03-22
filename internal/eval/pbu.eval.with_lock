@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+[ -d /tmp/pbu.eval.with_lock ] || mkdir -p /tmp/pbu.eval.with_lock
+
+source pbash-args.sh
+
+internal_args=()
+external_args=()
+
+pbash.args.split_with_double_hyphen --args1 internal_args --args2 external_args -- "$@"
+
+args=()
+
+pbash.args.extract -l lock_id: -o lock_id -- "${internal_args[@]}" || { pbu.errors.echo "--lock_id is required"; exit 1; }
+pbash.args.extract -l timeout: -o timeout -- "${internal_args[@]}" && args+=( --timeout "$timeout" )
+
+args+=( "/tmp/pbu.eval.with_lock/$lock_id" )
+flock  pbu.eval.with_echo "${args[@]}" "${external_args[@]}"

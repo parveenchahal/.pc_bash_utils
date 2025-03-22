@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+res=()
+
+for x in "$@"
+do
+  res+=( "$(printf "%s" "$x" | base64 -w 0)" )
+done
+
+pbu.strings.join ":" "${res[@]}"

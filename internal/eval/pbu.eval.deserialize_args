@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+for arg in $(echo "$@" | tr ":" "\n")
+do
+  printf '%s\n' "$(echo -n $arg | base64 -d)"
+done
+
+# Use below command to read array of args
+# readarray -t args <<< "$(pbu.eval.deserialize_args "$serialized_args")"

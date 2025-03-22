@@ -14,7 +14,7 @@ function escape() {
       res+="$chr"
     fi
   done
-  printf "$res"
+  printf '%s' "$res"
 }
 
 arg="$1"
@@ -38,7 +38,7 @@ if [[ "$arg" == *\ * ]] ||
     [[ "$arg" == *\?* ]]
 then
     # escape_arg="$(escape "$arg")"
-    echo -n "'$arg'"
+    printf '%s' "'$arg'"
     exit 0
 fi
-echo -n "$arg"
+printf '%s' "$arg"

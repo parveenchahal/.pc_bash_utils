@@ -9,6 +9,15 @@ pbash.args.split_with_double_hyphen --args1 internal_args --args2 external_args 
 
 pbash.args.extract -s v -l verbose -o verbose -d 'false' -- "${internal_args[@]}"
 pbash.args.extract -s c -l confirmation -o confirmation -d 'false' -- "${internal_args[@]}"
+pbash.args.extract -l serialized_args -o serialized_args -d 'false' -- "${internal_args[@]}"
+
+if [ "$serialized_args" == "true" ]
+then
+  [ "$(pbu.arrays.size "${external_args[@]}")" == "1" ] || { pbu.errors.echo "Serialized args should be single argumnet"; exit 1; }
+  readarray -t deserialized_args <<< "$(pbu.eval.deserialize_args "$external_args")"
+  external_args=()
+  external_args=( "${deserialized_args[@]}" )
+fi
 
 ____args____=()
 

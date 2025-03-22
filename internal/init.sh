@@ -1,7 +1,3 @@
-# Completes start
-source "$HOME/.pc_bash_utils/internal/eval/_complete.sh"
-# Completes end
-
 __pbu_update_triggered && {
   __pbu_install "$HOME/.pc_bash_utils/internal/arrays"
   __pbu_install "$HOME/.pc_bash_utils/internal/checks"

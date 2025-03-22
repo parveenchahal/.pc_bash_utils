@@ -25,6 +25,20 @@ function pbu.force_export_path() {
   pbu.is_in_path "$1" || export PATH="$PATH:$1"
 }
 
+function __load_all_complete_commands() {
+  for f in "$1"/*
+  do
+    local p="$(realpath "$f")"
+    local bn="$(basename "$p")"
+    if [ -f "$p" ]
+    then
+      [ "$bn" == "_complete.sh" ] && source "$p"
+    else
+      __load_all_complete_commands "$p"
+    fi
+  done
+}
+
 function __pbu_install() {
   if [ -f "$1" ]
   then
@@ -68,15 +82,15 @@ function __pbu_update_triggered() {
 source "$HOME/.pc_bash_utils/internal/init.sh"
 # Any new source or __pbu_install can be added below
 
-source "$HOME/.pc_bash_utils/ptmux/_complete.sh"
+__load_all_complete_commands "$HOME/.pc_bash_utils"
 
 __pbu_update_triggered && {
-  __pbu_install "$HOME/.pc_bash_utils/eval"
-  __pbu_install "$HOME/.pc_bash_utils/ptmux"
   __pbu_install "$HOME/.pc_bash_utils/copy"
+  __pbu_install "$HOME/.pc_bash_utils/eval"
+  __pbu_install "$HOME/.pc_bash_utils/pssh"
+  __pbu_install "$HOME/.pc_bash_utils/ptmux"
 }
 
-source "$HOME/.pc_bash_utils/pssh/init.sh"
 source "$HOME/.pc_bash_utils/default-options-for-commands.sh"
 source "$HOME/.pc_bash_utils/python.sh"
 source "$HOME/.pc_bash_utils/cd.sh"

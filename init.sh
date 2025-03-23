@@ -42,10 +42,15 @@ function __load_all_complete_commands() {
 }
 
 function pbu_install() {
+  local default_bash='#!\/usr\/bin\/env\ bash'
+  local evaluated_bash="#!"
+  evaluated_bash+="$(/usr/bin/env | grep SHELL | tr '=' '\n' | tail -n 1)"
+  evaluated_bash="${evaluated_bash//\//\\/}"
   if [ -f "$1" ]
   then
     local bn="$(basename "$1")"
     cp "$(realpath "$1")" "$(pbu_bin_path)/"
+    sed -i "s/$default_bash/$evaluated_bash/1" "$(pbu_bin_path)/$bn"
     chmod +x "$(pbu_bin_path)/$bn"
     return 0
   fi
@@ -58,6 +63,7 @@ function pbu_install() {
       if [[ ! "$bn" =~ ^_.* ]] && [ ! "$bn" == "init.sh" ] && [ ! "$bn" == "init" ]
       then
         cp "$(realpath "$f")" "$(pbu_bin_path)/"
+        sed -i "s/$default_bash/$evaluated_bash/1" "$(pbu_bin_path)/$bn"
         chmod +x "$(pbu_bin_path)/$bn"
       fi
       chmod -x "$(realpath "$f")"

@@ -2,7 +2,9 @@
 
 for arg in $(echo "$@" | tr ":" "\n")
 do
-  printf '%s\n' "$(echo -n $arg | base64 -d)"
+  arg="$(echo -n $arg | base64 -d)"
+  [ "$?" == "0" ] || { pbu.errors.echo "Deserialization of args failed"; exit 1; }
+  printf '%s\n' "$arg"
 done
 
 # Use below command to read array of args

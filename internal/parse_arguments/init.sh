@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function ___pbu_check_and_install() {
   local installation_type=''
   [ -f /usr/local/bin/pbash-args.sh ] && installation_type='system'

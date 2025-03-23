@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [ ! -f ~/.pc_bash_utils/.lastupdatecheck ]
 then
   echo 0 > ~/.pc_bash_utils/.lastupdatecheck

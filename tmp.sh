@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 complete -W "--editor" tmp
 function tmp() {
   local editor=()

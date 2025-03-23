@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function pbu.openssl.decode() {
   local type=()
   pbu.args.extract -l 'type:' -o type -- "$@" || pbu.errors.echo "--type is required option" || return 1

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function ___pbu_complete-fn-exec-bash-script___(){
   if [ "$3" == "--script-name" ]
   then

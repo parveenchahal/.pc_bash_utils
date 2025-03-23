@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function num-hex-to-dec() {
   printf "%d\n" "0x$1"
 }

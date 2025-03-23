@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 alias py-json-tool='pbu.py -m json.tool'
 
 if pbu.py.is_installed;

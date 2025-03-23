@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 complete -W "--out-utc --nanoseconds --microseconds --milliseconds --seconds" date-from-epoch
 function date-from-epoch() {
 

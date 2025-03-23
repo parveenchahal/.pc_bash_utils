@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if pbu.py.is_installed;
 then
 

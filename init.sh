@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 [[ "${BASH_VERSINFO[0]}" -ge 5 ]] || { echo "pc_bash_utils requires bash version at 5 or greater"; return 1; }
 
 function pbu_bin_path() {

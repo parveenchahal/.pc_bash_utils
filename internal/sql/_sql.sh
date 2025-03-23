@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 complete -W "--pre-define-base64 --limit --select --select-star --table --where" pbu.sql.filter_query_echo
 function pbu.sql.filter_query_echo() {
   local limit=()

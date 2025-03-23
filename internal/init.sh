@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 __pbu_update_triggered && {
   pbu_install "$HOME/.pc_bash_utils/internal/arrays"
   pbu_install "$HOME/.pc_bash_utils/internal/checks"
